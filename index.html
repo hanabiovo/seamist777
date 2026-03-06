@@ -315,6 +315,36 @@
             font-family: 'Noto Sans SC', sans-serif; transition: color 0.2s; padding: 0;
         }
         .reset-btn:hover { color: var(--ink); }
+
+        /* ── Export ── */
+        .export-scope-row {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            padding: 2px 28px 14px;
+        }
+        .scope-chip {
+            font-size: 0.72rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink-mid);
+            padding: 5px 12px; border: 1px solid var(--rule); border-radius: 20px;
+            cursor: pointer; background: transparent;
+            font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
+        }
+        .scope-chip:hover { border-color: var(--ink-faint); color: var(--ink); }
+        .scope-chip.active { border-color: var(--ink); color: var(--ink); font-weight: 400; }
+        .export-rows { padding: 0 28px; }
+        .export-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+            padding: 13px 0; border-bottom: 1px solid var(--rule);
+        }
+        .export-row:last-child { border-bottom: none; }
+        .export-info { flex: 1; }
+        .export-label { font-size: 0.85rem; font-weight: 300; color: var(--ink); letter-spacing: 0.02em; }
+        .export-desc { font-size: 0.68rem; font-weight: 200; color: var(--ink-faint); margin-top: 3px; letter-spacing: 0.03em; }
+        .export-btn {
+            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint);
+            padding: 5px 14px; border: 1px solid var(--rule); border-radius: 20px;
+            cursor: pointer; background: transparent;
+            font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s; white-space: nowrap;
+        }
+        .export-btn:hover { border-color: var(--ink); color: var(--ink); }
     </style>
 </head>
 <body>
@@ -396,6 +426,27 @@
                 <input type="number" id="sink-custom-val" min="1" step="1" placeholder="—">
                 <span class="sink-custom-label">分钟后沉入海底</span>
                 <button class="sink-apply-btn" onclick="applyCustomSink()">确定</button>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="panel-section">导出数据</div>
+        <div class="export-scope-row" id="export-scope-row"></div>
+        <div class="export-rows">
+            <div class="export-row">
+                <div class="export-info">
+                    <div class="export-label">JSON 备份</div>
+                    <div class="export-desc">完整数据，可重新导入恢复</div>
+                </div>
+                <button class="export-btn" onclick="exportJSON()">下载</button>
+            </div>
+            <div class="export-row">
+                <div class="export-info">
+                    <div class="export-label">Markdown 日记</div>
+                    <div class="export-desc">适合阅读、粘贴到 Notion 等工具</div>
+                </div>
+                <button class="export-btn" onclick="exportMarkdown()">下载</button>
             </div>
         </div>
 
@@ -553,10 +604,110 @@ function resetAll() {
 }
 
 // ─────────────────────────────────────────
+// EXPORT
+// ─────────────────────────────────────────
+const SCOPES = [
+    { id: 'all',     label: '全部' },
+    { id: 'pool',    label: '灵感之海' },
+    { id: 'shelf',   label: '我的小船' },
+    { id: 'cabinet', label: '航海日记' },
+    { id: 'trash',   label: '沉默礁石' },
+];
+let exportScope = 'all';
+
+function renderExportScope() {
+    document.getElementById('export-scope-row').innerHTML = SCOPES.map(s =>
+        `<button class="scope-chip ${exportScope===s.id?'active':''}" onclick="setExportScope('${s.id}')">${s.label}</button>`
+    ).join('');
+}
+
+function setExportScope(id) {
+    exportScope = id;
+    renderExportScope();
+}
+
+function getScopedItems() {
+    return exportScope === 'all' ? items : items.filter(i => i.state === exportScope);
+}
+
+function download(filename, content, mime) {
+    const blob = new Blob([content], { type: mime });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function exportJSON() {
+    const data = getScopedItems();
+    if (!data.length) { toast('没有可导出的数据'); return; }
+    const out = { exportedAt: new Date().toISOString(), scope: exportScope, items: data };
+    const date = new Date().toISOString().slice(0,10);
+    download(`linggan-${date}.json`, JSON.stringify(out, null, 2), 'application/json');
+    toast('JSON 已下载');
+}
+
+function exportMarkdown() {
+    const data = getScopedItems();
+    if (!data.length) { toast('没有可导出的数据'); return; }
+    const date = new Date().toISOString().slice(0,10);
+    const sections = { pool:'灵感之海', shelf:'我的小船', cabinet:'航海日记', trash:'沉默礁石' };
+
+    let md = `# 灵感之海 · 导出记录
+
+> 导出时间：${new Date().toLocaleString('zh-CN')}
+
+---
+
+`;
+
+    // Group by state, cabinet by date
+    const grouped = {};
+    data.forEach(i => { if (!grouped[i.state]) grouped[i.state] = []; grouped[i.state].push(i); });
+
+    const order = ['cabinet','shelf','pool','trash'];
+    order.forEach(state => {
+        if (!grouped[state]) return;
+        md += `## ${sections[state]}
+
+`;
+
+        if (state === 'cabinet') {
+            // group by date
+            const byDate = {};
+            grouped[state].sort((a,b)=>b.completeTime-a.completeTime).forEach(i => {
+                const d = fmtDate(i.completeTime);
+                if (!byDate[d]) byDate[d] = [];
+                byDate[d].push(i);
+            });
+            Object.entries(byDate).forEach(([day, its]) => {
+                md += `### ${day}
+
+`;
+                its.forEach(i => { md += `- ${fmtTime(i.completeTime)}  ${i.text}
+`; });
+                md += `
+`;
+            });
+        } else {
+            grouped[state].forEach(i => { md += `- ${i.text}
+`; });
+            md += `
+`;
+        }
+    });
+
+    download(`linggan-${date}.md`, md, 'text/markdown');
+    toast('Markdown 已下载');
+}
+
+// ─────────────────────────────────────────
 // SETTINGS OPEN / CLOSE
 // ─────────────────────────────────────────
 let settingsOpen = false;
-function openSettings() { renderSettings(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
+function openSettings() { renderSettings(); renderExportScope(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
 function closeSettings() { document.getElementById('settings-overlay').classList.remove('open'); settingsOpen=false; }
 function maybeCloseSettings(e) { if (e.target===document.getElementById('settings-overlay')) closeSettings(); }
 
