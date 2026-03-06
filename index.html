@@ -23,9 +23,8 @@
             display: flex; justify-content: center;
             height: 100vh; height: 100dvh; overflow: hidden;
             transition: background 0.5s ease, color 0.5s ease;
-            padding-top: env(safe-area-inset-top);
         }
-        #app-container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; position: relative; }
+        #app-container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; position: relative; padding-top: env(safe-area-inset-top); }
 
         /* ── Views ── */
         .view { flex: 1; overflow-y: auto; padding: 56px 32px calc(96px + env(safe-area-inset-bottom)); display: none; scrollbar-width: none; }
@@ -250,27 +249,29 @@
         }
 
         /* ── 启动屏 ── */
+        /* 启动屏颜色全部写死，不依赖 CSS 变量或 JS */
         #splash {
             position:fixed; inset:0; z-index:9000;
-            background:var(--bg);
+            background:#f7f5f0;
             display:flex; align-items:center; justify-content:center;
             pointer-events:none;
-            opacity:1; transition:opacity 0.55s ease, transform 0.6s ease;
+            opacity:1; transition:opacity 0.6s ease;
         }
-        #splash.hiding { opacity:0; transform:scale(1.03); pointer-events:none; }
-        #splash-inner { text-align:center; }
+        #splash.hiding { opacity:0; }
+        #splash-inner { text-align:center; padding:0 32px; }
         #splash-title {
-            font-family:'Noto Serif SC',serif; font-size:2.2rem; font-weight:600;
-            letter-spacing:0.08em; color:var(--ink);
-            opacity:0; animation:splashWordIn 0.85s cubic-bezier(0.22,1,0.36,1) 0.1s forwards;
+            font-family:'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+            font-size:2.2rem; font-weight:600;
+            letter-spacing:0.08em; color:#1a1a18;
+            opacity:0; animation:splashWordIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s forwards;
         }
         #splash-sub {
-            font-size:0.75rem; font-weight:200; letter-spacing:0.14em;
-            color:var(--ink-faint); margin-top:12px;
-            opacity:0; animation:splashWordIn 0.75s cubic-bezier(0.22,1,0.36,1) 0.45s forwards;
+            font-size:0.75rem; font-weight:300; letter-spacing:0.14em;
+            color:#b8b5ae; margin-top:14px;
+            opacity:0; animation:splashWordIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
         }
         @keyframes splashWordIn {
-            from { opacity:0; transform:translateY(8px); }
+            from { opacity:0; transform:translateY(6px); }
             to   { opacity:1; transform:translateY(0); }
         }
 
@@ -326,17 +327,39 @@
         .del-btn:hover { border-color:var(--ink-faint); color:var(--ink); }
         .del-btn.danger:hover { border-color:#c0392b; color:#c0392b; }
         .del-cancel { display:block; width:100%; padding:10px; border:none; background:transparent; font-family:'Noto Sans SC',sans-serif; font-size:0.8rem; font-weight:200; color:var(--ink-ghost); cursor:pointer; text-align:center; margin-top:2px; }
+
+        /* ── 自动明暗主题 ── */
+        .auto-theme-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--rule); }
+        .auto-theme-row:last-child { border-bottom:none; }
+        .auto-theme-label { font-size:0.85rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .auto-theme-sub { font-size:0.68rem; font-weight:200; color:var(--ink-faint); margin-top:2px; letter-spacing:0.03em; }
+        /* toggle switch */
+        .toggle-wrap { position:relative; width:40px; height:22px; flex-shrink:0; }
+        .toggle-wrap input { opacity:0; width:0; height:0; position:absolute; }
+        .toggle-track { position:absolute; inset:0; border-radius:11px; background:var(--ink-ghost); cursor:pointer; transition:background 0.25s ease; }
+        .toggle-wrap input:checked + .toggle-track { background:var(--ink-faint); }
+        .toggle-track::after { content:''; position:absolute; width:16px; height:16px; border-radius:50%; background:var(--bg); border:1px solid var(--rule); top:3px; left:3px; transition:transform 0.25s ease, background 0.25s ease; }
+        .toggle-wrap input:checked + .toggle-track::after { transform:translateX(18px); background:var(--ink); border-color:var(--ink); }
+        /* 时间段选择器 */
+        .time-range-row { display:flex; align-items:center; gap:8px; padding:8px 0 12px; }
+        .time-range-label { font-size:0.75rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; min-width:28px; }
+        .time-range-input { border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.85rem; font-weight:300; color:var(--ink); width:68px; padding:2px 0 4px; text-align:center; transition:border-color 0.2s; }
+        .time-range-input:focus { border-bottom-color:var(--ink); }
+        .time-range-sep { color:var(--ink-ghost); font-size:0.75rem; }
+
+        /* ── 自动主题选择器 ── */
+        .at-theme-pick-row { padding:6px 0 14px; }
+        .at-theme-pick-label { font-size:0.68rem; font-weight:400; letter-spacing:0.12em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:10px; }
+        .at-theme-chips { display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; padding-bottom:2px; }
+        .at-theme-chips::-webkit-scrollbar { display:none; }
+        .at-chip { display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; flex-shrink:0; opacity:0.45; transition:opacity 0.2s; }
+        .at-chip.selected { opacity:1; }
+        .at-chip .preset-swatch { position:relative; width:34px; height:34px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s; overflow:hidden; }
+        .at-chip.selected .preset-swatch { border-color:var(--ink); }
+        .at-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); max-width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
     </style>
 </head>
 <body>
-
-<!-- 启动屏 -->
-<div id="splash">
-  <div id="splash-inner">
-    <div id="splash-title">灵感之海</div>
-    <div id="splash-sub">所有念头都值得入海</div>
-  </div>
-</div>
 
 <!-- 公告弹窗 -->
 <div id="notice-overlay" onclick="maybeCloseNotice(event)">
@@ -479,6 +502,39 @@
             <span id="color-toggle-arrow" style="font-size:0.7rem;color:var(--ink-ghost);transition:transform 0.25s;display:inline-block;">▾</span>
         </div>
         <div class="color-rows" id="color-rows" style="display:none;"></div>
+        <div class="divider"></div>
+        <div class="panel-section" id="auto-theme-section-title" onclick="toggleAutoThemeSection()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
+            自动切换明暗主题
+            <span id="auto-theme-arrow" style="font-size:0.7rem;color:var(--ink-ghost);transition:transform 0.25s;display:inline-block;">▾</span>
+        </div>
+        <div id="auto-theme-section" style="padding:0 28px 4px; display:none;">
+            <div class="auto-theme-row">
+                <div><div class="auto-theme-label">跟随系统</div><div class="auto-theme-sub">使用设备的深色/浅色模式</div></div>
+                <label class="toggle-wrap"><input type="checkbox" id="at-system-toggle" onchange="onAutoThemeChange()"><span class="toggle-track"></span></label>
+            </div>
+            <div class="auto-theme-row" id="at-custom-row">
+                <div><div class="auto-theme-label">自定义时间段</div><div class="auto-theme-sub">指定深色模式的起止时间</div></div>
+                <label class="toggle-wrap"><input type="checkbox" id="at-custom-toggle" onchange="onAutoThemeChange()"><span class="toggle-track"></span></label>
+            </div>
+            <div id="at-time-pickers" style="padding:4px 0 8px; display:none;">
+                <div class="time-range-row">
+                    <span class="time-range-label">深色</span>
+                    <input class="time-range-input" type="time" id="at-dark-start" value="21:00" onchange="saveAutoThemeSettings()">
+                    <span class="time-range-sep">—</span>
+                    <input class="time-range-input" type="time" id="at-dark-end" value="07:00" onchange="saveAutoThemeSettings()">
+                </div>
+            </div>
+            <!-- 主题选择器：亮色 -->
+            <div class="at-theme-pick-row" id="at-light-pick-row">
+                <div class="at-theme-pick-label">亮色主题</div>
+                <div class="at-theme-chips" id="at-light-chips"></div>
+            </div>
+            <!-- 主题选择器：暗色 -->
+            <div class="at-theme-pick-row" id="at-dark-pick-row">
+                <div class="at-theme-pick-label">深色主题</div>
+                <div class="at-theme-chips" id="at-dark-chips"></div>
+            </div>
+        </div>
         <div class="divider"></div>
         <div class="panel-section">念头沉入海底的时间（分钟）</div>
         <div class="sink-rows">
@@ -770,6 +826,147 @@ function confirmSaveTheme() {
     toast(`「${name}」已保存`);
 }
 
+
+// ─────────────────────────────────────────
+// AUTO THEME (明暗自动切换)
+// ─────────────────────────────────────────
+let autoThemeSettings = JSON.parse(localStorage.getItem('vibe_auto_theme')) || {
+    systemFollow: false,
+    customTime: false,
+    darkStart: '21:00',
+    darkEnd:   '07:00',
+    lightThemeId: 'paper',   // 亮色时使用的主题 id
+    darkThemeId:  'night',   // 深色时使用的主题 id
+};
+
+let autoThemeTimer = null;
+
+function saveAutoThemeSettings() {
+    const s = autoThemeSettings;
+    const ds = document.getElementById('at-dark-start');
+    const de = document.getElementById('at-dark-end');
+    if (ds) s.darkStart = ds.value;
+    if (de) s.darkEnd   = de.value;
+    localStorage.setItem('vibe_auto_theme', JSON.stringify(s));
+    scheduleAutoTheme();
+}
+
+function onAutoThemeChange() {
+    const sys = document.getElementById('at-system-toggle');
+    const cus = document.getElementById('at-custom-toggle');
+    autoThemeSettings.systemFollow = sys ? sys.checked : false;
+    autoThemeSettings.customTime   = cus ? cus.checked : false;
+    // 互斥：系统 on 时关闭自定义
+    if (autoThemeSettings.systemFollow) {
+        autoThemeSettings.customTime = false;
+        if (cus) cus.checked = false;
+    }
+    if (autoThemeSettings.customTime) {
+        autoThemeSettings.systemFollow = false;
+        if (sys) sys.checked = false;
+    }
+    saveAutoThemeSettings();
+    syncAutoThemeUI();
+    applyAutoThemeNow();
+}
+
+function findThemeById(id) {
+    return PRESETS.find(p => p.id === id) || customThemes.find(p => p.id === id) || null;
+}
+
+function applyAutoThemeNow() {
+    function switchTo(isDark) {
+        const id = isDark ? autoThemeSettings.darkThemeId : autoThemeSettings.lightThemeId;
+        const theme = findThemeById(id);
+        if (theme) {
+            currentTheme = {...theme.vars};
+            applyTheme(currentTheme);
+            saveTheme();
+            // 如果设置面板开着就刷新
+            if (settingsOpen) renderSettings();
+        }
+    }
+    if (autoThemeSettings.systemFollow) {
+        switchTo(window.matchMedia('(prefers-color-scheme: dark)').matches);
+        return;
+    }
+    if (autoThemeSettings.customTime) {
+        const now  = new Date();
+        const hhmm = now.getHours() * 60 + now.getMinutes();
+        const [sh, sm] = autoThemeSettings.darkStart.split(':').map(Number);
+        const [eh, em] = autoThemeSettings.darkEnd.split(':').map(Number);
+        const startMin = sh * 60 + sm;
+        const endMin   = eh * 60 + em;
+        let isDark;
+        if (startMin < endMin) { isDark = hhmm >= startMin && hhmm < endMin; }
+        else                   { isDark = hhmm >= startMin || hhmm < endMin; }
+        switchTo(isDark);
+    }
+}
+
+function scheduleAutoTheme() {
+    if (autoThemeTimer) clearTimeout(autoThemeTimer);
+    if (!autoThemeSettings.customTime) return;
+    // 每分钟检查一次
+    const now = new Date();
+    const msToNextMin = (60 - now.getSeconds()) * 1000 - now.getMilliseconds() + 50;
+    autoThemeTimer = setTimeout(() => { applyAutoThemeNow(); scheduleAutoTheme(); }, msToNextMin);
+}
+
+// 系统主题变化监听
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (autoThemeSettings.systemFollow) applyAutoThemeNow();
+});
+
+function renderAtThemeChips(containerId, selectedId, onSelect) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    const all = [...PRESETS, ...customThemes];
+    el.innerHTML = all.map(p => {
+        const b=p.vars['--bg'], k=p.vars['--ink'], r=p.vars['--rule'];
+        const svg=`<svg viewBox="0 0 34 34" width="34" height="34" style="position:absolute;inset:0"><circle cx="17" cy="17" r="17" fill="${b}"/><line x1="17" y1="6" x2="17" y2="28" stroke="${k}" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="15" x2="24" y2="15" stroke="${r}" stroke-width="1.2" stroke-linecap="round"/><line x1="10" y1="22" x2="21" y2="22" stroke="${r}" stroke-width="1.2" stroke-linecap="round"/></svg>`;
+        return `<div class="at-chip ${p.id===selectedId?'selected':''}" onclick="(${onSelect})('${p.id}')">
+            <div class="preset-swatch">${svg}</div>
+            <span class="at-chip-label">${p.label}</span>
+        </div>`;
+    }).join('');
+}
+
+function syncAutoThemeUI() {
+    const sys = document.getElementById('at-system-toggle');
+    const cus = document.getElementById('at-custom-toggle');
+    const ds  = document.getElementById('at-dark-start');
+    const de  = document.getElementById('at-dark-end');
+    const pic = document.getElementById('at-time-pickers');
+    const lRow = document.getElementById('at-light-pick-row');
+    const dRow = document.getElementById('at-dark-pick-row');
+    if (sys) sys.checked = autoThemeSettings.systemFollow;
+    if (cus) cus.checked = autoThemeSettings.customTime;
+    if (ds)  ds.value   = autoThemeSettings.darkStart;
+    if (de)  de.value   = autoThemeSettings.darkEnd;
+    const active = autoThemeSettings.systemFollow || autoThemeSettings.customTime;
+    if (pic) pic.style.display = autoThemeSettings.customTime ? 'block' : 'none';
+    // 只要开启了任意自动模式，就显示主题选择器
+    const showPickers = active ? 'block' : 'none';
+    if (lRow) lRow.style.display = showPickers;
+    if (dRow) dRow.style.display = showPickers;
+    if (active) {
+        renderAtThemeChips('at-light-chips', autoThemeSettings.lightThemeId,
+            `function(id){autoThemeSettings.lightThemeId=id;localStorage.setItem('vibe_auto_theme',JSON.stringify(autoThemeSettings));syncAutoThemeUI();applyAutoThemeNow();}`);
+        renderAtThemeChips('at-dark-chips',  autoThemeSettings.darkThemeId,
+            `function(id){autoThemeSettings.darkThemeId=id;localStorage.setItem('vibe_auto_theme',JSON.stringify(autoThemeSettings));syncAutoThemeUI();applyAutoThemeNow();}`);
+    }
+}
+
+let autoThemeSectionOpen = false;
+function toggleAutoThemeSection() {
+    autoThemeSectionOpen = !autoThemeSectionOpen;
+    const sec = document.getElementById('auto-theme-section');
+    const arr = document.getElementById('auto-theme-arrow');
+    if (sec) sec.style.display = autoThemeSectionOpen ? 'block' : 'none';
+    if (arr) arr.style.transform = autoThemeSectionOpen ? 'rotate(180deg)' : '';
+    if (autoThemeSectionOpen) syncAutoThemeUI();
+}
 // ─────────────────────────────────────────
 // SETTINGS UI
 // ─────────────────────────────────────────
@@ -1008,7 +1205,7 @@ function importJSON(input) {
 // SETTINGS OPEN / CLOSE
 // ─────────────────────────────────────────
 let settingsOpen = false;
-function openSettings() { renderSettings(); renderExportScope(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
+function openSettings() { renderSettings(); renderExportScope(); if(autoThemeSectionOpen) syncAutoThemeUI(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
 function closeSettings() { document.getElementById('settings-overlay').classList.remove('open'); settingsOpen=false; }
 function maybeCloseSettings(e) { if (e.target===document.getElementById('settings-overlay')) closeSettings(); }
 
@@ -1369,6 +1566,8 @@ applyTheme(currentTheme);
 render();
 setActiveDate(todayKey());
 scheduleSinkCheck();
+applyAutoThemeNow();
+scheduleAutoTheme();
 
 
 // ─────────────────────────────────────────
@@ -1379,6 +1578,8 @@ scheduleSinkCheck();
     let done = false;
     function hide() {
         if (done) return; done = true;
+        // 启动屏消失前，先把背景色过渡到当前主题色，避免闪白
+        splash.style.background = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f7f5f0';
         splash.classList.add('hiding');
         splash.addEventListener('transitionend', () => { splash.style.display='none'; }, {once:true});
         setTimeout(() => { splash.style.display='none'; }, 1200); // 保底
@@ -1391,7 +1592,7 @@ scheduleSinkCheck();
 // ─────────────────────────────────────────
 // NOTICE — 欢迎 / 更新日志
 // ─────────────────────────────────────────
-const APP_VERSION = '0.4';
+const APP_VERSION = '0.5';
 
 const WELCOME_CONTENT = `
     <span class="notice-badge new-user">初次见面</span>
@@ -1407,9 +1608,11 @@ const WELCOME_CONTENT = `
 
 const CHANGELOG_CONTENT = `
     <span class="notice-badge">版本更新</span>
-    <div class="notice-title">灵感之海 · 近期更新</div>
+    <div class="notice-title">灵感之海 · 0307更新</div>
     <div class="notice-body">
         <div class="notice-section">新功能</div>
+         <div class="notice-item">应用了新版app图标，如果已经安装到桌面请卸载重新安装（注意备份数据）</div>
+          <div class="notice-item">新增明暗主题自动切换功能，主题可自定义</div>
         <div class="notice-item">日历跳转：点击日期按钮可切换任意一天</div>
         <div class="notice-item">灵感与手记支持补写往日内容</div>
         <div class="notice-item">主题生成器：按色调随机生成配色方案</div>
@@ -1417,7 +1620,7 @@ const CHANGELOG_CONTENT = `
         <div class="notice-item">完整备份现已包含手记与主题数据</div>
         <div class="notice-section">体验优化</div>
         <div class="notice-item">航海日记改为单日视图，切换更直观</div>
-        <div class="notice-item">历史条目显示「补写」而非时间戳</div>
+        <div class="notice-item">优化补写往日灵感条目标记，显示「补写」而非时间戳</div>
         <div class="notice-item">删除条目时可选移入礁石或永久删除</div>
         <div class="notice-item">苹果设备全面屏与状态栏颜色适配</div>
         <div class="notice-item">设置面板主题合并横滚，颜色栏可折叠</div>
@@ -1449,5 +1652,12 @@ function showNotice(type) {
 })();
 
 </script>
+<!-- 启动屏：必须是 body 直接子元素，fixed 定位才能覆盖全屏 -->
+<div id="splash">
+  <div id="splash-inner">
+    <div id="splash-title">灵感之海</div>
+    <div id="splash-sub">所有念头都值得入海</div>
+  </div>
+</div>
 </body>
 </html>
