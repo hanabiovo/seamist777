@@ -517,8 +517,11 @@ if ('serviceWorker' in navigator) {
             });
         });
     }).catch(() => {});
-    // Reload when SW takes control
-    navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
+    // Reload when SW takes control — only if not just loaded
+    let swJustRegistered = false;
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!swJustRegistered) location.reload();
+    });
 }
 
 // ─────────────────────────────────────────
@@ -1252,21 +1255,18 @@ render();
 setActiveDate(todayKey());
 scheduleSinkCheck();
 
-// 启动屏：字体加载后再淡出，最长等 2s
+// 启动屏：最多 1.4s，保底强制退出
 (function() {
     const splash = document.getElementById('splash');
+    let done = false;
     function hideSplash() {
+        if (done) return; done = true;
         splash.classList.add('hide');
         setTimeout(() => splash.classList.add('gone'), 650);
     }
-    if (document.fonts && document.fonts.ready) {
-        Promise.race([
-            document.fonts.ready,
-            new Promise(r => setTimeout(r, 2000))
-        ]).then(() => setTimeout(hideSplash, 300));
-    } else {
-        setTimeout(hideSplash, 1200);
-    }
+    setTimeout(hideSplash, 1400);
+    // 字体就绪可提前退出，但最少显示 600ms
+    try { document.fonts.ready.then(() => setTimeout(hideSplash, 600)); } catch(e) {}
 })();
 </script>
 </body>
