@@ -67,11 +67,17 @@
         .diary-tab { font-size:0.78rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); padding:0 0 10px; margin-right:24px; cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-family:'Noto Sans SC',sans-serif; }
         .diary-tab.active { color:var(--ink); border-bottom-color:var(--ink); }
 
-        /* ── 日期选择栏（点击弹出日历）── */
-        .diary-datebar { display:flex; align-items:center; justify-content:space-between; padding:16px 0 14px; border-bottom:1px solid var(--rule); margin-bottom:28px; cursor:pointer; }
-        .diary-datebar-label { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); }
-        .diary-datebar-hint { font-size:0.68rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.06em; }
-        .diary-datebar:hover .diary-datebar-label { opacity:0.7; }
+        /* ── 日期按钮（右上角方块）── */
+        .diary-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+        .diary-cal-btn {
+            flex-shrink:0; margin-top:6px;
+            font-family:'Noto Serif SC',serif; font-size:0.72rem; font-weight:600;
+            letter-spacing:0.06em; color:var(--ink-mid);
+            background:transparent; border:1px solid var(--rule);
+            border-radius:6px; padding:6px 12px; cursor:pointer;
+            transition:all 0.18s; white-space:nowrap;
+        }
+        .diary-cal-btn:hover { border-color:var(--ink-faint); color:var(--ink); }
 
         /* ── 日历浮层 ── */
         #cal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:600; pointer-events:none; transition:background 0.25s; }
@@ -219,12 +225,15 @@
         .gen-btn.primary { border-color:var(--ink-faint); color:var(--ink); }
         .gen-preview { display:flex; gap:6px; align-items:center; margin-left:4px; }
         .gen-swatch { width:18px; height:18px; border-radius:50%; border:1px solid var(--rule); flex-shrink:0; }
-        /* 自定义主题管理 */
-        .custom-themes-row { display:flex; gap:12px; padding:0 28px 20px; overflow-x:auto; scrollbar-width:none; flex-wrap:wrap; }
-        .custom-themes-row::-webkit-scrollbar { display:none; }
+        /* 合并主题行 */
+        .all-themes-row { display:flex; gap:14px; padding:0 28px 24px; overflow-x:auto; scrollbar-width:none; flex-wrap:nowrap; }
+        .all-themes-row::-webkit-scrollbar { display:none; }
+        .theme-divider { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:0 2px; }
         .custom-theme-chip { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; flex-shrink:0; position:relative; }
         .custom-theme-del { position:absolute; top:-4px; right:-4px; width:16px; height:16px; border-radius:50%; background:var(--ink-faint); color:var(--bg); font-size:0.6rem; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:opacity 0.15s; border:none; font-family:sans-serif; }
         .custom-theme-chip:hover .custom-theme-del { opacity:1; }
+        /* 颜色折叠 */
+        .color-section-toggle:hover { opacity:0.7; }
         /* 命名保存弹层 */
         #name-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:800; display:none; align-items:flex-end; justify-content:center; }
         #name-overlay.open { display:flex; }
@@ -236,9 +245,45 @@
         .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; padding:6px 0; }
         .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:'Noto Serif SC',serif; padding:6px 20px; border-radius:20px; letter-spacing:0.06em; transition:all 0.18s; }
         .name-save:hover { background:var(--ink); color:var(--bg); }
+
+        /* ── 启动屏 ── */
+        #splash {
+            position:fixed; inset:0; background:var(--bg);
+            display:flex; align-items:center; justify-content:center;
+            z-index:9000; transition:opacity 0.6s ease, transform 0.6s ease;
+            pointer-events:none;
+        }
+        #splash.hide { opacity:0; transform:scale(1.04); }
+        #splash.gone { display:none; }
+        #splash-inner { text-align:center; }
+        #splash-title {
+            font-family:'Noto Serif SC',serif; font-size:2.2rem; font-weight:600;
+            letter-spacing:0.08em; color:var(--ink);
+            opacity:0; transform:translateY(10px);
+            animation:splashIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
+        }
+        #splash-sub {
+            font-size:0.75rem; font-weight:200; letter-spacing:0.14em;
+            color:var(--ink-faint); margin-top:12px;
+            opacity:0;
+            animation:splashIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.55s forwards;
+        }
+        @keyframes splashIn {
+            from { opacity:0; transform:translateY(10px); }
+            to   { opacity:1; transform:translateY(0); }
+        }
     </style>
 </head>
 <body>
+
+<!-- ── 启动屏 ── -->
+<div id="splash">
+    <div id="splash-inner">
+        <div id="splash-title">灵感之海</div>
+        <div id="splash-sub">所有念头都值得入海</div>
+    </div>
+</div>
+
 <div id="app-container">
 
     <div id="view-pool" class="view active">
@@ -264,23 +309,22 @@
     </div>
 
     <div id="view-cabinet" class="view">
-        <div class="view-title">航海日记</div>
-        <div class="view-sub">每一次靠岸都值得记录<br>这是你真正走过的航程</div>
-
-        <!-- 日期选择栏 -->
-        <div class="diary-datebar" onclick="openCalendar()">
-            <span class="diary-datebar-label" id="diary-datebar-label">今天</span>
-            <span class="diary-datebar-hint">选择日期 ↓</span>
+        <div class="diary-title-row">
+            <div>
+                <div class="view-title">航海日记</div>
+                <div class="view-sub" style="margin-bottom:0">每一次靠岸都值得记录<br>这是你真正走过的航程</div>
+            </div>
+            <button class="diary-cal-btn" onclick="openCalendar()" id="diary-datebar-label" title="选择日期">今天</button>
         </div>
 
         <!-- Tab 切换 -->
-        <div class="diary-tabs">
+        <div class="diary-tabs" style="margin-top:28px;">
             <button class="diary-tab active" onclick="switchDiaryTab('timeline',this)">灵感</button>
             <button class="diary-tab" onclick="switchDiaryTab('longdiary',this)">手记</button>
         </div>
 
         <!-- 灵感时间轴 -->
-        <div id="timeline-view" class="active">
+        <div id="timeline-view" class="active" style="padding-top:28px;">
             <div class="input-row" id="direct-input-row">
                 <input type="text" id="directInput" placeholder="今天完成了什么…" onkeydown="if(event.key==='Enter')directComplete()">
                 <button onclick="directComplete()">记录</button>
@@ -290,7 +334,7 @@
         </div>
 
         <!-- 手记 -->
-        <div id="longdiary-view">
+        <div id="longdiary-view" style="padding-top:28px;">
             <textarea class="ld-textarea" id="ld-textarea" placeholder="今天的风浪如何…&#10;&#10;随便写，不限字数。"></textarea>
             <div class="ld-footer">
                 <span class="ld-char-count" id="ld-char-count">0 字</span>
@@ -339,10 +383,10 @@
     <div id="settings-panel">
         <div class="panel-handle"></div>
         <div class="panel-title">外观与设置</div>
-        <div class="panel-section">预设主题</div>
-        <div class="preset-row" id="preset-row"></div>
-        <div class="panel-section">我的主题</div>
-        <div class="custom-themes-row" id="custom-themes-row"></div>
+        <div class="panel-section" style="display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
+            主题
+        </div>
+        <div class="all-themes-row" id="all-themes-row"></div>
         <div class="panel-section">主题生成器</div>
         <div class="gen-tone-row" id="gen-tone-row">
             <button class="gen-tone-btn active" onclick="setGenTone('neutral',this)">中性</button>
@@ -356,8 +400,11 @@
             <button class="gen-btn" id="gen-save-btn" onclick="openNamePopup()" style="display:none;">命名保存</button>
             <div class="gen-preview" id="gen-preview"></div>
         </div>
-        <div class="panel-section">自定义颜色</div>
-        <div class="color-rows" id="color-rows"></div>
+        <div class="panel-section color-section-toggle" onclick="toggleColorSection()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
+            自定义颜色
+            <span id="color-toggle-arrow" style="font-size:0.7rem;color:var(--ink-ghost);transition:transform 0.25s;display:inline-block;">▾</span>
+        </div>
+        <div class="color-rows" id="color-rows" style="display:none;"></div>
         <div class="divider"></div>
         <div class="panel-section">念头沉入海底的时间（分钟）</div>
         <div class="sink-rows">
@@ -553,43 +600,60 @@ function setGenTone(tone, el) {
 }
 
 function generateTheme() {
-    // Tone → hue range + saturation + lightness ranges for bg
-    const tones = {
-        neutral: { hRange:[0,360], bgS:[0,8],  bgL_light:[88,96], bgL_dark:[8,16],  inkS:[0,6]  },
-        warm:    { hRange:[20,50], bgS:[8,18],  bgL_light:[88,96], bgL_dark:[10,18], inkS:[4,10] },
-        cool:    { hRange:[190,240], bgS:[6,15],bgL_light:[88,96], bgL_dark:[8,16],  inkS:[3,9]  },
-        dark:    { hRange:[0,360], bgS:[0,10],  bgL_light:[null,null], bgL_dark:[5,14], inkS:[0,8] },
-    };
-    const t=tones[genTone];
     const rand=(a,b)=>Math.random()*(b-a)+a;
-    const randInt=(a,b)=>Math.floor(rand(a,b+1));
 
+    // ── 色调参数表 ──
+    // neutral: 低饱和，亮/暗各半；warm/cool 有机会出现高饱和鲜艳方案；dark 纯暗色
+    const toneMap = {
+        neutral: {
+            hRange:[0,360],
+            bgS:()=>rand(0,9),
+            bgL:()=>Math.random()<0.35 ? rand(8,16) : rand(87,96),   // 35% 暗色
+            inkS:()=>rand(0,6),
+        },
+        warm: {
+            hRange:[15,55],
+            bgS:()=>Math.random()<0.5 ? rand(6,18) : rand(35,65),    // 50% 高饱和
+            bgL:()=>Math.random()<0.25 ? rand(10,20) : rand(84,96),
+            inkS:()=>Math.random()<0.5 ? rand(4,14) : rand(30,55),
+        },
+        cool: {
+            hRange:[180,260],
+            bgS:()=>Math.random()<0.5 ? rand(5,16) : rand(28,55),    // 50% 高饱和
+            bgL:()=>Math.random()<0.25 ? rand(8,18) : rand(84,96),
+            inkS:()=>Math.random()<0.5 ? rand(3,12) : rand(25,50),
+        },
+        dark: {
+            hRange:[0,360],
+            bgS:()=>rand(0,12),
+            bgL:()=>rand(5,15),
+            inkS:()=>rand(0,8),
+        },
+    };
+    const t = toneMap[genTone];
     const hue = rand(t.hRange[0], t.hRange[1]);
-    const isDark = genTone==='dark' || (genTone==='neutral' && Math.random()<0.3);
 
-    // Background
-    const bgS=rand(t.bgS[0],t.bgS[1]);
-    const bgL = isDark ? rand(t.bgL_dark[0],t.bgL_dark[1]) : rand(t.bgL_light[0],t.bgL_light[1]);
+    const bgS = t.bgS();
+    const bgL = t.bgL();
+    const isDark = bgL < 40;
     const bg = hslToHex(hue, bgS, bgL);
 
-    // Ink — must contrast ≥ 7 with bg for AA+
+    // Ink — contrast ≥ 7 保证可读性
     let ink, inkL, tries=0;
     do {
-        inkL = isDark ? rand(78,92) : rand(8,22);
-        const inkS2=rand(t.inkS[0],t.inkS[1]);
-        ink = hslToHex(hue, inkS2, inkL);
+        inkL = isDark ? rand(78,93) : rand(7,22);
+        const inkSv = t.inkS();
+        ink = hslToHex(hue, inkSv, inkL);
         tries++;
-    } while(contrastRatio(bg,ink)<7 && tries<40);
+    } while(contrastRatio(bg,ink)<7 && tries<50);
 
-    // Derive intermediate tones by interpolating lightness
-    const bgLum=relativeLuminance(bg);
-    const inkLum=relativeLuminance(ink);
-    // mid, faint, ghost, rule: step between bg and ink lightness
+    // 中间层次通过亮度插值推导，保持色调统一
     function lerpL(frac) { return bgL + (inkL-bgL)*frac; }
-    const inkMid  = hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.8, lerpL(isDark?0.42:0.40));
-    const inkFaint= hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.5, lerpL(isDark?0.28:0.28));
-    const inkGhost= hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.3, lerpL(isDark?0.16:0.16));
-    const rule    = hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.25,lerpL(isDark?0.12:0.12));
+    const midS  = bgS*0.6 + (t.inkS()*0.4);
+    const inkMid  = hslToHex(hue, midS*0.9,  lerpL(0.40));
+    const inkFaint= hslToHex(hue, midS*0.55, lerpL(0.27));
+    const inkGhost= hslToHex(hue, midS*0.30, lerpL(0.15));
+    const rule    = hslToHex(hue, midS*0.22, lerpL(0.12));
 
     pendingGen = {'--bg':bg,'--ink':ink,'--ink-mid':inkMid,'--ink-faint':inkFaint,'--ink-ghost':inkGhost,'--rule':rule};
 
@@ -639,30 +703,37 @@ const SINK_PRESETS = [
     {label:'自定义',  ms:null},
 ];
 
+let colorSectionOpen = false;
+function toggleColorSection() {
+    colorSectionOpen = !colorSectionOpen;
+    document.getElementById('color-rows').style.display = colorSectionOpen ? 'block' : 'none';
+    const arrow = document.getElementById('color-toggle-arrow');
+    if (arrow) arrow.style.transform = colorSectionOpen ? 'rotate(180deg)' : '';
+}
+
 function renderSettings() {
     const activePresetId = detectActivePreset();
     const activeCustomId = detectActiveCustom();
-    document.getElementById('preset-row').innerHTML = PRESETS.map(p => {
-        const b=p.vars['--bg'],k=p.vars['--ink'],r=p.vars['--rule'];
-        const svg=`<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-        return `<div class="preset-chip ${p.id===activePresetId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${svg}</div><span class="preset-chip-label">${p.label}</span></div>`;
-    }).join('');
-    // Custom themes row
-    const cRow = document.getElementById('custom-themes-row');
-    if (customThemes.length===0) {
-        cRow.innerHTML=`<span style="font-size:0.75rem;font-weight:200;color:var(--ink-ghost);letter-spacing:0.04em;padding:0 0 4px;">生成一套保存在这里</span>`;
-    } else {
-        cRow.innerHTML = customThemes.map(p => {
-            const b=p.vars['--bg'],k=p.vars['--ink'],r=p.vars['--rule'];
-            const svg=`<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-            return `<div class="custom-theme-chip ${p.id===activeCustomId?'active':''}">
-                <div class="preset-swatch" style="position:relative;" onclick="applyCustomTheme('${p.id}')">${svg}</div>
+    // ── 合并主题行 ──
+    function themeChipSvg(vars) {
+        const b=vars['--bg'],k=vars['--ink'],r=vars['--rule'];
+        return `<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+    }
+    let allThemesHtml = PRESETS.map(p =>
+        `<div class="preset-chip ${p.id===activePresetId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${themeChipSvg(p.vars)}</div><span class="preset-chip-label">${p.label}</span></div>`
+    ).join('');
+    if (customThemes.length > 0) {
+        allThemesHtml += `<div class="theme-divider"></div>`;
+        allThemesHtml += customThemes.map(p =>
+            `<div class="custom-theme-chip ${p.id===activeCustomId?'active':''}">
+                <div class="preset-swatch" style="position:relative;" onclick="applyCustomTheme('${p.id}')">${themeChipSvg(p.vars)}</div>
                 <span class="preset-chip-label">${p.label}</span>
                 <button class="custom-theme-del" onclick="event.stopPropagation();deleteCustomTheme('${p.id}')">×</button>
-            </div>`;
-        }).join('');
+            </div>`
+        ).join('');
     }
-    const activeId = activePresetId;
+    document.getElementById('all-themes-row').innerHTML = allThemesHtml;
+    // ── 颜色行（保持折叠状态）──
     document.getElementById('color-rows').innerHTML = Object.entries(COLOR_LABELS).map(([k,label]) => {
         const val=currentTheme[k]||'#ffffff', id='hex_'+k.replace(/-/g,'_');
         return `<div class="color-row"><span class="color-row-label">${label}</span><div class="color-row-right"><span class="color-hex" id="${id}">${val}</span><div class="color-dot-btn" style="background:${val};"><input type="color" value="${val}" oninput="setCustomColor('${k}',this.value);document.getElementById('${id}').textContent=this.value;this.parentElement.style.background=this.value;"></div></div></div>`;
@@ -1180,6 +1251,23 @@ applyTheme(currentTheme);
 render();
 setActiveDate(todayKey());
 scheduleSinkCheck();
+
+// 启动屏：字体加载后再淡出，最长等 2s
+(function() {
+    const splash = document.getElementById('splash');
+    function hideSplash() {
+        splash.classList.add('hide');
+        setTimeout(() => splash.classList.add('gone'), 650);
+    }
+    if (document.fonts && document.fonts.ready) {
+        Promise.race([
+            document.fonts.ready,
+            new Promise(r => setTimeout(r, 2000))
+        ]).then(() => setTimeout(hideSplash, 300));
+    } else {
+        setTimeout(hideSplash, 1200);
+    }
+})();
 </script>
 </body>
 </html>
