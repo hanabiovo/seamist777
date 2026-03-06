@@ -13,338 +13,229 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f7f5f0;
-            --ink: #1a1a18;
-            --ink-mid: #6b6960;
-            --ink-faint: #b8b5ae;
-            --ink-ghost: #dedad4;
-            --rule: #e8e5de;
+            --bg: #f7f5f0; --ink: #1a1a18; --ink-mid: #6b6960;
+            --ink-faint: #b8b5ae; --ink-ghost: #dedad4; --rule: #e8e5de;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background: var(--bg); color: var(--ink);
             display: flex; justify-content: center;
-            height: 100vh; height: 100dvh;
-            overflow: hidden;
+            height: 100vh; height: 100dvh; overflow: hidden;
             transition: background 0.4s, color 0.4s;
         }
-
-        #app-container {
-            width: 100%; max-width: 480px; height: 100%;
-            display: flex; flex-direction: column; position: relative;
-        }
+        #app-container { width: 100%; max-width: 480px; height: 100%; display: flex; flex-direction: column; position: relative; }
 
         /* ── Views ── */
-        .view {
-            flex: 1; overflow-y: auto;
-            padding: 56px 32px 96px;
-            display: none; scrollbar-width: none;
-        }
+        .view { flex: 1; overflow-y: auto; padding: 56px 32px 96px; display: none; scrollbar-width: none; }
         .view::-webkit-scrollbar { display: none; }
         .view.active { display: block; animation: viewIn 0.4s cubic-bezier(0.22,1,0.36,1); }
-        @keyframes viewIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
+        @keyframes viewIn { from { opacity:0; transform:translateY(12px); } to { opacity:1; transform:translateY(0); } }
 
-        .view-title {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.8rem; font-weight: 600;
-            letter-spacing: 0.05em; color: var(--ink); margin-bottom: 5px;
-        }
-        .view-sub {
-            font-size: 0.76rem; font-weight: 200;
-            color: var(--ink-faint); letter-spacing: 0.08em;
-            margin-bottom: 36px; line-height: 1.7;
-        }
+        .view-title { font-family:'Noto Serif SC',serif; font-size:1.8rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:5px; }
+        .view-sub { font-size:0.76rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.08em; margin-bottom:36px; line-height:1.7; }
 
         /* ── Input ── */
-        .input-row {
-            display: flex; align-items: center;
-            border-bottom: 1.5px solid var(--ink);
-            margin-bottom: 44px; padding-bottom: 12px;
-        }
-        .input-row input {
-            flex: 1; border: none; background: transparent; outline: none;
-            font-family: 'Noto Sans SC', sans-serif;
-            font-size: 0.95rem; font-weight: 300;
-            color: var(--ink); letter-spacing: 0.02em;
-        }
-        .input-row input::placeholder { color: var(--ink-ghost); }
-        .input-row button {
-            border: none; background: transparent; cursor: pointer;
-            font-family: 'Noto Serif SC', serif;
-            font-size: 0.82rem; font-weight: 400;
-            color: var(--ink-mid); letter-spacing: 0.08em;
-            padding: 0 0 0 16px; transition: color 0.2s; white-space: nowrap;
-        }
-        .input-row button:hover { color: var(--ink); }
+        .input-row { display:flex; align-items:center; border-bottom:1.5px solid var(--ink); margin-bottom:44px; padding-bottom:12px; }
+        .input-row input { flex:1; border:none; background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.95rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .input-row input::placeholder { color:var(--ink-ghost); }
+        .input-row button { border:none; background:transparent; cursor:pointer; font-family:'Noto Serif SC',serif; font-size:0.82rem; font-weight:400; color:var(--ink-mid); letter-spacing:0.08em; padding:0 0 0 16px; transition:color 0.2s; white-space:nowrap; }
+        .input-row button:hover { color:var(--ink); }
 
-        /* ── Section label ── */
-        .section-row {
-            display: flex; justify-content: space-between;
-            align-items: baseline; margin-bottom: 18px;
-        }
-        .section-tag {
-            font-size: 0.65rem; font-weight: 400;
-            letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase;
-        }
-        .text-btn {
-            font-size: 0.75rem; font-weight: 300; color: var(--ink-faint);
-            cursor: pointer; letter-spacing: 0.04em;
-            border: none; background: none;
-            font-family: 'Noto Sans SC', sans-serif;
-            transition: color 0.2s; padding: 0;
-        }
-        .text-btn:hover { color: var(--ink); }
+        /* ── Section row ── */
+        .section-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; }
+        .section-tag { font-size:0.65rem; font-weight:400; letter-spacing:0.16em; color:var(--ink-faint); text-transform:uppercase; }
+        .text-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:'Noto Sans SC',sans-serif; transition:color 0.2s; padding:0; }
+        .text-btn:hover { color:var(--ink); }
 
         /* ── List items ── */
-        .item {
-            display: flex; align-items: baseline;
-            justify-content: space-between; gap: 16px;
-            padding: 15px 0; border-bottom: 1px solid var(--rule);
-            animation: itemIn 0.3s cubic-bezier(0.22,1,0.36,1);
-        }
-        @keyframes itemIn {
-            from { opacity: 0; transform: translateX(-6px); }
-            to   { opacity: 1; transform: translateX(0); }
-        }
-        .item-body { flex: 1; }
-        .item-text {
-            font-size: 0.93rem; font-weight: 300;
-            line-height: 1.6; letter-spacing: 0.02em; color: var(--ink);
-        }
-        .item-text.struck { text-decoration: line-through; color: var(--ink-faint); }
-        .item-actions { display: flex; gap: 16px; flex-shrink: 0; }
-        .act {
-            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint);
-            cursor: pointer; letter-spacing: 0.04em;
-            border: none; background: none;
-            font-family: 'Noto Sans SC', sans-serif;
-            padding: 0; transition: color 0.15s; white-space: nowrap;
-        }
-        .act:hover { color: var(--ink); }
-        .act.del:hover { color: #a0291f; }
+        .item { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:15px 0; border-bottom:1px solid var(--rule); animation:itemIn 0.3s cubic-bezier(0.22,1,0.36,1); }
+        @keyframes itemIn { from { opacity:0; transform:translateX(-6px); } to { opacity:1; transform:translateX(0); } }
+        .item-body { flex:1; }
+        .item-text { font-size:0.93rem; font-weight:300; line-height:1.6; letter-spacing:0.02em; color:var(--ink); }
+        .item-text.struck { text-decoration:line-through; color:var(--ink-faint); }
+        .item-actions { display:flex; gap:16px; flex-shrink:0; }
+        .act { font-size:0.72rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:'Noto Sans SC',sans-serif; padding:0; transition:color 0.15s; white-space:nowrap; }
+        .act:hover { color:var(--ink); }
+        .act.del:hover { color:#a0291f; }
 
-        #pool-stats {
-            margin-top: 28px; font-size: 0.72rem; font-weight: 200;
-            color: var(--ink-faint); letter-spacing: 0.06em; line-height: 1.9;
-        }
-        .empty {
-            padding: 44px 0 0; font-size: 0.82rem; font-weight: 200;
-            color: var(--ink-ghost); letter-spacing: 0.06em; line-height: 2.4;
-        }
+        #pool-stats { margin-top:28px; font-size:0.72rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.06em; line-height:1.9; }
+        .empty { padding:44px 0 0; font-size:0.82rem; font-weight:200; color:var(--ink-ghost); letter-spacing:0.06em; line-height:2.4; }
 
-        /* ── 航海日记：时间轴 ── */
-        .timeline-group { margin-bottom: 28px; }
-        .timeline-date {
-            font-size: 0.65rem; font-weight: 400; letter-spacing: 0.14em;
-            color: var(--ink-faint); text-transform: uppercase;
-            padding-bottom: 10px; border-bottom: 1px solid var(--rule);
-            margin-bottom: 0;
+        /* ── 航海日记 Tab switcher ── */
+        .diary-tabs { display:flex; gap:0; margin-bottom:0; border-bottom:1px solid var(--rule); }
+        .diary-tab { font-size:0.78rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); padding:0 0 10px; margin-right:24px; cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-family:'Noto Sans SC',sans-serif; }
+        .diary-tab.active { color:var(--ink); border-bottom-color:var(--ink); }
+
+        /* ── 日期选择栏（点击弹出日历）── */
+        .diary-datebar { display:flex; align-items:center; justify-content:space-between; padding:16px 0 14px; border-bottom:1px solid var(--rule); margin-bottom:28px; cursor:pointer; }
+        .diary-datebar-label { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); }
+        .diary-datebar-hint { font-size:0.68rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.06em; }
+        .diary-datebar:hover .diary-datebar-label { opacity:0.7; }
+
+        /* ── 日历浮层 ── */
+        #cal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:600; pointer-events:none; transition:background 0.25s; }
+        #cal-overlay.open { background:rgba(0,0,0,0.2); pointer-events:all; }
+        #cal-popup { position:absolute; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:480px; background:var(--bg); border-top:1px solid var(--rule); border-radius:20px 20px 0 0; padding:0 28px 40px; transition:transform 0.38s cubic-bezier(0.22,1,0.36,1), background 0.4s; z-index:601; }
+        #cal-overlay.open #cal-popup { transform:translateX(-50%) translateY(0); }
+        .cal-popup-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 20px; }
+        .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
+        .cal-month { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; }
+        .cal-nav { font-size:0.8rem; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:'Noto Sans SC',sans-serif; padding:4px 8px; transition:color 0.2s; }
+        .cal-nav:hover { color:var(--ink); }
+        .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:6px; }
+        .cal-weekday { font-size:0.6rem; font-weight:400; letter-spacing:0.08em; color:var(--ink-faint); text-align:center; padding:4px 0; }
+        .cal-day { aspect-ratio:1; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:0.78rem; font-weight:300; color:var(--ink-mid); cursor:pointer; border-radius:50%; transition:all 0.15s; position:relative; gap:2px; }
+        .cal-day:hover:not(.future):not(.empty) { background:var(--ink-ghost); }
+        .cal-day.empty { pointer-events:none; }
+        .cal-day.future { color:var(--ink-ghost); pointer-events:none; }
+        .cal-day.today { font-weight:500; color:var(--ink); }
+        .cal-day.has-entry::after { content:''; width:4px; height:4px; border-radius:50%; background:var(--ink-faint); }
+        .cal-day.has-entry.today::after { background:var(--ink); }
+        .cal-day.selected { background:var(--ink) !important; color:var(--bg) !important; }
+        .cal-day.selected::after { background:var(--bg) !important; }
+
+        /* ── 时间轴 ── */
+        #timeline-view { display:none; }
+        #timeline-view.active { display:block; }
+        .timeline-group { margin-bottom:28px; }
+        .timeline-date-anchor { font-size:0.65rem; font-weight:400; letter-spacing:0.14em; color:var(--ink-faint); text-transform:uppercase; padding-bottom:10px; border-bottom:1px solid var(--rule); }
+        .timeline-item { display:flex; gap:16px; padding:14px 0; border-bottom:1px solid var(--rule); animation:itemIn 0.3s cubic-bezier(0.22,1,0.36,1); }
+        .timeline-item:last-child { border-bottom:none; }
+        .tl-time { font-size:0.67rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.03em; white-space:nowrap; padding-top:4px; min-width:40px; text-align:right; }
+        .tl-dot-col { display:flex; flex-direction:column; align-items:center; padding-top:7px; width:10px; flex-shrink:0; }
+        .tl-dot { width:5px; height:5px; border-radius:50%; background:var(--ink-faint); flex-shrink:0; }
+        .tl-dot.manual { background:transparent; border:1.5px solid var(--ink-faint); }
+        .tl-line { width:1px; flex:1; background:var(--rule); margin-top:5px; min-height:16px; }
+        .tl-body { flex:1; min-width:0; }
+        .tl-text { font-size:0.93rem; font-weight:300; line-height:1.6; letter-spacing:0.02em; color:var(--ink); }
+        .tl-text.editing { display:none; }
+        .tl-edit-input { width:100%; border:none; border-bottom:1px solid var(--ink-faint); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.93rem; font-weight:300; color:var(--ink); padding:2px 0 4px; letter-spacing:0.02em; line-height:1.6; }
+        .tl-source { font-size:0.62rem; font-weight:200; color:var(--ink-ghost); letter-spacing:0.06em; margin-top:3px; }
+        .tl-actions { display:flex; gap:12px; flex-shrink:0; padding-top:4px; }
+
+        /* ── 手记（长日记）── */
+        #longdiary-view { display:none; }
+        #longdiary-view.active { display:block; }
+        .ld-textarea {
+            width:100%; min-height:320px; border:none; background:transparent; outline:none;
+            font-family:'Noto Sans SC',sans-serif; font-size:0.93rem; font-weight:300;
+            color:var(--ink); line-height:1.9; letter-spacing:0.02em; resize:none;
+            caret-color:var(--ink);
         }
-        .timeline-item {
-            display: flex; gap: 16px;
-            padding: 14px 0; border-bottom: 1px solid var(--rule);
-            animation: itemIn 0.3s cubic-bezier(0.22,1,0.36,1);
-        }
-        .timeline-item:last-child { border-bottom: none; }
-        .tl-time {
-            font-size: 0.67rem; font-weight: 200; color: var(--ink-faint);
-            letter-spacing: 0.03em; white-space: nowrap;
-            padding-top: 4px; min-width: 40px; text-align: right;
-        }
-        .tl-dot-col {
-            display: flex; flex-direction: column;
-            align-items: center; padding-top: 7px; width: 10px; flex-shrink: 0;
-        }
-        .tl-dot {
-            width: 5px; height: 5px; border-radius: 50%;
-            background: var(--ink-faint); flex-shrink: 0;
-        }
-        .tl-line {
-            width: 1px; flex: 1; background: var(--rule); margin-top: 5px; min-height: 16px;
-        }
-        .tl-body { flex: 1; }
-        .tl-text {
-            font-size: 0.93rem; font-weight: 300;
-            line-height: 1.6; letter-spacing: 0.02em; color: var(--ink);
-        }
+        .ld-textarea::placeholder { color:var(--ink-ghost); }
+        .ld-footer { margin-top:20px; display:flex; justify-content:space-between; align-items:center; }
+        .ld-char-count { font-size:0.68rem; font-weight:200; color:var(--ink-ghost); letter-spacing:0.04em; }
+        .ld-save-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:'Noto Serif SC',serif; letter-spacing:0.08em; transition:color 0.2s; padding:0; }
+        .ld-save-btn:hover { color:var(--ink); }
+        .ld-dot { width:5px; height:5px; border-radius:50%; background:var(--ink-ghost); display:inline-block; margin-left:6px; vertical-align:middle; transition:background 0.2s; }
+        .ld-dot.unsaved { background:var(--ink-faint); }
 
         /* ── Bottom nav ── */
-        #bottom-nav {
-            position: absolute; bottom: 0; width: 100%; height: 66px;
-            display: flex; align-items: stretch;
-            background: var(--bg); border-top: 1px solid var(--rule); z-index: 100;
-            transition: background 0.4s, border-color 0.4s;
-            user-select: none; -webkit-user-select: none;
-        }
-        .nav-item {
-            flex: 1; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            cursor: pointer; opacity: 0.25; transition: opacity 0.2s; gap: 4px;
-        }
-        .nav-item.active { opacity: 1; }
-        .nav-ch {
-            font-family: 'Noto Serif SC', serif;
-            font-size: 1.05rem; font-weight: 600; line-height: 1;
-        }
-        .nav-label { font-size: 0.56rem; font-weight: 200; letter-spacing: 0.08em; color: var(--ink-mid); }
-        @keyframes pressRing {
-            0%   { box-shadow: 0 0 0 0 rgba(0,0,0,0.12); }
-            100% { box-shadow: 0 0 0 14px rgba(0,0,0,0); }
-        }
-        .nav-item.pressing { animation: pressRing 0.6s ease-out; }
+        #bottom-nav { position:absolute; bottom:0; width:100%; height:66px; display:flex; align-items:stretch; background:var(--bg); border-top:1px solid var(--rule); z-index:100; transition:background 0.4s, border-color 0.4s; user-select:none; -webkit-user-select:none; }
+        .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; opacity:0.25; transition:opacity 0.2s; gap:4px; }
+        .nav-item.active { opacity:1; }
+        .nav-ch { font-family:'Noto Serif SC',serif; font-size:1.05rem; font-weight:600; line-height:1; }
+        .nav-label { font-size:0.56rem; font-weight:200; letter-spacing:0.08em; color:var(--ink-mid); }
+        @keyframes pressRing { 0% { box-shadow:0 0 0 0 rgba(0,0,0,0.12); } 100% { box-shadow:0 0 0 14px rgba(0,0,0,0); } }
+        .nav-item.pressing { animation:pressRing 0.6s ease-out; }
 
         /* ── Toast ── */
-        .toast {
-            position: fixed; bottom: 86px; left: 50%;
-            transform: translateX(-50%) translateY(12px);
-            background: var(--ink); color: var(--bg);
-            padding: 8px 22px; border-radius: 2px;
-            font-size: 0.75rem; font-weight: 300; letter-spacing: 0.1em;
-            z-index: 9999; opacity: 0;
-            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
-            white-space: nowrap; pointer-events: none;
-        }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .toast { position:fixed; bottom:86px; left:50%; transform:translateX(-50%) translateY(12px); background:var(--ink); color:var(--bg); padding:8px 22px; border-radius:2px; font-size:0.75rem; font-weight:300; letter-spacing:0.1em; z-index:9999; opacity:0; transition:all 0.3s cubic-bezier(0.22,1,0.36,1); white-space:nowrap; pointer-events:none; }
+        .toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
 
-        /* ══════════════════════════════
-           SETTINGS PANEL
-        ══════════════════════════════ */
-        #settings-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0);
-            z-index: 500; pointer-events: none; transition: background 0.35s;
-        }
-        #settings-overlay.open { background: rgba(0,0,0,0.22); pointer-events: all; }
-        #settings-panel {
-            position: absolute; bottom: 0; left: 50%;
-            transform: translateX(-50%) translateY(100%);
-            width: 100%; max-width: 480px;
-            background: var(--bg); border-top: 1px solid var(--rule);
-            border-radius: 20px 20px 0 0; padding: 0 0 48px;
-            transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.4s;
-            z-index: 501; max-height: 88vh; overflow-y: auto; scrollbar-width: none;
-        }
-        #settings-panel::-webkit-scrollbar { display: none; }
-        #settings-overlay.open #settings-panel { transform: translateX(-50%) translateY(0); }
+        /* ── Update banner ── */
+        #update-banner { position:fixed; top:0; left:50%; transform:translateX(-50%) translateY(-100%); width:100%; max-width:480px; background:var(--ink); color:var(--bg); padding:12px 24px; display:flex; align-items:center; justify-content:space-between; z-index:8000; transition:transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+        #update-banner.show { transform:translateX(-50%) translateY(0); }
+        .update-msg { font-size:0.8rem; font-weight:300; letter-spacing:0.04em; }
+        .update-btn { font-size:0.78rem; font-weight:400; letter-spacing:0.06em; cursor:pointer; border:1px solid rgba(255,255,255,0.4); background:transparent; color:var(--bg); font-family:'Noto Serif SC',serif; padding:4px 14px; border-radius:2px; }
 
-        .panel-handle {
-            width: 36px; height: 4px; background: var(--ink-ghost);
-            border-radius: 2px; margin: 14px auto 26px;
-        }
-        .panel-title {
-            font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 600;
-            letter-spacing: 0.06em; color: var(--ink); padding: 0 28px; margin-bottom: 22px;
-        }
-        .panel-section {
-            font-size: 0.63rem; font-weight: 400; letter-spacing: 0.16em;
-            color: var(--ink-faint); text-transform: uppercase;
-            padding: 0 28px; margin-bottom: 14px;
-        }
-        .preset-row {
-            display: flex; gap: 12px; padding: 0 28px; margin-bottom: 28px;
-            overflow-x: auto; scrollbar-width: none;
-        }
-        .preset-row::-webkit-scrollbar { display: none; }
-        .preset-chip { display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer; flex-shrink: 0; }
-        .preset-swatch {
-            width: 42px; height: 42px; border-radius: 50%;
-            border: 2px solid transparent;
-            transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden;
-        }
-        .preset-chip.active .preset-swatch { border-color: var(--ink); transform: scale(1.1); }
-        .preset-chip-label { font-size: 0.58rem; font-weight: 300; letter-spacing: 0.08em; color: var(--ink-faint); }
+        /* ══════════════════════════
+           SETTINGS
+        ══════════════════════════ */
+        #settings-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:500; pointer-events:none; transition:background 0.35s; }
+        #settings-overlay.open { background:rgba(0,0,0,0.22); pointer-events:all; }
+        #settings-panel { position:absolute; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:480px; background:var(--bg); border-top:1px solid var(--rule); border-radius:20px 20px 0 0; padding:0 0 48px; transition:transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.4s; z-index:501; max-height:88vh; overflow-y:auto; scrollbar-width:none; }
+        #settings-panel::-webkit-scrollbar { display:none; }
+        #settings-overlay.open #settings-panel { transform:translateX(-50%) translateY(0); }
+        .panel-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 26px; }
+        .panel-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); padding:0 28px; margin-bottom:22px; }
+        .panel-section { font-size:0.63rem; font-weight:400; letter-spacing:0.16em; color:var(--ink-faint); text-transform:uppercase; padding:0 28px; margin-bottom:14px; }
+        .preset-row { display:flex; gap:12px; padding:0 28px; margin-bottom:28px; overflow-x:auto; scrollbar-width:none; }
+        .preset-row::-webkit-scrollbar { display:none; }
+        .preset-chip { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; flex-shrink:0; }
+        .preset-swatch { width:42px; height:42px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s, transform 0.15s; position:relative; overflow:hidden; }
+        .preset-chip.active .preset-swatch { border-color:var(--ink); transform:scale(1.1); }
+        .preset-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.08em; color:var(--ink-faint); }
+        .color-rows { padding:0 28px; margin-bottom:24px; }
+        .color-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--rule); }
+        .color-row:last-child { border-bottom:none; }
+        .color-row-label { font-size:0.82rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .color-row-right { display:flex; align-items:center; gap:10px; }
+        .color-hex { font-size:0.68rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; font-family:monospace; }
+        .color-dot-btn { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--rule); cursor:pointer; position:relative; overflow:hidden; transition:transform 0.15s; }
+        .color-dot-btn:hover { transform:scale(1.12); }
+        .color-dot-btn input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; border:none; padding:0; }
+        .divider { height:1px; background:var(--rule); margin:4px 28px 22px; }
+        .sink-rows { padding:0 28px; margin-bottom:8px; }
+        .sink-option-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+        .sink-chip { font-size:0.76rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
+        .sink-chip:hover { border-color:var(--ink-faint); color:var(--ink); }
+        .sink-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
+        .sink-custom-row { display:flex; align-items:center; gap:10px; margin-top:4px; }
+        .sink-custom-row input[type="number"] { width:72px; border:none; border-bottom:1.5px solid var(--rule); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.88rem; font-weight:300; color:var(--ink); padding:4px 0; text-align:center; transition:border-color 0.2s; }
+        .sink-custom-row input[type="number"]:focus { border-bottom-color:var(--ink); }
+        .sink-custom-row input[type="number"]::-webkit-inner-spin-button, .sink-custom-row input[type="number"]::-webkit-outer-spin-button { -webkit-appearance:none; }
+        .sink-custom-label { font-size:0.78rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; }
+        .sink-apply-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
+        .sink-apply-btn:hover { border-color:var(--ink); color:var(--ink); }
+        .export-scope-row { display:flex; gap:8px; flex-wrap:wrap; padding:2px 28px 14px; }
+        .scope-chip { font-size:0.72rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
+        .scope-chip:hover { border-color:var(--ink-faint); color:var(--ink); }
+        .scope-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
+        .export-rows { padding:0 28px; margin-bottom:8px; }
+        .export-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--rule); }
+        .export-row:last-child { border-bottom:none; }
+        .export-info { flex:1; }
+        .export-label { font-size:0.85rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .export-desc { font-size:0.68rem; font-weight:200; color:var(--ink-faint); margin-top:3px; letter-spacing:0.03em; }
+        .export-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); padding:5px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; white-space:nowrap; }
+        .export-btn:hover { border-color:var(--ink); color:var(--ink); }
+        .reset-row { padding:16px 28px 0; text-align:right; }
+        .reset-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); letter-spacing:0.04em; border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; transition:color 0.2s; padding:0; }
+        .reset-btn:hover { color:var(--ink); }
+        .update-row { padding:0 28px 0; }
+        .update-check-btn { font-size:0.78rem; font-weight:300; color:var(--ink-faint); padding:6px 16px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
+        .update-check-btn:hover { border-color:var(--ink); color:var(--ink); }
 
-        .color-rows { padding: 0 28px; margin-bottom: 24px; }
-        .color-row {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 12px 0; border-bottom: 1px solid var(--rule);
-        }
-        .color-row:last-child { border-bottom: none; }
-        .color-row-label { font-size: 0.82rem; font-weight: 300; color: var(--ink); letter-spacing: 0.02em; }
-        .color-row-right { display: flex; align-items: center; gap: 10px; }
-        .color-hex { font-size: 0.68rem; font-weight: 200; color: var(--ink-faint); letter-spacing: 0.04em; font-family: monospace; }
-        .color-dot-btn {
-            width: 26px; height: 26px; border-radius: 50%;
-            border: 1.5px solid var(--rule); cursor: pointer;
-            position: relative; overflow: hidden; transition: transform 0.15s;
-        }
-        .color-dot-btn:hover { transform: scale(1.12); }
-        .color-dot-btn input[type="color"] {
-            position: absolute; inset: -4px;
-            width: calc(100% + 8px); height: calc(100% + 8px);
-            opacity: 0; cursor: pointer; border: none; padding: 0;
-        }
-
-        .divider { height: 1px; background: var(--rule); margin: 4px 28px 22px; }
-
-        .sink-rows { padding: 0 28px; margin-bottom: 8px; }
-        .sink-option-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
-        .sink-chip {
-            font-size: 0.76rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink-mid);
-            padding: 6px 14px; border: 1px solid var(--rule); border-radius: 20px;
-            cursor: pointer; background: transparent; font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
-        }
-        .sink-chip:hover { border-color: var(--ink-faint); color: var(--ink); }
-        .sink-chip.active { border-color: var(--ink); color: var(--ink); font-weight: 400; }
-        .sink-custom-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
-        .sink-custom-row input[type="number"] {
-            width: 72px; border: none; border-bottom: 1.5px solid var(--rule);
-            background: transparent; outline: none;
-            font-family: 'Noto Sans SC', sans-serif; font-size: 0.88rem; font-weight: 300;
-            color: var(--ink); padding: 4px 0; text-align: center; transition: border-color 0.2s;
-        }
-        .sink-custom-row input[type="number"]:focus { border-bottom-color: var(--ink); }
-        .sink-custom-row input[type="number"]::-webkit-inner-spin-button,
-        .sink-custom-row input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
-        .sink-custom-label { font-size: 0.78rem; font-weight: 200; color: var(--ink-faint); letter-spacing: 0.04em; }
-        .sink-apply-btn {
-            font-size: 0.75rem; font-weight: 300; color: var(--ink-faint);
-            padding: 5px 12px; border: 1px solid var(--rule); border-radius: 20px;
-            cursor: pointer; background: transparent; font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
-        }
-        .sink-apply-btn:hover { border-color: var(--ink); color: var(--ink); }
-
-        .reset-row { padding: 16px 28px 0; text-align: right; }
-        .reset-btn {
-            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint); letter-spacing: 0.04em;
-            border: none; background: none; cursor: pointer;
-            font-family: 'Noto Sans SC', sans-serif; transition: color 0.2s; padding: 0;
-        }
-        .reset-btn:hover { color: var(--ink); }
-
-        /* ── Export ── */
-        .export-scope-row {
-            display: flex; gap: 8px; flex-wrap: wrap;
-            padding: 2px 28px 14px;
-        }
-        .scope-chip {
-            font-size: 0.72rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink-mid);
-            padding: 5px 12px; border: 1px solid var(--rule); border-radius: 20px;
-            cursor: pointer; background: transparent;
-            font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
-        }
-        .scope-chip:hover { border-color: var(--ink-faint); color: var(--ink); }
-        .scope-chip.active { border-color: var(--ink); color: var(--ink); font-weight: 400; }
-        .export-rows { padding: 0 28px; }
-        .export-row {
-            display: flex; align-items: center; justify-content: space-between; gap: 16px;
-            padding: 13px 0; border-bottom: 1px solid var(--rule);
-        }
-        .export-row:last-child { border-bottom: none; }
-        .export-info { flex: 1; }
-        .export-label { font-size: 0.85rem; font-weight: 300; color: var(--ink); letter-spacing: 0.02em; }
-        .export-desc { font-size: 0.68rem; font-weight: 200; color: var(--ink-faint); margin-top: 3px; letter-spacing: 0.03em; }
-        .export-btn {
-            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint);
-            padding: 5px 14px; border: 1px solid var(--rule); border-radius: 20px;
-            cursor: pointer; background: transparent;
-            font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s; white-space: nowrap;
-        }
-        .export-btn:hover { border-color: var(--ink); color: var(--ink); }
+        /* ── 主题生成器 ── */
+        .gen-tone-row { display:flex; gap:8px; padding:0 28px 16px; flex-wrap:wrap; }
+        .gen-tone-btn { font-size:0.74rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
+        .gen-tone-btn:hover { border-color:var(--ink-faint); color:var(--ink); }
+        .gen-tone-btn.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
+        .gen-actions-row { display:flex; gap:10px; padding:0 28px 20px; align-items:center; }
+        .gen-btn { font-size:0.74rem; font-weight:300; color:var(--ink-faint); padding:6px 16px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; white-space:nowrap; }
+        .gen-btn:hover { border-color:var(--ink); color:var(--ink); }
+        .gen-btn.primary { border-color:var(--ink-faint); color:var(--ink); }
+        .gen-preview { display:flex; gap:6px; align-items:center; margin-left:4px; }
+        .gen-swatch { width:18px; height:18px; border-radius:50%; border:1px solid var(--rule); flex-shrink:0; }
+        /* 自定义主题管理 */
+        .custom-themes-row { display:flex; gap:12px; padding:0 28px 20px; overflow-x:auto; scrollbar-width:none; flex-wrap:wrap; }
+        .custom-themes-row::-webkit-scrollbar { display:none; }
+        .custom-theme-chip { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; flex-shrink:0; position:relative; }
+        .custom-theme-del { position:absolute; top:-4px; right:-4px; width:16px; height:16px; border-radius:50%; background:var(--ink-faint); color:var(--bg); font-size:0.6rem; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:opacity 0.15s; border:none; font-family:sans-serif; }
+        .custom-theme-chip:hover .custom-theme-del { opacity:1; }
+        /* 命名保存弹层 */
+        #name-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:800; display:none; align-items:flex-end; justify-content:center; }
+        #name-overlay.open { display:flex; }
+        #name-popup { width:100%; max-width:480px; background:var(--bg); border-radius:20px 20px 0 0; padding:24px 28px 48px; }
+        .name-title { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); margin-bottom:20px; }
+        .name-input { width:100%; border:none; border-bottom:1.5px solid var(--ink); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.95rem; font-weight:300; color:var(--ink); padding:6px 0 10px; letter-spacing:0.02em; margin-bottom:20px; }
+        .name-input::placeholder { color:var(--ink-ghost); }
+        .name-btns { display:flex; gap:12px; justify-content:flex-end; }
+        .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; padding:6px 0; }
+        .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:'Noto Serif SC',serif; padding:6px 20px; border-radius:20px; letter-spacing:0.06em; transition:all 0.18s; }
+        .name-save:hover { background:var(--ink); color:var(--bg); }
     </style>
 </head>
 <body>
@@ -375,12 +266,37 @@
     <div id="view-cabinet" class="view">
         <div class="view-title">航海日记</div>
         <div class="view-sub">每一次靠岸都值得记录<br>这是你真正走过的航程</div>
-        <div class="input-row">
-            <input type="text" id="directInput" placeholder="今天完成了什么…" onkeydown="if(event.key==='Enter')directComplete()">
-            <button onclick="directComplete()">记录</button>
+
+        <!-- 日期选择栏 -->
+        <div class="diary-datebar" onclick="openCalendar()">
+            <span class="diary-datebar-label" id="diary-datebar-label">今天</span>
+            <span class="diary-datebar-hint">选择日期 ↓</span>
         </div>
-        <div class="section-row"><span class="section-tag">航程记录</span></div>
-        <div id="cabinet-items"></div>
+
+        <!-- Tab 切换 -->
+        <div class="diary-tabs">
+            <button class="diary-tab active" onclick="switchDiaryTab('timeline',this)">灵感</button>
+            <button class="diary-tab" onclick="switchDiaryTab('longdiary',this)">手记</button>
+        </div>
+
+        <!-- 灵感时间轴 -->
+        <div id="timeline-view" class="active">
+            <div class="input-row" id="direct-input-row">
+                <input type="text" id="directInput" placeholder="今天完成了什么…" onkeydown="if(event.key==='Enter')directComplete()">
+                <button onclick="directComplete()">记录</button>
+            </div>
+            <div class="section-row"><span class="section-tag">航程记录</span></div>
+            <div id="cabinet-items"></div>
+        </div>
+
+        <!-- 手记 -->
+        <div id="longdiary-view">
+            <textarea class="ld-textarea" id="ld-textarea" placeholder="今天的风浪如何…&#10;&#10;随便写，不限字数。"></textarea>
+            <div class="ld-footer">
+                <span class="ld-char-count" id="ld-char-count">0 字</span>
+                <button class="ld-save-btn" onclick="ldSave()">保存 <span class="ld-dot" id="ld-dot"></span></button>
+            </div>
+        </div>
     </div>
 
     <div id="view-trash" class="view">
@@ -391,34 +307,58 @@
     </div>
 
     <div id="bottom-nav">
-        <div class="nav-item active" onclick="switchTab('pool',this)">
-            <span class="nav-ch">海</span><span class="nav-label">灵感之海</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('shelf',this)">
-            <span class="nav-ch">船</span><span class="nav-label">我的小船</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('cabinet',this)">
-            <span class="nav-ch">记</span><span class="nav-label">航海日记</span>
-        </div>
-        <div class="nav-item" onclick="switchTab('trash',this)">
-            <span class="nav-ch">礁</span><span class="nav-label">沉默礁石</span>
-        </div>
+        <div class="nav-item active" onclick="switchTab('pool',this)"><span class="nav-ch">海</span><span class="nav-label">灵感之海</span></div>
+        <div class="nav-item" onclick="switchTab('shelf',this)"><span class="nav-ch">船</span><span class="nav-label">我的小船</span></div>
+        <div class="nav-item" onclick="switchTab('cabinet',this)"><span class="nav-ch">记</span><span class="nav-label">航海日记</span></div>
+        <div class="nav-item" onclick="switchTab('trash',this)"><span class="nav-ch">礁</span><span class="nav-label">沉默礁石</span></div>
     </div>
 </div>
 
+<!-- Calendar overlay -->
+<div id="cal-overlay" onclick="maybeCloseCalendar(event)">
+    <div id="cal-popup">
+        <div class="cal-popup-handle"></div>
+        <div class="cal-header">
+            <button class="cal-nav" onclick="calNavigate(-1);event.stopPropagation()">←</button>
+            <span class="cal-month" id="cal-month-label"></span>
+            <button class="cal-nav" onclick="calNavigate(1);event.stopPropagation()">→</button>
+        </div>
+        <div class="cal-grid" id="cal-weekdays"></div>
+        <div class="cal-grid" id="cal-days"></div>
+    </div>
+</div>
+
+<!-- Update banner -->
+<div id="update-banner">
+    <span class="update-msg">发现新版本，刷新即可更新</span>
+    <button class="update-btn" onclick="applyUpdate()">立即更新</button>
+</div>
+
+<!-- Settings -->
 <div id="settings-overlay" onclick="maybeCloseSettings(event)">
     <div id="settings-panel">
         <div class="panel-handle"></div>
         <div class="panel-title">外观与设置</div>
-
-        <div class="panel-section">主题</div>
+        <div class="panel-section">预设主题</div>
         <div class="preset-row" id="preset-row"></div>
-
+        <div class="panel-section">我的主题</div>
+        <div class="custom-themes-row" id="custom-themes-row"></div>
+        <div class="panel-section">主题生成器</div>
+        <div class="gen-tone-row" id="gen-tone-row">
+            <button class="gen-tone-btn active" onclick="setGenTone('neutral',this)">中性</button>
+            <button class="gen-tone-btn" onclick="setGenTone('warm',this)">暖调</button>
+            <button class="gen-tone-btn" onclick="setGenTone('cool',this)">冷调</button>
+            <button class="gen-tone-btn" onclick="setGenTone('dark',this)">深色</button>
+        </div>
+        <div class="gen-actions-row">
+            <button class="gen-btn primary" onclick="generateTheme()">随机生成</button>
+            <button class="gen-btn" id="gen-apply-btn" onclick="applyGenTheme()" style="display:none;">应用</button>
+            <button class="gen-btn" id="gen-save-btn" onclick="openNamePopup()" style="display:none;">命名保存</button>
+            <div class="gen-preview" id="gen-preview"></div>
+        </div>
         <div class="panel-section">自定义颜色</div>
         <div class="color-rows" id="color-rows"></div>
-
         <div class="divider"></div>
-
         <div class="panel-section">念头沉入海底的时间（分钟）</div>
         <div class="sink-rows">
             <div class="sink-option-row" id="sink-chips"></div>
@@ -428,46 +368,51 @@
                 <button class="sink-apply-btn" onclick="applyCustomSink()">确定</button>
             </div>
         </div>
-
         <div class="divider"></div>
-
         <div class="panel-section">导出数据</div>
         <div class="export-scope-row" id="export-scope-row"></div>
         <div class="export-rows">
             <div class="export-row">
-                <div class="export-info">
-                    <div class="export-label">JSON 备份</div>
-                    <div class="export-desc">完整数据，可重新导入恢复</div>
-                </div>
+                <div class="export-info"><div class="export-label">完整备份 JSON</div><div class="export-desc">条目、手记、自定义主题，全部打包</div></div>
                 <button class="export-btn" onclick="exportJSON()">下载</button>
             </div>
             <div class="export-row">
-                <div class="export-info">
-                    <div class="export-label">Markdown 日记</div>
-                    <div class="export-desc">适合阅读、粘贴到 Notion 等工具</div>
-                </div>
+                <div class="export-info"><div class="export-label">Markdown 日记</div><div class="export-desc">适合阅读、粘贴到 Notion 等工具</div></div>
                 <button class="export-btn" onclick="exportMarkdown()">下载</button>
             </div>
+            <div class="export-row">
+                <div class="export-info"><div class="export-label">主题配置 JSON</div><div class="export-desc">仅导出我的主题，便于跨设备同步</div></div>
+                <button class="export-btn" onclick="exportThemes()">下载</button>
+            </div>
         </div>
-
         <div class="divider"></div>
-
         <div class="panel-section">导入数据</div>
         <div class="export-rows">
             <div class="export-row">
-                <div class="export-info">
-                    <div class="export-label">从 JSON 恢复</div>
-                    <div class="export-desc">从备份文件还原，将与现有数据合并</div>
-                </div>
-                <label class="export-btn" style="cursor:pointer;">
-                    选择文件
-                    <input type="file" accept=".json" style="display:none;" onchange="importJSON(this)">
-                </label>
+                <div class="export-info"><div class="export-label">从 JSON 恢复</div><div class="export-desc">完整备份或主题文件，自动识别内容</div></div>
+                <label class="export-btn" style="cursor:pointer;">选择文件<input type="file" accept=".json" style="display:none;" onchange="importJSON(this)"></label>
             </div>
         </div>
-
+        <div class="divider"></div>
+        <div class="panel-section">应用更新</div>
+        <div class="update-row" style="margin-bottom:16px;">
+            <button class="update-check-btn" onclick="checkUpdate()">检查更新</button>
+        </div>
         <div class="reset-row">
             <button class="reset-btn" onclick="resetAll()">恢复全部默认</button>
+        </div>
+    </div>
+</div>
+
+<!-- Name save popup -->
+<div id="name-overlay" onclick="maybeCloseNamePopup(event)">
+    <div id="name-popup">
+        <div class="name-title">为这套主题起个名字</div>
+        <input class="name-input" id="name-input" placeholder="我的主题…" maxlength="12"
+               onkeydown="if(event.key==='Enter')confirmSaveTheme()">
+        <div class="name-btns">
+            <button class="name-cancel" onclick="closeNamePopup()">取消</button>
+            <button class="name-save" onclick="confirmSaveTheme()">保存</button>
         </div>
     </div>
 </div>
@@ -478,33 +423,79 @@
 'use strict';
 
 // ─────────────────────────────────────────
-// SINK TIME — smart scheduler, no polling
+// PWA UPDATE
 // ─────────────────────────────────────────
-const DEFAULT_SINK = 60 * 60 * 1000; // 1小时
+let waitingSW = null;
+
+function applyUpdate() {
+    if (waitingSW) {
+        waitingSW.postMessage('SKIP_WAITING');
+        waitingSW.addEventListener('statechange', e => {
+            if (e.target.state === 'activated') location.reload();
+        });
+    } else {
+        location.reload();
+    }
+}
+
+function checkUpdate() {
+    if (!('serviceWorker' in navigator)) { toast('此浏览器不支持 PWA 更新'); return; }
+    navigator.serviceWorker.getRegistration().then(reg => {
+        if (!reg) { toast('未检测到 Service Worker'); return; }
+        reg.update().then(() => {
+            if (reg.waiting) {
+                showUpdateBanner();
+            } else {
+                toast('已是最新版本');
+            }
+        });
+    });
+}
+
+function showUpdateBanner() {
+    document.getElementById('update-banner').classList.add('show');
+}
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').then(reg => {
+        // If there's already a waiting SW on load, show banner
+        if (reg.waiting) { waitingSW = reg.waiting; showUpdateBanner(); }
+        reg.addEventListener('updatefound', () => {
+            const newSW = reg.installing;
+            newSW.addEventListener('statechange', () => {
+                if (newSW.state === 'installed' && navigator.serviceWorker.controller) {
+                    waitingSW = newSW;
+                    showUpdateBanner();
+                }
+            });
+        });
+    }).catch(() => {});
+    // Reload when SW takes control
+    navigator.serviceWorker.addEventListener('controllerchange', () => location.reload());
+}
+
+// ─────────────────────────────────────────
+// SINK TIME
+// ─────────────────────────────────────────
+const DEFAULT_SINK = 60 * 60 * 1000;
 let sinkTime = parseInt(localStorage.getItem('vibe_sink_time')) || DEFAULT_SINK;
 let sinkTimer = null;
-let customRowVisible = false; // track independently of DOM
+let customRowVisible = false;
 
 function scheduleSinkCheck() {
     if (sinkTimer) clearTimeout(sinkTimer);
     const now = Date.now();
-    // Find the soonest item that will sink
-    const upcoming = items
-        .filter(i => i.state === 'pool' && (now - i.time) < sinkTime)
-        .map(i => sinkTime - (now - i.time))
-        .filter(ms => ms > 0);
+    const upcoming = items.filter(i => i.state==='pool' && (now-i.time)<sinkTime).map(i => sinkTime-(now-i.time)).filter(ms=>ms>0);
     if (!upcoming.length) return;
-    const next = Math.min(...upcoming);
-    sinkTimer = setTimeout(() => { render(); scheduleSinkCheck(); }, next + 50);
+    sinkTimer = setTimeout(() => { render(); scheduleSinkCheck(); }, Math.min(...upcoming) + 50);
 }
 
 function saveSinkTime() { localStorage.setItem('vibe_sink_time', sinkTime); }
 function formatSinkTime(ms) {
-    const m = ms / 60000;
+    const m = ms/60000;
     if (m < 60) return `${Math.round(m)} 分钟`;
-    const h = m / 60;
-    if (Number.isInteger(h)) return `${h} 小时`;
-    return `${h.toFixed(1)} 小时`;
+    const h = m/60;
+    return Number.isInteger(h) ? `${h} 小时` : `${h.toFixed(1)} 小时`;
 }
 
 // ─────────────────────────────────────────
@@ -519,20 +510,124 @@ const PRESETS = [
 ];
 const COLOR_LABELS = {'--bg':'背景','--ink':'正文','--ink-mid':'次要文字','--ink-faint':'淡化文字','--ink-ghost':'极淡文字','--rule':'分割线'};
 let currentTheme = JSON.parse(localStorage.getItem('vibe_theme')) || {...PRESETS[0].vars};
+let customThemes = JSON.parse(localStorage.getItem('vibe_custom_themes')) || [];
 
 function applyTheme(vars) {
-    const root = document.documentElement;
-    Object.entries(vars).forEach(([k,v]) => root.style.setProperty(k,v));
-    // keep theme-color meta in sync (uses --bg)
-    const bg = vars['--bg'] || currentTheme['--bg'];
-    document.getElementById('theme-color-meta').content = bg;
+    Object.entries(vars).forEach(([k,v]) => document.documentElement.style.setProperty(k,v));
+    document.getElementById('theme-color-meta').content = vars['--bg'] || currentTheme['--bg'];
 }
 function saveTheme() { localStorage.setItem('vibe_theme', JSON.stringify(currentTheme)); }
-function detectActivePreset() {
-    return PRESETS.find(p => Object.entries(p.vars).every(([k,v]) => currentTheme[k]===v))?.id || null;
-}
+function saveCustomThemes() { localStorage.setItem('vibe_custom_themes', JSON.stringify(customThemes)); }
+function detectActivePreset() { return PRESETS.find(p => Object.entries(p.vars).every(([k,v])=>currentTheme[k]===v))?.id||null; }
+function detectActiveCustom() { return customThemes.find(p => Object.entries(p.vars).every(([k,v])=>currentTheme[k]===v))?.id||null; }
 function applyPreset(p) { currentTheme={...p.vars}; applyTheme(currentTheme); saveTheme(); renderSettings(); }
+function applyCustomTheme(id) { const t=customThemes.find(x=>x.id===id); if(t){currentTheme={...t.vars};applyTheme(currentTheme);saveTheme();renderSettings();} }
+function deleteCustomTheme(id) { customThemes=customThemes.filter(x=>x.id!==id); saveCustomThemes(); renderSettings(); }
 function setCustomColor(varName, value) { currentTheme[varName]=value; applyTheme(currentTheme); saveTheme(); renderSettings(); }
+
+// ── Theme Generator ──────────────────────────────────────
+// HSL helpers
+function hslToHex(h,s,l) {
+    s/=100; l/=100;
+    const a=s*Math.min(l,1-l);
+    const f=n=>{ const k=(n+h/30)%12; const c=l-a*Math.max(Math.min(k-3,9-k,1),-1); return Math.round(255*c).toString(16).padStart(2,'0'); };
+    return '#'+f(0)+f(8)+f(4);
+}
+function relativeLuminance(hex) {
+    const r=parseInt(hex.slice(1,3),16)/255, g=parseInt(hex.slice(3,5),16)/255, b=parseInt(hex.slice(5,7),16)/255;
+    const lin=c=>c<=0.03928?c/12.92:Math.pow((c+0.055)/1.055,2.4);
+    return 0.2126*lin(r)+0.7152*lin(g)+0.0722*lin(b);
+}
+function contrastRatio(hex1,hex2) {
+    const l1=relativeLuminance(hex1), l2=relativeLuminance(hex2);
+    return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);
+}
+
+let genTone = 'neutral';
+let pendingGen = null;
+
+function setGenTone(tone, el) {
+    genTone=tone;
+    document.querySelectorAll('.gen-tone-btn').forEach(b=>b.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function generateTheme() {
+    // Tone → hue range + saturation + lightness ranges for bg
+    const tones = {
+        neutral: { hRange:[0,360], bgS:[0,8],  bgL_light:[88,96], bgL_dark:[8,16],  inkS:[0,6]  },
+        warm:    { hRange:[20,50], bgS:[8,18],  bgL_light:[88,96], bgL_dark:[10,18], inkS:[4,10] },
+        cool:    { hRange:[190,240], bgS:[6,15],bgL_light:[88,96], bgL_dark:[8,16],  inkS:[3,9]  },
+        dark:    { hRange:[0,360], bgS:[0,10],  bgL_light:[null,null], bgL_dark:[5,14], inkS:[0,8] },
+    };
+    const t=tones[genTone];
+    const rand=(a,b)=>Math.random()*(b-a)+a;
+    const randInt=(a,b)=>Math.floor(rand(a,b+1));
+
+    const hue = rand(t.hRange[0], t.hRange[1]);
+    const isDark = genTone==='dark' || (genTone==='neutral' && Math.random()<0.3);
+
+    // Background
+    const bgS=rand(t.bgS[0],t.bgS[1]);
+    const bgL = isDark ? rand(t.bgL_dark[0],t.bgL_dark[1]) : rand(t.bgL_light[0],t.bgL_light[1]);
+    const bg = hslToHex(hue, bgS, bgL);
+
+    // Ink — must contrast ≥ 7 with bg for AA+
+    let ink, inkL, tries=0;
+    do {
+        inkL = isDark ? rand(78,92) : rand(8,22);
+        const inkS2=rand(t.inkS[0],t.inkS[1]);
+        ink = hslToHex(hue, inkS2, inkL);
+        tries++;
+    } while(contrastRatio(bg,ink)<7 && tries<40);
+
+    // Derive intermediate tones by interpolating lightness
+    const bgLum=relativeLuminance(bg);
+    const inkLum=relativeLuminance(ink);
+    // mid, faint, ghost, rule: step between bg and ink lightness
+    function lerpL(frac) { return bgL + (inkL-bgL)*frac; }
+    const inkMid  = hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.8, lerpL(isDark?0.42:0.40));
+    const inkFaint= hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.5, lerpL(isDark?0.28:0.28));
+    const inkGhost= hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.3, lerpL(isDark?0.16:0.16));
+    const rule    = hslToHex(hue, rand(t.inkS[0],t.inkS[1])*0.25,lerpL(isDark?0.12:0.12));
+
+    pendingGen = {'--bg':bg,'--ink':ink,'--ink-mid':inkMid,'--ink-faint':inkFaint,'--ink-ghost':inkGhost,'--rule':rule};
+
+    // Show preview swatches
+    document.getElementById('gen-preview').innerHTML =
+        ['--bg','--ink','--ink-mid','--ink-faint','--ink-ghost','--rule'].map(k=>
+            `<div class="gen-swatch" style="background:${pendingGen[k]};"></div>`).join('');
+    document.getElementById('gen-apply-btn').style.display='inline-block';
+    document.getElementById('gen-save-btn').style.display='inline-block';
+}
+
+function applyGenTheme() {
+    if (!pendingGen) return;
+    currentTheme={...pendingGen}; applyTheme(currentTheme); saveTheme(); renderSettings();
+    toast('主题已应用');
+}
+
+// ── Name popup ───────────────────────────────────────────
+function openNamePopup() {
+    if (!pendingGen) return;
+    document.getElementById('name-input').value='';
+    document.getElementById('name-overlay').classList.add('open');
+    setTimeout(()=>document.getElementById('name-input').focus(), 100);
+}
+function closeNamePopup() { document.getElementById('name-overlay').classList.remove('open'); }
+function maybeCloseNamePopup(e) { if(e.target===document.getElementById('name-overlay')) closeNamePopup(); }
+function confirmSaveTheme() {
+    const name=document.getElementById('name-input').value.trim();
+    if (!name) { document.getElementById('name-input').focus(); return; }
+    if (!pendingGen) return;
+    const id='custom_'+Date.now();
+    customThemes.push({id, label:name, vars:{...pendingGen}});
+    saveCustomThemes();
+    closeNamePopup();
+    // Also apply it
+    currentTheme={...pendingGen}; applyTheme(currentTheme); saveTheme(); renderSettings();
+    toast(`「${name}」已保存`);
+}
 
 // ─────────────────────────────────────────
 // SETTINGS UI
@@ -545,223 +640,220 @@ const SINK_PRESETS = [
 ];
 
 function renderSettings() {
-    const activeId = detectActivePreset();
+    const activePresetId = detectActivePreset();
+    const activeCustomId = detectActiveCustom();
     document.getElementById('preset-row').innerHTML = PRESETS.map(p => {
-        const b=p.vars['--bg'], k=p.vars['--ink'], r=p.vars['--rule'];
+        const b=p.vars['--bg'],k=p.vars['--ink'],r=p.vars['--rule'];
         const svg=`<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-        return `<div class="preset-chip ${p.id===activeId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${svg}</div><span class="preset-chip-label">${p.label}</span></div>`;
+        return `<div class="preset-chip ${p.id===activePresetId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${svg}</div><span class="preset-chip-label">${p.label}</span></div>`;
     }).join('');
-
+    // Custom themes row
+    const cRow = document.getElementById('custom-themes-row');
+    if (customThemes.length===0) {
+        cRow.innerHTML=`<span style="font-size:0.75rem;font-weight:200;color:var(--ink-ghost);letter-spacing:0.04em;padding:0 0 4px;">生成一套保存在这里</span>`;
+    } else {
+        cRow.innerHTML = customThemes.map(p => {
+            const b=p.vars['--bg'],k=p.vars['--ink'],r=p.vars['--rule'];
+            const svg=`<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+            return `<div class="custom-theme-chip ${p.id===activeCustomId?'active':''}">
+                <div class="preset-swatch" style="position:relative;" onclick="applyCustomTheme('${p.id}')">${svg}</div>
+                <span class="preset-chip-label">${p.label}</span>
+                <button class="custom-theme-del" onclick="event.stopPropagation();deleteCustomTheme('${p.id}')">×</button>
+            </div>`;
+        }).join('');
+    }
+    const activeId = activePresetId;
     document.getElementById('color-rows').innerHTML = Object.entries(COLOR_LABELS).map(([k,label]) => {
         const val=currentTheme[k]||'#ffffff', id='hex_'+k.replace(/-/g,'_');
         return `<div class="color-row"><span class="color-row-label">${label}</span><div class="color-row-right"><span class="color-hex" id="${id}">${val}</span><div class="color-dot-btn" style="background:${val};"><input type="color" value="${val}" oninput="setCustomColor('${k}',this.value);document.getElementById('${id}').textContent=this.value;this.parentElement.style.background=this.value;"></div></div></div>`;
     }).join('');
-
-    const isPreset = SINK_PRESETS.slice(0,3).some(p => p.ms===sinkTime);
+    const isPreset = SINK_PRESETS.slice(0,3).some(p=>p.ms===sinkTime);
     document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((p,i) => {
-        const active = p.ms===null ? (!isPreset || customRowVisible) : p.ms===sinkTime;
+        const active = p.ms===null ? (!isPreset||customRowVisible) : p.ms===sinkTime;
         return `<button class="sink-chip ${active?'active':''}" onclick="selectSinkChip(${i})">${p.label}</button>`;
     }).join('');
-
-    // only update custom row visibility when NOT already editing
-    const customRow = document.getElementById('sink-custom-row');
     if (!customRowVisible) {
-        customRow.style.display = 'none';
-        if (!isPreset) {
-            // show with existing value
-            customRow.style.display = 'flex';
-            document.getElementById('sink-custom-val').value = Math.round(sinkTime/60000);
-        }
+        document.getElementById('sink-custom-row').style.display = 'none';
+        if (!isPreset) { document.getElementById('sink-custom-row').style.display='flex'; document.getElementById('sink-custom-val').value=Math.round(sinkTime/60000); }
     }
 }
 
 function selectSinkChip(idx) {
     const p = SINK_PRESETS[idx];
     if (p.ms !== null) {
-        customRowVisible = false;
-        document.getElementById('sink-custom-row').style.display = 'none';
-        sinkTime = p.ms; saveSinkTime();
-        // re-render chips only (not full settings, to avoid clobbering)
-        const isPreset = true;
-        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) => {
-            const active = pp.ms===null ? false : pp.ms===sinkTime;
-            return `<button class="sink-chip ${active?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`;
-        }).join('');
-        toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
-        scheduleSinkCheck();
+        customRowVisible=false; document.getElementById('sink-custom-row').style.display='none';
+        sinkTime=p.ms; saveSinkTime();
+        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) =>
+            `<button class="sink-chip ${pp.ms===sinkTime?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`).join('');
+        toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`); scheduleSinkCheck();
     } else {
-        customRowVisible = true;
-        const customRow = document.getElementById('sink-custom-row');
-        customRow.style.display = 'flex';
-        document.getElementById('sink-custom-val').value = '';
+        customRowVisible=true;
+        document.getElementById('sink-custom-row').style.display='flex';
+        document.getElementById('sink-custom-val').value='';
         document.getElementById('sink-custom-val').focus();
-        // mark chip active
-        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) => {
-            const active = pp.ms===null;
-            return `<button class="sink-chip ${active?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`;
-        }).join('');
+        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) =>
+            `<button class="sink-chip ${pp.ms===null?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`).join('');
     }
 }
 
 function applyCustomSink() {
-    const m = parseFloat(document.getElementById('sink-custom-val').value);
-    if (!m || m <= 0) { toast('请输入有效的分钟数'); return; }
-    customRowVisible = false;
-    sinkTime = Math.round(m * 60000);
-    saveSinkTime(); renderSettings();
-    toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
-    scheduleSinkCheck();
+    const m=parseFloat(document.getElementById('sink-custom-val').value);
+    if (!m||m<=0) { toast('请输入有效的分钟数'); return; }
+    customRowVisible=false; sinkTime=Math.round(m*60000); saveSinkTime(); renderSettings();
+    toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`); scheduleSinkCheck();
 }
 
 function resetAll() {
-    currentTheme = {...PRESETS[0].vars}; applyTheme(currentTheme); saveTheme();
-    sinkTime = DEFAULT_SINK; saveSinkTime();
-    renderSettings(); toast('已恢复默认');
+    if (!confirm('恢复默认将清除自定义主题，确定吗？')) return;
+    currentTheme={...PRESETS[0].vars}; applyTheme(currentTheme); saveTheme();
+    customThemes=[]; saveCustomThemes();
+    sinkTime=DEFAULT_SINK; saveSinkTime(); renderSettings(); toast('已恢复默认');
 }
 
 // ─────────────────────────────────────────
-// EXPORT
+// EXPORT / IMPORT
 // ─────────────────────────────────────────
 const SCOPES = [
-    { id: 'pool',    label: '灵感之海' },
-    { id: 'shelf',   label: '我的小船' },
-    { id: 'cabinet', label: '航海日记' },
-    { id: 'trash',   label: '沉默礁石' },
+    {id:'pool',label:'灵感之海'},{id:'shelf',label:'我的小船'},
+    {id:'cabinet',label:'航海日记'},{id:'trash',label:'沉默礁石'},
 ];
-// multi-select: Set of selected scope ids; empty = all
 let exportScopes = new Set();
 
 function renderExportScope() {
-    const allActive = exportScopes.size === 0;
-    let html = `<button class="scope-chip ${allActive ? 'active' : ''}" onclick="toggleExportScope('__all__')">全部</button>`;
-    html += SCOPES.map(s =>
-        `<button class="scope-chip ${exportScopes.has(s.id) ? 'active' : ''}" onclick="toggleExportScope('${s.id}')">${s.label}</button>`
-    ).join('');
+    const allActive = exportScopes.size===0;
+    let html = `<button class="scope-chip ${allActive?'active':''}" onclick="toggleExportScope('__all__')">全部</button>`;
+    html += SCOPES.map(s=>`<button class="scope-chip ${exportScopes.has(s.id)?'active':''}" onclick="toggleExportScope('${s.id}')">${s.label}</button>`).join('');
     document.getElementById('export-scope-row').innerHTML = html;
 }
-
 function toggleExportScope(id) {
-    if (id === '__all__') {
-        exportScopes.clear();
-    } else {
-        if (exportScopes.has(id)) {
-            exportScopes.delete(id);
-        } else {
-            exportScopes.add(id);
-        }
-    }
+    if (id==='__all__') exportScopes.clear(); else { exportScopes.has(id)?exportScopes.delete(id):exportScopes.add(id); }
     renderExportScope();
 }
-
-function getScopedItems() {
-    if (exportScopes.size === 0) return items;
-    return items.filter(i => exportScopes.has(i.state));
-}
+function getScopedItems() { return exportScopes.size===0 ? items : items.filter(i=>exportScopes.has(i.state)); }
 
 function download(filename, content, mime) {
-    const blob = new Blob([content], { type: mime });
-    const url  = URL.createObjectURL(blob);
-    const a    = document.createElement('a');
-    a.href = url; a.download = filename;
-    document.body.appendChild(a); a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:mime})); a.download=filename;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
-
 function exportJSON() {
-    const data = getScopedItems();
-    if (!data.length) { toast('没有可导出的数据'); return; }
-    const scopeLabel = exportScopes.size === 0 ? 'all' : [...exportScopes].join('+');
-    const out = { exportedAt: new Date().toISOString(), scope: scopeLabel, items: data };
-    const date = new Date().toISOString().slice(0,10);
-    download(`linggan-${date}.json`, JSON.stringify(out, null, 2), 'application/json');
-    toast('JSON 已下载');
-}
-
-function importJSON(input) {
-    const file = input.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = e => {
-        try {
-            const parsed = JSON.parse(e.target.result);
-            // support both raw array and our export envelope
-            const incoming = Array.isArray(parsed) ? parsed : (parsed.items || []);
-            if (!incoming.length) { toast('文件里没有找到数据'); return; }
-
-            // merge: skip items whose id already exists
-            const existingIds = new Set(items.map(i => i.id));
-            const newItems = incoming.filter(i => i.id && !existingIds.has(i.id));
-            const dupCount  = incoming.length - newItems.length;
-
-            items = [...items, ...newItems];
-            save();
-
-            if (dupCount > 0) {
-                toast(`已导入 ${newItems.length} 条，跳过 ${dupCount} 条重复`);
-            } else {
-                toast(`已导入 ${newItems.length} 条数据`);
-            }
-        } catch {
-            toast('文件格式有误，无法导入');
-        }
-        input.value = ''; // reset so same file can be re-selected
+    const data=getScopedItems();
+    const scopeLabel=exportScopes.size===0?'all':[...exportScopes].join('+');
+    // Always include longDiaries and customThemes in full backup
+    const includeAll=exportScopes.size===0;
+    const out={
+        exportedAt:new Date().toISOString(),
+        version:2,
+        scope:scopeLabel,
+        items:data,
+        longDiaries: includeAll ? longDiaries : undefined,
+        customThemes: includeAll ? customThemes : undefined,
     };
-    reader.readAsText(file);
+    if (!includeAll) { delete out.longDiaries; delete out.customThemes; }
+    if (!data.length && !out.longDiaries && !out.customThemes) { toast('没有可导出的数据'); return; }
+    download(`linggan-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(out,null,2),'application/json');
+    toast('完整备份已下载');
 }
 
+function exportThemes() {
+    if (!customThemes.length) { toast('还没有保存过自定义主题'); return; }
+    const out={exportedAt:new Date().toISOString(),type:'themes',customThemes};
+    download(`linggan-themes-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(out,null,2),'application/json');
+    toast('主题配置已下载');
+}
 function exportMarkdown() {
-    const data = getScopedItems();
-    if (!data.length) { toast('没有可导出的数据'); return; }
-    const date = new Date().toISOString().slice(0,10);
-    const sections = { pool:'灵感之海', shelf:'我的小船', cabinet:'航海日记', trash:'沉默礁石' };
+    const data=getScopedItems();
+    const hasLongDiary=Object.keys(longDiaries).length>0;
+    if (!data.length && !hasLongDiary) { toast('没有可导出的数据'); return; }
+    const sections={pool:'灵感之海',shelf:'我的小船',cabinet:'航海日记',trash:'沉默礁石'};
+    let md=`# 灵感之海 · 导出记录\n\n> 导出时间：${new Date().toLocaleString('zh-CN')}\n\n---\n\n`;
 
-    let md = `# 灵感之海 · 导出记录
-
-> 导出时间：${new Date().toLocaleString('zh-CN')}
-
----
-
-`;
-
-    // Group by state, cabinet by date
-    const grouped = {};
-    data.forEach(i => { if (!grouped[i.state]) grouped[i.state] = []; grouped[i.state].push(i); });
-
-    const order = ['cabinet','shelf','pool','trash'];
-    order.forEach(state => {
-        if (!grouped[state]) return;
-        md += `## ${sections[state]}
-
-`;
-
-        if (state === 'cabinet') {
-            // group by date
-            const byDate = {};
-            grouped[state].sort((a,b)=>b.completeTime-a.completeTime).forEach(i => {
-                const d = fmtDate(i.completeTime);
-                if (!byDate[d]) byDate[d] = [];
-                byDate[d].push(i);
+    // Cabinet: merge timeline entries + long diary by date
+    if (!data.length || exportScopes.size===0 || exportScopes.has('cabinet')) {
+        const cabinetItems=data.filter(i=>i.state==='cabinet');
+        // collect all dates that have either entries or long diary
+        const allDates=new Set([
+            ...cabinetItems.map(i=>{ const d=new Date(i.completeTime); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }),
+            ...Object.keys(longDiaries)
+        ]);
+        if (allDates.size>0) {
+            md+=`## 航海日记\n\n`;
+            const sortedDates=[...allDates].sort((a,b)=>b.localeCompare(a));
+            sortedDates.forEach(dateKey=>{
+                md+=`### ${keyToLabel(dateKey)}\n\n`;
+                // timeline entries for this date
+                const dayItems=cabinetItems.filter(i=>{ const d=new Date(i.completeTime); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return k===dateKey; });
+                if (dayItems.length) {
+                    dayItems.sort((a,b)=>a.completeTime-b.completeTime).forEach(i=>{ md+=`- ${fmtTime(i.completeTime)}  ${i.text}${i.source==='manual'?' _(写入)_':''}\n`; });
+                    md+='\n';
+                }
+                // long diary for this date
+                if (longDiaries[dateKey]) {
+                    md+=longDiaries[dateKey].split('\n').map(l=>l).join('\n')+'\n\n';
+                }
             });
-            Object.entries(byDate).forEach(([day, its]) => {
-                md += `### ${day}
-
-`;
-                its.forEach(i => { md += `- ${fmtTime(i.completeTime)}  ${i.text}
-`; });
-                md += `
-`;
-            });
-        } else {
-            grouped[state].forEach(i => { md += `- ${i.text}
-`; });
-            md += `
-`;
         }
+    }
+
+    ['shelf','pool','trash'].forEach(state=>{
+        if (exportScopes.size>0 && !exportScopes.has(state)) return;
+        const stateItems=data.filter(i=>i.state===state);
+        if (!stateItems.length) return;
+        md+=`## ${sections[state]}\n\n`;
+        stateItems.forEach(i=>{ md+=`- ${i.text}\n`; });
+        md+='\n';
     });
 
-    download(`linggan-${date}.md`, md, 'text/markdown');
+    download(`linggan-${new Date().toISOString().slice(0,10)}.md`, md, 'text/markdown');
     toast('Markdown 已下载');
+}
+function importJSON(input) {
+    const file=input.files[0]; if (!file) return;
+    const reader=new FileReader();
+    reader.onload=e=>{
+        try {
+            const parsed=JSON.parse(e.target.result);
+            const msgs=[];
+
+            // ── 主题文件 ──
+            if (parsed.type==='themes' && parsed.customThemes) {
+                const incoming=parsed.customThemes;
+                const existIds=new Set(customThemes.map(t=>t.id));
+                const newT=incoming.filter(t=>!existIds.has(t.id));
+                customThemes=[...customThemes,...newT];
+                saveCustomThemes(); renderSettings();
+                msgs.push(`导入 ${newT.length} 套主题`);
+                if (msgs.length) toast(msgs.join('，'));
+                input.value=''; return;
+            }
+
+            // ── 完整备份文件 ──
+            // Items
+            const incoming=Array.isArray(parsed)?parsed:(parsed.items||[]);
+            if (incoming.length) {
+                const existingIds=new Set(items.map(i=>i.id));
+                const newItems=incoming.filter(i=>i.id&&!existingIds.has(i.id));
+                const dup=incoming.length-newItems.length;
+                items=[...items,...newItems]; save();
+                msgs.push(dup>0?`${newItems.length} 条条目（跳过 ${dup} 重复）`:`${newItems.length} 条条目`);
+            }
+            // Long diaries
+            if (parsed.longDiaries && typeof parsed.longDiaries==='object') {
+                let ldNew=0;
+                Object.entries(parsed.longDiaries).forEach(([k,v])=>{ if(!longDiaries[k]){longDiaries[k]=v;ldNew++;} });
+                if (ldNew) { localStorage.setItem('vibe_long_diaries',JSON.stringify(longDiaries)); msgs.push(`${ldNew} 篇手记`); }
+            }
+            // Custom themes
+            if (parsed.customThemes && parsed.customThemes.length) {
+                const existIds=new Set(customThemes.map(t=>t.id));
+                const newT=parsed.customThemes.filter(t=>!existIds.has(t.id));
+                if (newT.length) { customThemes=[...customThemes,...newT]; saveCustomThemes(); msgs.push(`${newT.length} 套主题`); }
+            }
+            if (!msgs.length) { toast('没有找到可导入的新内容'); }
+            else { renderSettings(); toast('已导入：'+msgs.join('，')); }
+        } catch { toast('文件格式有误，无法导入'); }
+        input.value='';
+    };
+    reader.readAsText(file);
 }
 
 // ─────────────────────────────────────────
@@ -773,19 +865,161 @@ function closeSettings() { document.getElementById('settings-overlay').classList
 function maybeCloseSettings(e) { if (e.target===document.getElementById('settings-overlay')) closeSettings(); }
 
 let pressTimer = null;
-document.getElementById('bottom-nav').addEventListener('pointerdown', e => {
-    const item = e.target.closest('.nav-item');
-    if (!item) return;
-    pressTimer = setTimeout(() => {
-        pressTimer = null;
-        item.classList.add('pressing');
-        setTimeout(() => item.classList.remove('pressing'), 600);
-        openSettings();
-    }, 500);
+document.getElementById('bottom-nav').addEventListener('pointerdown', e=>{
+    const item=e.target.closest('.nav-item'); if (!item) return;
+    pressTimer=setTimeout(()=>{ pressTimer=null; item.classList.add('pressing'); setTimeout(()=>item.classList.remove('pressing'),600); openSettings(); },500);
 });
-['pointerup','pointerleave','pointermove'].forEach(ev =>
-    document.getElementById('bottom-nav').addEventListener(ev, () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer=null; } })
+['pointerup','pointerleave','pointermove'].forEach(ev=>
+    document.getElementById('bottom-nav').addEventListener(ev,()=>{ if(pressTimer){clearTimeout(pressTimer);pressTimer=null;} })
 );
+
+// ─────────────────────────────────────────
+// SHARED DATE STATE — drives both tabs
+// ─────────────────────────────────────────
+function todayKey() {
+    const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function keyToLabel(key) {
+    const today=todayKey(), yest=offsetKey(today,-1);
+    if (key===today) return '今天';
+    if (key===yest)  return '昨天';
+    const [,m,d]=key.split('-'); return `${parseInt(m)} 月 ${parseInt(d)} 日`;
+}
+function offsetKey(key, delta) {
+    const d=new Date(key+'T00:00:00'); d.setDate(d.getDate()+delta);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+// activeDate: the date both tabs are showing
+let activeDate = todayKey();
+
+function setActiveDate(key) {
+    if (key > todayKey()) return;  // never allow future
+    activeDate = key;
+    document.getElementById('diary-datebar-label').textContent = keyToLabel(key);
+    // show "今天" button hint only when not on today
+    document.getElementById('diary-datebar-hint').textContent = key===todayKey() ? '选择日期 ↓' : '今天 · 选择日期 ↓';
+    // Update both content areas
+    renderCabinetForDate(key);
+    ldLoad();
+}
+
+// ─────────────────────────────────────────
+// DIARY TAB SWITCHING
+// ─────────────────────────────────────────
+let currentDiaryTab = 'timeline';
+
+function switchDiaryTab(tab, el) {
+    currentDiaryTab = tab;
+    document.querySelectorAll('.diary-tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('timeline-view').classList.toggle('active', tab==='timeline');
+    document.getElementById('longdiary-view').classList.toggle('active', tab==='longdiary');
+    // hide the quick-add input row when not on today in timeline
+    const inputRow = document.getElementById('direct-input-row');
+    if (inputRow) inputRow.style.display = (tab==='timeline' && activeDate===todayKey()) ? 'flex' : 'none';
+    if (tab==='longdiary') ldLoad();
+}
+
+// ─────────────────────────────────────────
+// LONG DIARY (手记)
+// ─────────────────────────────────────────
+let longDiaries = JSON.parse(localStorage.getItem('vibe_long_diaries')) || {};
+let ldSaveTimer = null;
+
+function ldLoad() {
+    const ta=document.getElementById('ld-textarea');
+    if (!ta) return;
+    ta.value=longDiaries[activeDate]||'';
+    document.getElementById('ld-char-count').textContent=`${ta.value.length} 字`;
+    document.getElementById('ld-dot').classList.remove('unsaved');
+}
+
+document.getElementById('ld-textarea').addEventListener('input', ()=>{
+    const ta=document.getElementById('ld-textarea');
+    document.getElementById('ld-char-count').textContent=`${ta.value.length} 字`;
+    document.getElementById('ld-dot').classList.add('unsaved');
+    clearTimeout(ldSaveTimer);
+    ldSaveTimer=setTimeout(ldSave, 1500);
+});
+
+function ldSave() {
+    const text=document.getElementById('ld-textarea').value;
+    if (text.trim()) longDiaries[activeDate]=text; else delete longDiaries[activeDate];
+    localStorage.setItem('vibe_long_diaries', JSON.stringify(longDiaries));
+    document.getElementById('ld-dot').classList.remove('unsaved');
+}
+
+// ─────────────────────────────────────────
+// CALENDAR POPUP
+// ─────────────────────────────────────────
+let calYear, calMonth;
+(()=>{ const d=new Date(); calYear=d.getFullYear(); calMonth=d.getMonth(); })();
+
+function openCalendar() {
+    // Sync calendar display to activeDate's month
+    const [y,m]=activeDate.split('-');
+    calYear=parseInt(y); calMonth=parseInt(m)-1;
+    renderCalendar();
+    document.getElementById('cal-overlay').classList.add('open');
+}
+function closeCalendar() { document.getElementById('cal-overlay').classList.remove('open'); }
+function maybeCloseCalendar(e) { if (e.target===document.getElementById('cal-overlay')) closeCalendar(); }
+
+function calNavigate(delta) {
+    calMonth+=delta;
+    if (calMonth>11){calMonth=0;calYear++;}
+    if (calMonth<0){calMonth=11;calYear--;}
+    renderCalendar();
+}
+
+function renderCalendar() {
+    document.getElementById('cal-month-label').textContent=`${calYear} 年 ${calMonth+1} 月`;
+    const weekdays=['日','一','二','三','四','五','六'];
+    document.getElementById('cal-weekdays').innerHTML=weekdays.map(w=>`<div class="cal-weekday">${w}</div>`).join('');
+
+    const today=todayKey();
+    const entryDays=new Set(items.filter(i=>i.state==='cabinet'&&i.completeTime).map(i=>{
+        const d=new Date(i.completeTime);
+        return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    }));
+    Object.keys(longDiaries).forEach(k=>entryDays.add(k));
+
+    const firstDay=new Date(calYear,calMonth,1).getDay();
+    const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+    let html='';
+    for (let i=0;i<firstDay;i++) html+=`<div class="cal-day empty"></div>`;
+    for (let d=1;d<=daysInMonth;d++) {
+        const key=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const isToday=key===today;
+        const isFuture=key>today;
+        const hasEntry=entryDays.has(key);
+        const isSelected=key===activeDate;
+        html+=`<div class="cal-day ${isToday?'today':''} ${isFuture?'future':''} ${hasEntry?'has-entry':''} ${isSelected?'selected':''}" onclick="calSelectDay('${key}')">${d}</div>`;
+    }
+    document.getElementById('cal-days').innerHTML=html;
+}
+
+function calSelectDay(key) {
+    if (key > todayKey()) return;
+    closeCalendar();
+    setActiveDate(key);
+    // If timeline tab: scroll to that date group
+    if (currentDiaryTab==='timeline') {
+        setTimeout(()=>{
+            const anchors=document.querySelectorAll('.timeline-date-anchor');
+            for (const a of anchors) {
+                if (a.textContent.trim()===keyToLabel(key)) {
+                    a.scrollIntoView({behavior:'smooth', block:'start'});
+                    a.style.transition='color 0.3s';
+                    a.style.color='var(--ink)';
+                    setTimeout(()=>a.style.color='',900);
+                    break;
+                }
+            }
+        }, 80);
+    }
+}
 
 // ─────────────────────────────────────────
 // APP DATA
@@ -793,25 +1027,19 @@ document.getElementById('bottom-nav').addEventListener('pointerdown', e => {
 let items = JSON.parse(localStorage.getItem('vibe_app_data')) || [];
 
 function fmtDate(ts) {
-    const today = new Date(); today.setHours(0,0,0,0);
-    const yest  = new Date(today); yest.setDate(today.getDate()-1);
-    const d     = new Date(ts);    d.setHours(0,0,0,0);
+    const today=new Date(); today.setHours(0,0,0,0);
+    const yest=new Date(today); yest.setDate(today.getDate()-1);
+    const d=new Date(ts); d.setHours(0,0,0,0);
     if (d.getTime()===today.getTime()) return '今天';
     if (d.getTime()===yest.getTime())  return '昨天';
-    const o = new Date(ts);
-    return `${o.getMonth()+1} 月 ${o.getDate()} 日`;
+    const o=new Date(ts); return `${o.getMonth()+1} 月 ${o.getDate()} 日`;
 }
-function fmtTime(ts) {
-    const d=new Date(ts);
-    return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
-}
+function fmtTime(ts) { const d=new Date(ts); return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`; }
 
 function toast(msg) {
-    const el=document.getElementById('toast');
-    el.textContent=msg; el.classList.add('show');
-    setTimeout(()=>el.classList.remove('show'), 2200);
+    const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'),2200);
 }
-
 function save() { localStorage.setItem('vibe_app_data', JSON.stringify(items)); render(); }
 
 function switchTab(id, el) {
@@ -823,31 +1051,27 @@ function switchTab(id, el) {
 }
 
 function addIdea() {
-    const v=document.getElementById('ideaInput').value.trim();
-    if (!v) return;
-    items.push({id:Date.now(),text:v,state:'pool',time:Date.now(),completeTime:null});
+    const v=document.getElementById('ideaInput').value.trim(); if (!v) return;
+    items.push({id:Date.now(),text:v,state:'pool',time:Date.now(),completeTime:null,source:'pool'});
     document.getElementById('ideaInput').value='';
     toast('已入海'); save(); scheduleSinkCheck();
 }
-
 function directComplete() {
-    const v=document.getElementById('directInput').value.trim();
-    if (!v) return;
-    items.push({id:Date.now(),text:v,state:'cabinet',time:Date.now(),completeTime:Date.now()});
+    const v=document.getElementById('directInput').value.trim(); if (!v) return;
+    items.push({id:Date.now(),text:v,state:'cabinet',time:Date.now(),completeTime:Date.now(),source:'manual'});
     document.getElementById('directInput').value='';
     toast('已记入航海日记'); save();
 }
-
 function changeState(id, state) {
     const item=items.find(i=>i.id===id); if (!item) return;
     item.state=state;
     if (state==='pool') { item.time=Date.now(); scheduleSinkCheck(); }
-    if (state==='cabinet') item.completeTime=Date.now();
+    if (state==='cabinet') { item.completeTime=Date.now(); if(!item.source) item.source='pool'; }
     toast({shelf:'已上船',cabinet:'已靠岸，记入日记',pool:'已放回海中',trash:'搁浅在礁石上了'}[state]||'');
     save();
 }
-
 function deleteForever(id) { items=items.filter(i=>i.id!==id); toast('已从礁石上清除'); save(); }
+function deleteCabinetItem(id) { items=items.filter(i=>i.id!==id); toast('已删除'); save(); }
 
 function salvage() {
     const sunken=items.filter(i=>i.state==='pool'&&Date.now()-i.time>sinkTime);
@@ -856,10 +1080,74 @@ function salvage() {
     toast('从深海打捞上来了'); save(); scheduleSinkCheck();
 }
 
+// Cabinet inline edit
+function startEdit(id) {
+    const item=items.find(i=>i.id===id); if (!item) return;
+    const textEl=document.getElementById(`tl-text-${id}`);
+    const inputEl=document.getElementById(`tl-input-${id}`);
+    textEl.classList.add('editing');
+    inputEl.style.display='block';
+    inputEl.value=item.text;
+    inputEl.focus();
+    inputEl.select();
+}
+function commitEdit(id) {
+    const inputEl=document.getElementById(`tl-input-${id}`);
+    const val=inputEl.value.trim();
+    if (!val) { cancelEdit(id); return; }
+    const item=items.find(i=>i.id===id); if (!item) return;
+    item.text=val; save();
+}
+function cancelEdit(id) {
+    const textEl=document.getElementById(`tl-text-${id}`);
+    const inputEl=document.getElementById(`tl-input-${id}`);
+    textEl.classList.remove('editing');
+    inputEl.style.display='none';
+}
+
 function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
 // ─────────────────────────────────────────
-// RENDER — called only on state changes
+// RENDER CABINET (date-aware)
+// ─────────────────────────────────────────
+function renderCabinetForDate(dateKey) {
+    const cabinet=items.filter(i=>i.state==='cabinet').sort((a,b)=>b.completeTime-a.completeTime);
+    const inputRow=document.getElementById('direct-input-row');
+    if (inputRow) inputRow.style.display = (dateKey===todayKey()) ? 'flex' : 'none';
+
+    if (!cabinet.length) {
+        document.getElementById('cabinet-items').innerHTML=`<div class="empty">日记本还是空白的<br>每一次完成都值得记录</div>`;
+        return;
+    }
+    const groups=[]; const map={};
+    cabinet.forEach(i=>{ const k=fmtDate(i.completeTime); if(!map[k]){map[k]=[];groups.push({k,list:map[k]});} map[k].push(i); });
+    document.getElementById('cabinet-items').innerHTML=groups.map((g,gi)=>`
+        <div class="timeline-group">
+            <div class="timeline-date-anchor">${g.k}</div>
+            ${g.list.map((i,idx)=>`
+            <div class="timeline-item">
+                <div class="tl-time">${fmtTime(i.completeTime)}</div>
+                <div class="tl-dot-col">
+                    <div class="tl-dot ${i.source==='manual'?'manual':''}"></div>
+                    ${(idx<g.list.length-1||gi<groups.length-1)?'<div class="tl-line"></div>':''}
+                </div>
+                <div class="tl-body">
+                    <div class="tl-text" id="tl-text-${i.id}">${esc(i.text)}</div>
+                    <input class="tl-edit-input" id="tl-input-${i.id}" style="display:none;"
+                        onkeydown="if(event.key==='Enter')commitEdit(${i.id});if(event.key==='Escape')cancelEdit(${i.id});"
+                        onblur="commitEdit(${i.id})">
+                    ${i.source==='manual'?'<div class="tl-source">写入</div>':''}
+                </div>
+                <div class="tl-actions">
+                    <button class="act" onclick="startEdit(${i.id})">编辑</button>
+                    <button class="act del" onclick="deleteCabinetItem(${i.id})">删除</button>
+                </div>
+            </div>`).join('')}
+        </div>`).join('');
+}
+
+// ─────────────────────────────────────────
+// RENDER
 // ─────────────────────────────────────────
 function render() {
     const now=Date.now();
@@ -873,45 +1161,24 @@ function render() {
         ? floating.map(i=>`<div class="item"><div class="item-body"><div class="item-text">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'shelf')">上船</button><button class="act del" onclick="changeState(${i.id},'trash')">搁浅</button></div></div>`).join('')
         : `<div class="empty">海面平静如镜<br>扔个念头进来吧</div>`;
 
-    document.getElementById('pool-stats').innerHTML = sunken>0
-        ? `深海里沉着 ${sunken} 个念头<br>它们在等待被打捞的时刻` : '';
+    document.getElementById('pool-stats').innerHTML = sunken>0 ? `深海里沉着 ${sunken} 个念头<br>它们在等待被打捞的时刻` : '';
 
     document.getElementById('shelf-items').innerHTML = shelf.length
         ? shelf.map(i=>`<div class="item"><div class="item-body"><div class="item-text">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'cabinet')">靠岸</button><button class="act" onclick="changeState(${i.id},'pool')">放回</button><button class="act del" onclick="changeState(${i.id},'trash')">搁浅</button></div></div>`).join('')
         : `<div class="empty">船是空的<br>从海里捞一件事上来吧</div>`;
 
-    if (!cabinet.length) {
-        document.getElementById('cabinet-items').innerHTML=`<div class="empty">日记本还是空白的<br>每一次完成都值得记录</div>`;
-    } else {
-        const groups=[]; const map={};
-        cabinet.forEach(i=>{ const k=fmtDate(i.completeTime); if(!map[k]){map[k]=[];groups.push({k,list:map[k]});} map[k].push(i); });
-        document.getElementById('cabinet-items').innerHTML=groups.map((g,gi)=>`
-            <div class="timeline-group">
-                <div class="timeline-date">${g.k}</div>
-                ${g.list.map((i,idx)=>`
-                <div class="timeline-item">
-                    <div class="tl-time">${fmtTime(i.completeTime)}</div>
-                    <div class="tl-dot-col"><div class="tl-dot"></div>${(idx<g.list.length-1||gi<groups.length-1)?'<div class="tl-line"></div>':''}</div>
-                    <div class="tl-body"><div class="tl-text">${esc(i.text)}</div></div>
-                </div>`).join('')}
-            </div>`).join('');
-    }
+    // Cabinet timeline — always render all, calSelectDay scrolls to date
+    renderCabinetForDate(activeDate);
 
     document.getElementById('trash-items').innerHTML = trash.length
         ? trash.map(i=>`<div class="item"><div class="item-body"><div class="item-text struck">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'pool')">放回海里</button><button class="act del" onclick="deleteForever(${i.id})">清除</button></div></div>`).join('')
         : `<div class="empty">礁石上空无一物<br>这很好</div>`;
 }
 
-// ─────────────────────────────────────────
-// SERVICE WORKER
-// ─────────────────────────────────────────
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
-
 // ── Init ──
 applyTheme(currentTheme);
 render();
+setActiveDate(todayKey());
 scheduleSinkCheck();
 </script>
 </body>
