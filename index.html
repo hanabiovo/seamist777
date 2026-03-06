@@ -935,12 +935,10 @@ function offsetKey(key, delta) {
 let activeDate = todayKey();
 
 function setActiveDate(key) {
-    if (key > todayKey()) return;  // never allow future
+    if (key > todayKey()) return;
     activeDate = key;
-    document.getElementById('diary-datebar-label').textContent = keyToLabel(key);
-    // show "今天" button hint only when not on today
-    document.getElementById('diary-datebar-hint').textContent = key===todayKey() ? '选择日期 ↓' : '今天 · 选择日期 ↓';
-    // Update both content areas
+    const btn = document.getElementById('diary-datebar-label');
+    if (btn) btn.textContent = keyToLabel(key);
     renderCabinetForDate(key);
     ldLoad();
 }
@@ -956,9 +954,9 @@ function switchDiaryTab(tab, el) {
     el.classList.add('active');
     document.getElementById('timeline-view').classList.toggle('active', tab==='timeline');
     document.getElementById('longdiary-view').classList.toggle('active', tab==='longdiary');
-    // hide the quick-add input row when not on today in timeline
+    // 输入框在灵感 tab 下始终显示（历史日期也支持补写）
     const inputRow = document.getElementById('direct-input-row');
-    if (inputRow) inputRow.style.display = (tab==='timeline' && activeDate===todayKey()) ? 'flex' : 'none';
+    if (inputRow) inputRow.style.display = tab==='timeline' ? 'flex' : 'none';
     if (tab==='longdiary') ldLoad();
 }
 
@@ -1045,21 +1043,11 @@ function calSelectDay(key) {
     if (key > todayKey()) return;
     closeCalendar();
     setActiveDate(key);
-    // If timeline tab: scroll to that date group
-    if (currentDiaryTab==='timeline') {
-        setTimeout(()=>{
-            const anchors=document.querySelectorAll('.timeline-date-anchor');
-            for (const a of anchors) {
-                if (a.textContent.trim()===keyToLabel(key)) {
-                    a.scrollIntoView({behavior:'smooth', block:'start'});
-                    a.style.transition='color 0.3s';
-                    a.style.color='var(--ink)';
-                    setTimeout(()=>a.style.color='',900);
-                    break;
-                }
-            }
-        }, 80);
-    }
+    // 单日视图，切换后滚到顶部即可
+    setTimeout(()=>{
+        const view=document.getElementById('view-cabinet');
+        if (view) view.scrollTop=0;
+    }, 60);
 }
 
 // ─────────────────────────────────────────
@@ -1099,7 +1087,12 @@ function addIdea() {
 }
 function directComplete() {
     const v=document.getElementById('directInput').value.trim(); if (!v) return;
-    items.push({id:Date.now(),text:v,state:'cabinet',time:Date.now(),completeTime:Date.now(),source:'manual'});
+    // 用 activeDate 对应当天中午12点作为 completeTime，保证归属日期正确
+    const [y,mo,d]=activeDate.split('-');
+    const ts = new Date(parseInt(y),parseInt(mo)-1,parseInt(d),12,0,0).getTime();
+    // 如果是今天则用实际时间
+    const completeTime = activeDate===todayKey() ? Date.now() : ts;
+    items.push({id:Date.now(),text:v,state:'cabinet',time:completeTime,completeTime,source:'manual'});
     document.getElementById('directInput').value='';
     toast('已记入航海日记'); save();
 }
@@ -1134,10 +1127,18 @@ function startEdit(id) {
 }
 function commitEdit(id) {
     const inputEl=document.getElementById(`tl-input-${id}`);
+    if (!inputEl) return;
     const val=inputEl.value.trim();
     if (!val) { cancelEdit(id); return; }
     const item=items.find(i=>i.id===id); if (!item) return;
-    item.text=val; save();
+    if (item.text===val) { cancelEdit(id); return; } // 内容没变，直接取消
+    item.text=val;
+    // 保持归属日期不变，只把时间更新到当前
+    const orig=new Date(item.completeTime);
+    const now=new Date();
+    orig.setHours(now.getHours(), now.getMinutes(), now.getSeconds());
+    item.completeTime=orig.getTime();
+    save();
 }
 function cancelEdit(id) {
     const textEl=document.getElementById(`tl-text-${id}`);
@@ -1151,39 +1152,44 @@ function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 // ─────────────────────────────────────────
 // RENDER CABINET (date-aware)
 // ─────────────────────────────────────────
-function renderCabinetForDate(dateKey) {
-    const cabinet=items.filter(i=>i.state==='cabinet').sort((a,b)=>b.completeTime-a.completeTime);
-    const inputRow=document.getElementById('direct-input-row');
-    if (inputRow) inputRow.style.display = (dateKey===todayKey()) ? 'flex' : 'none';
+function itemDateKey(i) {
+    const d=new Date(i.completeTime);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
 
-    if (!cabinet.length) {
-        document.getElementById('cabinet-items').innerHTML=`<div class="empty">日记本还是空白的<br>每一次完成都值得记录</div>`;
+function renderCabinetForDate(dateKey) {
+    // 输入框始终显示（历史日期补写用）
+    const inputRow=document.getElementById('direct-input-row');
+    if (inputRow) inputRow.style.display='flex';
+
+    // 只渲染当天的条目
+    const dayItems=items.filter(i=>i.state==='cabinet' && itemDateKey(i)===dateKey)
+                        .sort((a,b)=>a.completeTime-b.completeTime);
+
+    if (!dayItems.length) {
+        const isToday=dateKey===todayKey();
+        document.getElementById('cabinet-items').innerHTML=
+            `<div class="empty">${isToday?'今天还没有记录<br>完成了什么就写在这里':'这一天没有留下记录'}</div>`;
         return;
     }
-    const groups=[]; const map={};
-    cabinet.forEach(i=>{ const k=fmtDate(i.completeTime); if(!map[k]){map[k]=[];groups.push({k,list:map[k]});} map[k].push(i); });
-    document.getElementById('cabinet-items').innerHTML=groups.map((g,gi)=>`
-        <div class="timeline-group">
-            <div class="timeline-date-anchor">${g.k}</div>
-            ${g.list.map((i,idx)=>`
-            <div class="timeline-item">
-                <div class="tl-time">${fmtTime(i.completeTime)}</div>
-                <div class="tl-dot-col">
-                    <div class="tl-dot ${i.source==='manual'?'manual':''}"></div>
-                    ${(idx<g.list.length-1||gi<groups.length-1)?'<div class="tl-line"></div>':''}
-                </div>
-                <div class="tl-body">
-                    <div class="tl-text" id="tl-text-${i.id}">${esc(i.text)}</div>
-                    <input class="tl-edit-input" id="tl-input-${i.id}" style="display:none;"
-                        onkeydown="if(event.key==='Enter')commitEdit(${i.id});if(event.key==='Escape')cancelEdit(${i.id});"
-                        onblur="commitEdit(${i.id})">
-                    ${i.source==='manual'?'<div class="tl-source">写入</div>':''}
-                </div>
-                <div class="tl-actions">
-                    <button class="act" onclick="startEdit(${i.id})">编辑</button>
-                    <button class="act del" onclick="deleteCabinetItem(${i.id})">删除</button>
-                </div>
-            </div>`).join('')}
+    document.getElementById('cabinet-items').innerHTML=dayItems.map((i,idx)=>`
+        <div class="timeline-item">
+            <div class="tl-time">${fmtTime(i.completeTime)}</div>
+            <div class="tl-dot-col">
+                <div class="tl-dot ${i.source==='manual'?'manual':''}"></div>
+                ${idx<dayItems.length-1?'<div class="tl-line"></div>':''}
+            </div>
+            <div class="tl-body">
+                <div class="tl-text" id="tl-text-${i.id}">${esc(i.text)}</div>
+                <input class="tl-edit-input" id="tl-input-${i.id}" style="display:none;"
+                    onkeydown="if(event.key==='Enter')commitEdit(${i.id});if(event.key==='Escape')cancelEdit(${i.id});"
+                    onblur="commitEdit(${i.id})">
+                ${i.source==='manual'?'<div class="tl-source">写入</div>':''}
+            </div>
+            <div class="tl-actions">
+                <button class="act" onclick="startEdit(${i.id})">编辑</button>
+                <button class="act del" onclick="deleteCabinetItem(${i.id})">删除</button>
+            </div>
         </div>`).join('');
 }
 
