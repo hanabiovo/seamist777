@@ -450,6 +450,22 @@
             </div>
         </div>
 
+        <div class="divider"></div>
+
+        <div class="panel-section">导入数据</div>
+        <div class="export-rows">
+            <div class="export-row">
+                <div class="export-info">
+                    <div class="export-label">从 JSON 恢复</div>
+                    <div class="export-desc">从备份文件还原，将与现有数据合并</div>
+                </div>
+                <label class="export-btn" style="cursor:pointer;">
+                    选择文件
+                    <input type="file" accept=".json" style="display:none;" onchange="importJSON(this)">
+                </label>
+            </div>
+        </div>
+
         <div class="reset-row">
             <button class="reset-btn" onclick="resetAll()">恢复全部默认</button>
         </div>
@@ -607,27 +623,39 @@ function resetAll() {
 // EXPORT
 // ─────────────────────────────────────────
 const SCOPES = [
-    { id: 'all',     label: '全部' },
     { id: 'pool',    label: '灵感之海' },
     { id: 'shelf',   label: '我的小船' },
     { id: 'cabinet', label: '航海日记' },
     { id: 'trash',   label: '沉默礁石' },
 ];
-let exportScope = 'all';
+// multi-select: Set of selected scope ids; empty = all
+let exportScopes = new Set();
 
 function renderExportScope() {
-    document.getElementById('export-scope-row').innerHTML = SCOPES.map(s =>
-        `<button class="scope-chip ${exportScope===s.id?'active':''}" onclick="setExportScope('${s.id}')">${s.label}</button>`
+    const allActive = exportScopes.size === 0;
+    let html = `<button class="scope-chip ${allActive ? 'active' : ''}" onclick="toggleExportScope('__all__')">全部</button>`;
+    html += SCOPES.map(s =>
+        `<button class="scope-chip ${exportScopes.has(s.id) ? 'active' : ''}" onclick="toggleExportScope('${s.id}')">${s.label}</button>`
     ).join('');
+    document.getElementById('export-scope-row').innerHTML = html;
 }
 
-function setExportScope(id) {
-    exportScope = id;
+function toggleExportScope(id) {
+    if (id === '__all__') {
+        exportScopes.clear();
+    } else {
+        if (exportScopes.has(id)) {
+            exportScopes.delete(id);
+        } else {
+            exportScopes.add(id);
+        }
+    }
     renderExportScope();
 }
 
 function getScopedItems() {
-    return exportScope === 'all' ? items : items.filter(i => i.state === exportScope);
+    if (exportScopes.size === 0) return items;
+    return items.filter(i => exportScopes.has(i.state));
 }
 
 function download(filename, content, mime) {
@@ -643,10 +671,43 @@ function download(filename, content, mime) {
 function exportJSON() {
     const data = getScopedItems();
     if (!data.length) { toast('没有可导出的数据'); return; }
-    const out = { exportedAt: new Date().toISOString(), scope: exportScope, items: data };
+    const scopeLabel = exportScopes.size === 0 ? 'all' : [...exportScopes].join('+');
+    const out = { exportedAt: new Date().toISOString(), scope: scopeLabel, items: data };
     const date = new Date().toISOString().slice(0,10);
     download(`linggan-${date}.json`, JSON.stringify(out, null, 2), 'application/json');
     toast('JSON 已下载');
+}
+
+function importJSON(input) {
+    const file = input.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+        try {
+            const parsed = JSON.parse(e.target.result);
+            // support both raw array and our export envelope
+            const incoming = Array.isArray(parsed) ? parsed : (parsed.items || []);
+            if (!incoming.length) { toast('文件里没有找到数据'); return; }
+
+            // merge: skip items whose id already exists
+            const existingIds = new Set(items.map(i => i.id));
+            const newItems = incoming.filter(i => i.id && !existingIds.has(i.id));
+            const dupCount  = incoming.length - newItems.length;
+
+            items = [...items, ...newItems];
+            save();
+
+            if (dupCount > 0) {
+                toast(`已导入 ${newItems.length} 条，跳过 ${dupCount} 条重复`);
+            } else {
+                toast(`已导入 ${newItems.length} 条数据`);
+            }
+        } catch {
+            toast('文件格式有误，无法导入');
+        }
+        input.value = ''; // reset so same file can be re-selected
+    };
+    reader.readAsText(file);
 }
 
 function exportMarkdown() {
