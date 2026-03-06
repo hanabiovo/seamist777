@@ -245,44 +245,11 @@
         .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; padding:6px 0; }
         .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:'Noto Serif SC',serif; padding:6px 20px; border-radius:20px; letter-spacing:0.06em; transition:all 0.18s; }
         .name-save:hover { background:var(--ink); color:var(--bg); }
-
-        /* ── 启动屏 ── */
-        #splash {
-            position:fixed; inset:0; background:var(--bg);
-            display:flex; align-items:center; justify-content:center;
-            z-index:9000; transition:opacity 0.6s ease, transform 0.6s ease;
-            pointer-events:none;
-        }
-        #splash.hide { opacity:0; transform:scale(1.04); }
-        #splash.gone { display:none; }
-        #splash-inner { text-align:center; }
-        #splash-title {
-            font-family:'Noto Serif SC',serif; font-size:2.2rem; font-weight:600;
-            letter-spacing:0.08em; color:var(--ink);
-            opacity:0; transform:translateY(10px);
-            animation:splashIn 0.9s cubic-bezier(0.22,1,0.36,1) 0.2s forwards;
-        }
-        #splash-sub {
-            font-size:0.75rem; font-weight:200; letter-spacing:0.14em;
-            color:var(--ink-faint); margin-top:12px;
-            opacity:0;
-            animation:splashIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.55s forwards;
-        }
-        @keyframes splashIn {
-            from { opacity:0; transform:translateY(10px); }
             to   { opacity:1; transform:translateY(0); }
         }
     </style>
 </head>
 <body>
-
-<!-- ── 启动屏 ── -->
-<div id="splash">
-    <div id="splash-inner">
-        <div id="splash-title">灵感之海</div>
-        <div id="splash-sub">所有念头都值得入海</div>
-    </div>
-</div>
 
 <div id="app-container">
 
@@ -1255,19 +1222,7 @@ render();
 setActiveDate(todayKey());
 scheduleSinkCheck();
 
-// 启动屏：最多 1.4s，保底强制退出
-(function() {
-    const splash = document.getElementById('splash');
-    let done = false;
-    function hideSplash() {
-        if (done) return; done = true;
-        splash.classList.add('hide');
-        setTimeout(() => splash.classList.add('gone'), 650);
-    }
-    setTimeout(hideSplash, 1400);
-    // 字体就绪可提前退出，但最少显示 600ms
-    try { document.fonts.ready.then(() => setTimeout(hideSplash, 600)); } catch(e) {}
-})();
+
 </script>
 </body>
 </html>
