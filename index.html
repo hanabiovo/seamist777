@@ -245,8 +245,7 @@
         .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; padding:6px 0; }
         .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:'Noto Serif SC',serif; padding:6px 20px; border-radius:20px; letter-spacing:0.06em; transition:all 0.18s; }
         .name-save:hover { background:var(--ink); color:var(--bg); }
-            to   { opacity:1; transform:translateY(0); }
-        }
+           
 
         /* ── 启动屏 ── */
         /* 启动屏颜色全部写死，不依赖 CSS 变量或 JS */
@@ -596,6 +595,12 @@
 
 <div class="toast" id="toast"></div>
 
+<div id="splash">
+  <div id="splash-inner">
+    <div id="splash-title">灵感之海</div>
+    <div id="splash-sub">所有念头都值得入海</div>
+  </div>
+</div>
 <script>
 'use strict';
 
@@ -1652,12 +1657,6 @@ function showNotice(type) {
 })();
 
 </script>
-<!-- 启动屏：必须是 body 直接子元素，fixed 定位才能覆盖全屏 -->
-<div id="splash">
-  <div id="splash-inner">
-    <div id="splash-title">灵感之海</div>
-    <div id="splash-sub">所有念头都值得入海</div>
-  </div>
-</div>
+
 </body>
 </html>
