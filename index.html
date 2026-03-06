@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="灵感之海">
+    <meta name="theme-color" id="theme-color-meta" content="#f7f5f0">
+    <title>灵感之海</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600&family=Noto+Sans+SC:wght@200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f7f5f0;
+            --ink: #1a1a18;
+            --ink-mid: #6b6960;
+            --ink-faint: #b8b5ae;
+            --ink-ghost: #dedad4;
+            --rule: #e8e5de;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg); color: var(--ink);
+            display: flex; justify-content: center;
+            height: 100vh; height: 100dvh;
+            overflow: hidden;
+            transition: background 0.4s, color 0.4s;
+        }
+
+        #app-container {
+            width: 100%; max-width: 480px; height: 100%;
+            display: flex; flex-direction: column; position: relative;
+        }
+
+        /* ── Views ── */
+        .view {
+            flex: 1; overflow-y: auto;
+            padding: 56px 32px 96px;
+            display: none; scrollbar-width: none;
+        }
+        .view::-webkit-scrollbar { display: none; }
+        .view.active { display: block; animation: viewIn 0.4s cubic-bezier(0.22,1,0.36,1); }
+        @keyframes viewIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .view-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem; font-weight: 600;
+            letter-spacing: 0.05em; color: var(--ink); margin-bottom: 5px;
+        }
+        .view-sub {
+            font-size: 0.76rem; font-weight: 200;
+            color: var(--ink-faint); letter-spacing: 0.08em;
+            margin-bottom: 36px; line-height: 1.7;
+        }
+
+        /* ── Input ── */
+        .input-row {
+            display: flex; align-items: center;
+            border-bottom: 1.5px solid var(--ink);
+            margin-bottom: 44px; padding-bottom: 12px;
+        }
+        .input-row input {
+            flex: 1; border: none; background: transparent; outline: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 0.95rem; font-weight: 300;
+            color: var(--ink); letter-spacing: 0.02em;
+        }
+        .input-row input::placeholder { color: var(--ink-ghost); }
+        .input-row button {
+            border: none; background: transparent; cursor: pointer;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.82rem; font-weight: 400;
+            color: var(--ink-mid); letter-spacing: 0.08em;
+            padding: 0 0 0 16px; transition: color 0.2s; white-space: nowrap;
+        }
+        .input-row button:hover { color: var(--ink); }
+
+        /* ── Section label ── */
+        .section-row {
+            display: flex; justify-content: space-between;
+            align-items: baseline; margin-bottom: 18px;
+        }
+        .section-tag {
+            font-size: 0.65rem; font-weight: 400;
+            letter-spacing: 0.16em; color: var(--ink-faint); text-transform: uppercase;
+        }
+        .text-btn {
+            font-size: 0.75rem; font-weight: 300; color: var(--ink-faint);
+            cursor: pointer; letter-spacing: 0.04em;
+            border: none; background: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            transition: color 0.2s; padding: 0;
+        }
+        .text-btn:hover { color: var(--ink); }
+
+        /* ── List items ── */
+        .item {
+            display: flex; align-items: baseline;
+            justify-content: space-between; gap: 16px;
+            padding: 15px 0; border-bottom: 1px solid var(--rule);
+            animation: itemIn 0.3s cubic-bezier(0.22,1,0.36,1);
+        }
+        @keyframes itemIn {
+            from { opacity: 0; transform: translateX(-6px); }
+            to   { opacity: 1; transform: translateX(0); }
+        }
+        .item-body { flex: 1; }
+        .item-text {
+            font-size: 0.93rem; font-weight: 300;
+            line-height: 1.6; letter-spacing: 0.02em; color: var(--ink);
+        }
+        .item-text.struck { text-decoration: line-through; color: var(--ink-faint); }
+        .item-actions { display: flex; gap: 16px; flex-shrink: 0; }
+        .act {
+            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint);
+            cursor: pointer; letter-spacing: 0.04em;
+            border: none; background: none;
+            font-family: 'Noto Sans SC', sans-serif;
+            padding: 0; transition: color 0.15s; white-space: nowrap;
+        }
+        .act:hover { color: var(--ink); }
+        .act.del:hover { color: #a0291f; }
+
+        #pool-stats {
+            margin-top: 28px; font-size: 0.72rem; font-weight: 200;
+            color: var(--ink-faint); letter-spacing: 0.06em; line-height: 1.9;
+        }
+        .empty {
+            padding: 44px 0 0; font-size: 0.82rem; font-weight: 200;
+            color: var(--ink-ghost); letter-spacing: 0.06em; line-height: 2.4;
+        }
+
+        /* ── 航海日记：时间轴 ── */
+        .timeline-group { margin-bottom: 28px; }
+        .timeline-date {
+            font-size: 0.65rem; font-weight: 400; letter-spacing: 0.14em;
+            color: var(--ink-faint); text-transform: uppercase;
+            padding-bottom: 10px; border-bottom: 1px solid var(--rule);
+            margin-bottom: 0;
+        }
+        .timeline-item {
+            display: flex; gap: 16px;
+            padding: 14px 0; border-bottom: 1px solid var(--rule);
+            animation: itemIn 0.3s cubic-bezier(0.22,1,0.36,1);
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .tl-time {
+            font-size: 0.67rem; font-weight: 200; color: var(--ink-faint);
+            letter-spacing: 0.03em; white-space: nowrap;
+            padding-top: 4px; min-width: 40px; text-align: right;
+        }
+        .tl-dot-col {
+            display: flex; flex-direction: column;
+            align-items: center; padding-top: 7px; width: 10px; flex-shrink: 0;
+        }
+        .tl-dot {
+            width: 5px; height: 5px; border-radius: 50%;
+            background: var(--ink-faint); flex-shrink: 0;
+        }
+        .tl-line {
+            width: 1px; flex: 1; background: var(--rule); margin-top: 5px; min-height: 16px;
+        }
+        .tl-body { flex: 1; }
+        .tl-text {
+            font-size: 0.93rem; font-weight: 300;
+            line-height: 1.6; letter-spacing: 0.02em; color: var(--ink);
+        }
+
+        /* ── Bottom nav ── */
+        #bottom-nav {
+            position: absolute; bottom: 0; width: 100%; height: 66px;
+            display: flex; align-items: stretch;
+            background: var(--bg); border-top: 1px solid var(--rule); z-index: 100;
+            transition: background 0.4s, border-color 0.4s;
+            user-select: none; -webkit-user-select: none;
+        }
+        .nav-item {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0.25; transition: opacity 0.2s; gap: 4px;
+        }
+        .nav-item.active { opacity: 1; }
+        .nav-ch {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.05rem; font-weight: 600; line-height: 1;
+        }
+        .nav-label { font-size: 0.56rem; font-weight: 200; letter-spacing: 0.08em; color: var(--ink-mid); }
+        @keyframes pressRing {
+            0%   { box-shadow: 0 0 0 0 rgba(0,0,0,0.12); }
+            100% { box-shadow: 0 0 0 14px rgba(0,0,0,0); }
+        }
+        .nav-item.pressing { animation: pressRing 0.6s ease-out; }
+
+        /* ── Toast ── */
+        .toast {
+            position: fixed; bottom: 86px; left: 50%;
+            transform: translateX(-50%) translateY(12px);
+            background: var(--ink); color: var(--bg);
+            padding: 8px 22px; border-radius: 2px;
+            font-size: 0.75rem; font-weight: 300; letter-spacing: 0.1em;
+            z-index: 9999; opacity: 0;
+            transition: all 0.3s cubic-bezier(0.22,1,0.36,1);
+            white-space: nowrap; pointer-events: none;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        /* ══════════════════════════════
+           SETTINGS PANEL
+        ══════════════════════════════ */
+        #settings-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0);
+            z-index: 500; pointer-events: none; transition: background 0.35s;
+        }
+        #settings-overlay.open { background: rgba(0,0,0,0.22); pointer-events: all; }
+        #settings-panel {
+            position: absolute; bottom: 0; left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            width: 100%; max-width: 480px;
+            background: var(--bg); border-top: 1px solid var(--rule);
+            border-radius: 20px 20px 0 0; padding: 0 0 48px;
+            transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.4s;
+            z-index: 501; max-height: 88vh; overflow-y: auto; scrollbar-width: none;
+        }
+        #settings-panel::-webkit-scrollbar { display: none; }
+        #settings-overlay.open #settings-panel { transform: translateX(-50%) translateY(0); }
+
+        .panel-handle {
+            width: 36px; height: 4px; background: var(--ink-ghost);
+            border-radius: 2px; margin: 14px auto 26px;
+        }
+        .panel-title {
+            font-family: 'Noto Serif SC', serif; font-size: 1rem; font-weight: 600;
+            letter-spacing: 0.06em; color: var(--ink); padding: 0 28px; margin-bottom: 22px;
+        }
+        .panel-section {
+            font-size: 0.63rem; font-weight: 400; letter-spacing: 0.16em;
+            color: var(--ink-faint); text-transform: uppercase;
+            padding: 0 28px; margin-bottom: 14px;
+        }
+        .preset-row {
+            display: flex; gap: 12px; padding: 0 28px; margin-bottom: 28px;
+            overflow-x: auto; scrollbar-width: none;
+        }
+        .preset-row::-webkit-scrollbar { display: none; }
+        .preset-chip { display: flex; flex-direction: column; align-items: center; gap: 7px; cursor: pointer; flex-shrink: 0; }
+        .preset-swatch {
+            width: 42px; height: 42px; border-radius: 50%;
+            border: 2px solid transparent;
+            transition: border-color 0.2s, transform 0.15s; position: relative; overflow: hidden;
+        }
+        .preset-chip.active .preset-swatch { border-color: var(--ink); transform: scale(1.1); }
+        .preset-chip-label { font-size: 0.58rem; font-weight: 300; letter-spacing: 0.08em; color: var(--ink-faint); }
+
+        .color-rows { padding: 0 28px; margin-bottom: 24px; }
+        .color-row {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 12px 0; border-bottom: 1px solid var(--rule);
+        }
+        .color-row:last-child { border-bottom: none; }
+        .color-row-label { font-size: 0.82rem; font-weight: 300; color: var(--ink); letter-spacing: 0.02em; }
+        .color-row-right { display: flex; align-items: center; gap: 10px; }
+        .color-hex { font-size: 0.68rem; font-weight: 200; color: var(--ink-faint); letter-spacing: 0.04em; font-family: monospace; }
+        .color-dot-btn {
+            width: 26px; height: 26px; border-radius: 50%;
+            border: 1.5px solid var(--rule); cursor: pointer;
+            position: relative; overflow: hidden; transition: transform 0.15s;
+        }
+        .color-dot-btn:hover { transform: scale(1.12); }
+        .color-dot-btn input[type="color"] {
+            position: absolute; inset: -4px;
+            width: calc(100% + 8px); height: calc(100% + 8px);
+            opacity: 0; cursor: pointer; border: none; padding: 0;
+        }
+
+        .divider { height: 1px; background: var(--rule); margin: 4px 28px 22px; }
+
+        .sink-rows { padding: 0 28px; margin-bottom: 8px; }
+        .sink-option-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+        .sink-chip {
+            font-size: 0.76rem; font-weight: 300; letter-spacing: 0.04em; color: var(--ink-mid);
+            padding: 6px 14px; border: 1px solid var(--rule); border-radius: 20px;
+            cursor: pointer; background: transparent; font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
+        }
+        .sink-chip:hover { border-color: var(--ink-faint); color: var(--ink); }
+        .sink-chip.active { border-color: var(--ink); color: var(--ink); font-weight: 400; }
+        .sink-custom-row { display: flex; align-items: center; gap: 10px; margin-top: 4px; }
+        .sink-custom-row input[type="number"] {
+            width: 72px; border: none; border-bottom: 1.5px solid var(--rule);
+            background: transparent; outline: none;
+            font-family: 'Noto Sans SC', sans-serif; font-size: 0.88rem; font-weight: 300;
+            color: var(--ink); padding: 4px 0; text-align: center; transition: border-color 0.2s;
+        }
+        .sink-custom-row input[type="number"]:focus { border-bottom-color: var(--ink); }
+        .sink-custom-row input[type="number"]::-webkit-inner-spin-button,
+        .sink-custom-row input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+        .sink-custom-label { font-size: 0.78rem; font-weight: 200; color: var(--ink-faint); letter-spacing: 0.04em; }
+        .sink-apply-btn {
+            font-size: 0.75rem; font-weight: 300; color: var(--ink-faint);
+            padding: 5px 12px; border: 1px solid var(--rule); border-radius: 20px;
+            cursor: pointer; background: transparent; font-family: 'Noto Sans SC', sans-serif; transition: all 0.18s;
+        }
+        .sink-apply-btn:hover { border-color: var(--ink); color: var(--ink); }
+
+        .reset-row { padding: 16px 28px 0; text-align: right; }
+        .reset-btn {
+            font-size: 0.72rem; font-weight: 300; color: var(--ink-faint); letter-spacing: 0.04em;
+            border: none; background: none; cursor: pointer;
+            font-family: 'Noto Sans SC', sans-serif; transition: color 0.2s; padding: 0;
+        }
+        .reset-btn:hover { color: var(--ink); }
+    </style>
+</head>
+<body>
+<div id="app-container">
+
+    <div id="view-pool" class="view active">
+        <div class="view-title">灵感之海</div>
+        <div class="view-sub">所有念头都值得入海<br>它们会在水里等待被发现的时刻</div>
+        <div class="input-row">
+            <input type="text" id="ideaInput" placeholder="此刻飘来一个念头…" onkeydown="if(event.key==='Enter')addIdea()">
+            <button onclick="addIdea()">入海</button>
+        </div>
+        <div class="section-row">
+            <span class="section-tag">水面之上</span>
+            <button class="text-btn" onclick="salvage()">随机打捞</button>
+        </div>
+        <div id="pool-surface"></div>
+        <div id="pool-stats"></div>
+    </div>
+
+    <div id="view-shelf" class="view">
+        <div class="view-title">我的小船</div>
+        <div class="view-sub">从海里捞上来，放在船上<br>专注一件，做完再说</div>
+        <div class="section-row"><span class="section-tag">船上的货</span></div>
+        <div id="shelf-items"></div>
+    </div>
+
+    <div id="view-cabinet" class="view">
+        <div class="view-title">航海日记</div>
+        <div class="view-sub">每一次靠岸都值得记录<br>这是你真正走过的航程</div>
+        <div class="input-row">
+            <input type="text" id="directInput" placeholder="今天完成了什么…" onkeydown="if(event.key==='Enter')directComplete()">
+            <button onclick="directComplete()">记录</button>
+        </div>
+        <div class="section-row"><span class="section-tag">航程记录</span></div>
+        <div id="cabinet-items"></div>
+    </div>
+
+    <div id="view-trash" class="view">
+        <div class="view-title">沉默礁石</div>
+        <div class="view-sub">搁浅在这里的念头<br>也许某天潮水会把它们带回来</div>
+        <div class="section-row"><span class="section-tag">礁石上的</span></div>
+        <div id="trash-items"></div>
+    </div>
+
+    <div id="bottom-nav">
+        <div class="nav-item active" onclick="switchTab('pool',this)">
+            <span class="nav-ch">海</span><span class="nav-label">灵感之海</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('shelf',this)">
+            <span class="nav-ch">船</span><span class="nav-label">我的小船</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('cabinet',this)">
+            <span class="nav-ch">记</span><span class="nav-label">航海日记</span>
+        </div>
+        <div class="nav-item" onclick="switchTab('trash',this)">
+            <span class="nav-ch">礁</span><span class="nav-label">沉默礁石</span>
+        </div>
+    </div>
+</div>
+
+<div id="settings-overlay" onclick="maybeCloseSettings(event)">
+    <div id="settings-panel">
+        <div class="panel-handle"></div>
+        <div class="panel-title">外观与设置</div>
+
+        <div class="panel-section">主题</div>
+        <div class="preset-row" id="preset-row"></div>
+
+        <div class="panel-section">自定义颜色</div>
+        <div class="color-rows" id="color-rows"></div>
+
+        <div class="divider"></div>
+
+        <div class="panel-section">念头沉入海底的时间</div>
+        <div class="sink-rows">
+            <div class="sink-option-row" id="sink-chips"></div>
+            <div class="sink-custom-row" id="sink-custom-row" style="display:none;">
+                <input type="number" id="sink-custom-val" min="0.1" step="0.5" placeholder="—">
+                <span class="sink-custom-label">小时后沉入海底</span>
+                <button class="sink-apply-btn" onclick="applyCustomSink()">确定</button>
+            </div>
+        </div>
+
+        <div class="reset-row">
+            <button class="reset-btn" onclick="resetAll()">恢复全部默认</button>
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ─────────────────────────────────────────
+// SINK TIME — smart scheduler, no polling
+// ─────────────────────────────────────────
+const DEFAULT_SINK = 3600000;
+let sinkTime = parseInt(localStorage.getItem('vibe_sink_time')) || DEFAULT_SINK;
+let sinkTimer = null;
+
+function scheduleSinkCheck() {
+    if (sinkTimer) clearTimeout(sinkTimer);
+    const now = Date.now();
+    // Find the soonest item that will sink
+    const upcoming = items
+        .filter(i => i.state === 'pool' && (now - i.time) < sinkTime)
+        .map(i => sinkTime - (now - i.time))
+        .filter(ms => ms > 0);
+    if (!upcoming.length) return;
+    const next = Math.min(...upcoming);
+    sinkTimer = setTimeout(() => { render(); scheduleSinkCheck(); }, next + 50);
+}
+
+function saveSinkTime() { localStorage.setItem('vibe_sink_time', sinkTime); }
+function formatSinkTime(ms) {
+    const h = ms / 3600000;
+    if (h < 1) return `${Math.round(ms/60000)} 分钟`;
+    if (Number.isInteger(h)) return `${h} 小时`;
+    return `${h.toFixed(1)} 小时`;
+}
+
+// ─────────────────────────────────────────
+// THEME
+// ─────────────────────────────────────────
+const PRESETS = [
+    { id:'paper', label:'纸本', vars:{'--bg':'#f7f5f0','--ink':'#1a1a18','--ink-mid':'#6b6960','--ink-faint':'#b8b5ae','--ink-ghost':'#dedad4','--rule':'#e8e5de'} },
+    { id:'night', label:'夜墨', vars:{'--bg':'#141414','--ink':'#e8e4dc','--ink-mid':'#888480','--ink-faint':'#555250','--ink-ghost':'#2e2c2a','--rule':'#282624'} },
+    { id:'sage',  label:'苔绿', vars:{'--bg':'#f0f2ed','--ink':'#2a3028','--ink-mid':'#6a7468','--ink-faint':'#adb5a8','--ink-ghost':'#d8ddd4','--rule':'#dce0d8'} },
+    { id:'dusk',  label:'暮色', vars:{'--bg':'#1c1824','--ink':'#e2dce8','--ink-mid':'#8a8298','--ink-faint':'#4a4458','--ink-ghost':'#282434','--rule':'#2e2a3a'} },
+    { id:'warm',  label:'暖沙', vars:{'--bg':'#fdf6ee','--ink':'#3a2e22','--ink-mid':'#8a7060','--ink-faint':'#c4b09a','--ink-ghost':'#e8ddd0','--rule':'#ede3d8'} },
+];
+const COLOR_LABELS = {'--bg':'背景','--ink':'正文','--ink-mid':'次要文字','--ink-faint':'淡化文字','--ink-ghost':'极淡文字','--rule':'分割线'};
+let currentTheme = JSON.parse(localStorage.getItem('vibe_theme')) || {...PRESETS[0].vars};
+
+function applyTheme(vars) {
+    const root = document.documentElement;
+    Object.entries(vars).forEach(([k,v]) => root.style.setProperty(k,v));
+    // keep theme-color meta in sync (uses --bg)
+    const bg = vars['--bg'] || currentTheme['--bg'];
+    document.getElementById('theme-color-meta').content = bg;
+}
+function saveTheme() { localStorage.setItem('vibe_theme', JSON.stringify(currentTheme)); }
+function detectActivePreset() {
+    return PRESETS.find(p => Object.entries(p.vars).every(([k,v]) => currentTheme[k]===v))?.id || null;
+}
+function applyPreset(p) { currentTheme={...p.vars}; applyTheme(currentTheme); saveTheme(); renderSettings(); }
+function setCustomColor(varName, value) { currentTheme[varName]=value; applyTheme(currentTheme); saveTheme(); renderSettings(); }
+
+// ─────────────────────────────────────────
+// SETTINGS UI
+// ─────────────────────────────────────────
+const SINK_PRESETS = [
+    {label:'1 小时', ms:3600000},
+    {label:'12 小时', ms:43200000},
+    {label:'24 小时', ms:86400000},
+    {label:'自定义', ms:null},
+];
+
+function renderSettings() {
+    const activeId = detectActivePreset();
+    document.getElementById('preset-row').innerHTML = PRESETS.map(p => {
+        const b=p.vars['--bg'], k=p.vars['--ink'], r=p.vars['--rule'];
+        const svg=`<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
+        return `<div class="preset-chip ${p.id===activeId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${svg}</div><span class="preset-chip-label">${p.label}</span></div>`;
+    }).join('');
+
+    document.getElementById('color-rows').innerHTML = Object.entries(COLOR_LABELS).map(([k,label]) => {
+        const val=currentTheme[k]||'#ffffff', id='hex_'+k.replace(/-/g,'_');
+        return `<div class="color-row"><span class="color-row-label">${label}</span><div class="color-row-right"><span class="color-hex" id="${id}">${val}</span><div class="color-dot-btn" style="background:${val};"><input type="color" value="${val}" oninput="setCustomColor('${k}',this.value);document.getElementById('${id}').textContent=this.value;this.parentElement.style.background=this.value;"></div></div></div>`;
+    }).join('');
+
+    const isCustom = !SINK_PRESETS.slice(0,3).some(p => p.ms===sinkTime);
+    document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((p,i) => {
+        const active = p.ms===null ? isCustom : p.ms===sinkTime;
+        return `<button class="sink-chip ${active?'active':''}" onclick="selectSinkChip(${i})">${p.label}</button>`;
+    }).join('');
+    const customRow = document.getElementById('sink-custom-row');
+    customRow.style.display = isCustom ? 'flex' : 'none';
+    if (isCustom) document.getElementById('sink-custom-val').value = Math.round(sinkTime/3600000*10)/10;
+}
+
+function selectSinkChip(idx) {
+    const p = SINK_PRESETS[idx];
+    if (p.ms !== null) {
+        sinkTime = p.ms; saveSinkTime();
+        document.getElementById('sink-custom-row').style.display = 'none';
+        toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
+        scheduleSinkCheck();
+    } else {
+        document.getElementById('sink-custom-row').style.display = 'flex';
+        document.getElementById('sink-custom-val').focus();
+    }
+    renderSettings();
+}
+
+function applyCustomSink() {
+    const h = parseFloat(document.getElementById('sink-custom-val').value);
+    if (!h || h <= 0) { toast('请输入有效的小时数'); return; }
+    sinkTime = Math.round(h * 3600000);
+    saveSinkTime(); renderSettings();
+    toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
+    scheduleSinkCheck();
+}
+
+function resetAll() {
+    currentTheme = {...PRESETS[0].vars}; applyTheme(currentTheme); saveTheme();
+    sinkTime = DEFAULT_SINK; saveSinkTime();
+    renderSettings(); toast('已恢复默认');
+}
+
+// ─────────────────────────────────────────
+// SETTINGS OPEN / CLOSE
+// ─────────────────────────────────────────
+let settingsOpen = false;
+function openSettings() { renderSettings(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
+function closeSettings() { document.getElementById('settings-overlay').classList.remove('open'); settingsOpen=false; }
+function maybeCloseSettings(e) { if (e.target===document.getElementById('settings-overlay')) closeSettings(); }
+
+let pressTimer = null;
+document.getElementById('bottom-nav').addEventListener('pointerdown', e => {
+    const item = e.target.closest('.nav-item');
+    if (!item) return;
+    pressTimer = setTimeout(() => {
+        pressTimer = null;
+        item.classList.add('pressing');
+        setTimeout(() => item.classList.remove('pressing'), 600);
+        openSettings();
+    }, 500);
+});
+['pointerup','pointerleave','pointermove'].forEach(ev =>
+    document.getElementById('bottom-nav').addEventListener(ev, () => { if (pressTimer) { clearTimeout(pressTimer); pressTimer=null; } })
+);
+
+// ─────────────────────────────────────────
+// APP DATA
+// ─────────────────────────────────────────
+let items = JSON.parse(localStorage.getItem('vibe_app_data')) || [];
+
+function fmtDate(ts) {
+    const today = new Date(); today.setHours(0,0,0,0);
+    const yest  = new Date(today); yest.setDate(today.getDate()-1);
+    const d     = new Date(ts);    d.setHours(0,0,0,0);
+    if (d.getTime()===today.getTime()) return '今天';
+    if (d.getTime()===yest.getTime())  return '昨天';
+    const o = new Date(ts);
+    return `${o.getMonth()+1} 月 ${o.getDate()} 日`;
+}
+function fmtTime(ts) {
+    const d=new Date(ts);
+    return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
+}
+
+function toast(msg) {
+    const el=document.getElementById('toast');
+    el.textContent=msg; el.classList.add('show');
+    setTimeout(()=>el.classList.remove('show'), 2200);
+}
+
+function save() { localStorage.setItem('vibe_app_data', JSON.stringify(items)); render(); }
+
+function switchTab(id, el) {
+    if (settingsOpen) return;
+    document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+    document.getElementById('view-'+id).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function addIdea() {
+    const v=document.getElementById('ideaInput').value.trim();
+    if (!v) return;
+    items.push({id:Date.now(),text:v,state:'pool',time:Date.now(),completeTime:null});
+    document.getElementById('ideaInput').value='';
+    toast('已入海'); save(); scheduleSinkCheck();
+}
+
+function directComplete() {
+    const v=document.getElementById('directInput').value.trim();
+    if (!v) return;
+    items.push({id:Date.now(),text:v,state:'cabinet',time:Date.now(),completeTime:Date.now()});
+    document.getElementById('directInput').value='';
+    toast('已记入航海日记'); save();
+}
+
+function changeState(id, state) {
+    const item=items.find(i=>i.id===id); if (!item) return;
+    item.state=state;
+    if (state==='pool') { item.time=Date.now(); scheduleSinkCheck(); }
+    if (state==='cabinet') item.completeTime=Date.now();
+    toast({shelf:'已上船',cabinet:'已靠岸，记入日记',pool:'已放回海中',trash:'搁浅在礁石上了'}[state]||'');
+    save();
+}
+
+function deleteForever(id) { items=items.filter(i=>i.id!==id); toast('已从礁石上清除'); save(); }
+
+function salvage() {
+    const sunken=items.filter(i=>i.state==='pool'&&Date.now()-i.time>sinkTime);
+    if (!sunken.length) { toast('深海空无一物'); return; }
+    sunken[Math.floor(Math.random()*sunken.length)].time=Date.now();
+    toast('从深海打捞上来了'); save(); scheduleSinkCheck();
+}
+
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ─────────────────────────────────────────
+// RENDER — called only on state changes
+// ─────────────────────────────────────────
+function render() {
+    const now=Date.now();
+    const floating=items.filter(i=>i.state==='pool'&&now-i.time<=sinkTime);
+    const sunken  =items.filter(i=>i.state==='pool'&&now-i.time>sinkTime).length;
+    const shelf   =items.filter(i=>i.state==='shelf');
+    const cabinet =items.filter(i=>i.state==='cabinet').sort((a,b)=>b.completeTime-a.completeTime);
+    const trash   =items.filter(i=>i.state==='trash');
+
+    document.getElementById('pool-surface').innerHTML = floating.length
+        ? floating.map(i=>`<div class="item"><div class="item-body"><div class="item-text">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'shelf')">上船</button><button class="act del" onclick="changeState(${i.id},'trash')">搁浅</button></div></div>`).join('')
+        : `<div class="empty">海面平静如镜<br>扔个念头进来吧</div>`;
+
+    document.getElementById('pool-stats').innerHTML = sunken>0
+        ? `深海里沉着 ${sunken} 个念头<br>它们在等待被打捞的时刻` : '';
+
+    document.getElementById('shelf-items').innerHTML = shelf.length
+        ? shelf.map(i=>`<div class="item"><div class="item-body"><div class="item-text">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'cabinet')">靠岸</button><button class="act" onclick="changeState(${i.id},'pool')">放回</button><button class="act del" onclick="changeState(${i.id},'trash')">搁浅</button></div></div>`).join('')
+        : `<div class="empty">船是空的<br>从海里捞一件事上来吧</div>`;
+
+    if (!cabinet.length) {
+        document.getElementById('cabinet-items').innerHTML=`<div class="empty">日记本还是空白的<br>每一次完成都值得记录</div>`;
+    } else {
+        const groups=[]; const map={};
+        cabinet.forEach(i=>{ const k=fmtDate(i.completeTime); if(!map[k]){map[k]=[];groups.push({k,list:map[k]});} map[k].push(i); });
+        document.getElementById('cabinet-items').innerHTML=groups.map((g,gi)=>`
+            <div class="timeline-group">
+                <div class="timeline-date">${g.k}</div>
+                ${g.list.map((i,idx)=>`
+                <div class="timeline-item">
+                    <div class="tl-time">${fmtTime(i.completeTime)}</div>
+                    <div class="tl-dot-col"><div class="tl-dot"></div>${(idx<g.list.length-1||gi<groups.length-1)?'<div class="tl-line"></div>':''}</div>
+                    <div class="tl-body"><div class="tl-text">${esc(i.text)}</div></div>
+                </div>`).join('')}
+            </div>`).join('');
+    }
+
+    document.getElementById('trash-items').innerHTML = trash.length
+        ? trash.map(i=>`<div class="item"><div class="item-body"><div class="item-text struck">${esc(i.text)}</div></div><div class="item-actions"><button class="act" onclick="changeState(${i.id},'pool')">放回海里</button><button class="act del" onclick="deleteForever(${i.id})">清除</button></div></div>`).join('')
+        : `<div class="empty">礁石上空无一物<br>这很好</div>`;
+}
+
+// ─────────────────────────────────────────
+// SERVICE WORKER
+// ─────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+}
+
+// ── Init ──
+applyTheme(currentTheme);
+render();
+scheduleSinkCheck();
+</script>
+</body>
+</html>
