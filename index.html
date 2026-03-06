@@ -640,7 +640,7 @@ function showUpdateBanner() {
 
 if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').then(reg => {
-        // If there's already a waiting SW on load, show banner
+        // 发现等待中的新版本 SW，显示更新横幅
         if (reg.waiting) { waitingSW = reg.waiting; showUpdateBanner(); }
         reg.addEventListener('updatefound', () => {
             const newSW = reg.installing;
@@ -652,6 +652,7 @@ if ('serviceWorker' in navigator) {
             });
         });
     }).catch(() => {});
+    
     // 只有在非初次安装（即已经有 controller）的更新接管时，才刷新页面
     let isFirstInstall = !navigator.serviceWorker.controller;
     let refreshing = false;
@@ -660,6 +661,7 @@ if ('serviceWorker' in navigator) {
         refreshing = true;
         location.reload();
     });
+}
 
 // ─────────────────────────────────────────
 // SINK TIME
