@@ -15,10 +15,13 @@
         :root {
             --bg: #f7f5f0; --ink: #1a1a18; --ink-mid: #6b6960;
             --ink-faint: #b8b5ae; --ink-ghost: #dedad4; --rule: #e8e5de;
+            --font-ui:    'Noto Sans SC', sans-serif;
+            --font-body:  'Noto Sans SC', sans-serif;
+            --font-title: 'Noto Serif SC', serif;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Noto Sans SC', sans-serif;
+            font-family: var(--font-ui);
             background: var(--bg); color: var(--ink);
             display: flex; justify-content: center;
             height: 100vh; height: 100dvh; overflow: hidden;
@@ -32,30 +35,30 @@
         .view.active { display: block; animation: viewIn 0.45s cubic-bezier(0.22,1,0.36,1); }
         @keyframes viewIn { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
 
-        .view-title { font-family:'Noto Serif SC',serif; font-size:1.8rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:5px; }
+        .view-title { font-family:var(--font-title); font-size:1.8rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:5px; }
         .view-sub { font-size:0.76rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.08em; margin-bottom:36px; line-height:1.7; }
 
         /* ── Input ── */
         .input-row { display:flex; align-items:center; border-bottom:1.5px solid var(--ink); margin-bottom:44px; padding-bottom:12px; }
-        .input-row input { flex:1; border:none; background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.95rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .input-row input { flex:1; border:none; background:transparent; outline:none; font-family:var(--font-body); font-size:0.95rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
         .input-row input::placeholder { color:var(--ink-ghost); }
-        .input-row button { border:none; background:transparent; cursor:pointer; font-family:'Noto Serif SC',serif; font-size:0.82rem; font-weight:400; color:var(--ink-mid); letter-spacing:0.08em; padding:0 0 0 16px; transition:color 0.2s; white-space:nowrap; }
+        .input-row button { border:none; background:transparent; cursor:pointer; font-family:var(--font-ui); font-size:0.82rem; font-weight:400; color:var(--ink-mid); letter-spacing:0.08em; padding:0 0 0 16px; transition:color 0.2s; white-space:nowrap; }
         .input-row button:hover { color:var(--ink); }
 
         /* ── Section row ── */
         .section-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; }
         .section-tag { font-size:0.65rem; font-weight:400; letter-spacing:0.16em; color:var(--ink-faint); text-transform:uppercase; }
-        .text-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:'Noto Sans SC',sans-serif; transition:color 0.2s; padding:0; }
+        .text-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:var(--font-ui); transition:color 0.2s; padding:0; }
         .text-btn:hover { color:var(--ink); }
 
         /* ── List items ── */
         .item { display:flex; align-items:baseline; justify-content:space-between; gap:16px; padding:15px 0; border-bottom:1px solid var(--rule); animation:itemIn 0.3s cubic-bezier(0.22,1,0.36,1); }
         @keyframes itemIn { from { opacity:0; transform:translateX(-8px); } to { opacity:1; transform:translateX(0); } }
         .item-body { flex:1; }
-        .item-text { font-size:0.93rem; font-weight:300; line-height:1.6; letter-spacing:0.02em; color:var(--ink); }
+        .item-text { font-size:0.93rem; font-weight:300; line-height:1.6; letter-spacing:0.02em; color:var(--ink); font-family:var(--font-body); }
         .item-text.struck { text-decoration:line-through; color:var(--ink-faint); }
         .item-actions { display:flex; gap:16px; flex-shrink:0; }
-        .act { font-size:0.72rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:'Noto Sans SC',sans-serif; padding:0; transition:color 0.15s; white-space:nowrap; }
+        .act { font-size:0.72rem; font-weight:300; color:var(--ink-faint); cursor:pointer; letter-spacing:0.04em; border:none; background:none; font-family:var(--font-ui); padding:0; transition:color 0.15s; white-space:nowrap; }
         .act:hover { color:var(--ink); }
         .act.del:hover { color:#a0291f; }
 
@@ -64,14 +67,14 @@
 
         /* ── 航海日记 Tab switcher ── */
         .diary-tabs { display:flex; gap:0; margin-bottom:0; border-bottom:1px solid var(--rule); }
-        .diary-tab { font-size:0.78rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); padding:0 0 10px; margin-right:24px; cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-family:'Noto Sans SC',sans-serif; }
+        .diary-tab { font-size:0.78rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); padding:0 0 10px; margin-right:24px; cursor:pointer; border-bottom:1.5px solid transparent; margin-bottom:-1px; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-family:var(--font-ui); }
         .diary-tab.active { color:var(--ink); border-bottom-color:var(--ink); }
 
         /* ── 日期按钮（右上角方块）── */
         .diary-title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
         .diary-cal-btn {
             flex-shrink:0; margin-top:6px;
-            font-family:'Noto Serif SC',serif; font-size:0.72rem; font-weight:600;
+            font-family:var(--font-title); font-size:0.72rem; font-weight:600;
             letter-spacing:0.06em; color:var(--ink-mid);
             background:transparent; border:1px solid var(--rule);
             border-radius:6px; padding:6px 12px; cursor:pointer;
@@ -86,8 +89,8 @@
         #cal-overlay.open #cal-popup { transform:translateX(-50%) translateY(0); }
         .cal-popup-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 20px; }
         .cal-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-        .cal-month { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; }
-        .cal-nav { font-size:0.8rem; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:'Noto Sans SC',sans-serif; padding:4px 8px; transition:color 0.2s; }
+        .cal-month { font-family:var(--font-title); font-size:0.95rem; font-weight:600; letter-spacing:0.06em; }
+        .cal-nav { font-size:0.8rem; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:var(--font-ui); padding:4px 8px; transition:color 0.2s; }
         .cal-nav:hover { color:var(--ink); }
         .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; margin-bottom:6px; }
         .cal-weekday { font-size:0.6rem; font-weight:400; letter-spacing:0.08em; color:var(--ink-faint); text-align:center; padding:4px 0; }
@@ -116,7 +119,7 @@
         .tl-body { flex:1; min-width:0; }
         .tl-text { font-size:0.93rem; font-weight:300; line-height:1.6; letter-spacing:0.02em; color:var(--ink); }
         .tl-text.editing { display:none; }
-        .tl-edit-input { width:100%; border:none; border-bottom:1px solid var(--ink-faint); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.93rem; font-weight:300; color:var(--ink); padding:2px 0 4px; letter-spacing:0.02em; line-height:1.6; }
+        .tl-edit-input { width:100%; border:none; border-bottom:1px solid var(--ink-faint); background:transparent; outline:none; font-family:var(--font-body); font-size:0.93rem; font-weight:300; color:var(--ink); padding:2px 0 4px; letter-spacing:0.02em; line-height:1.6; }
         .tl-source { font-size:0.62rem; font-weight:200; color:var(--ink-ghost); letter-spacing:0.06em; margin-top:3px; }
         .tl-actions { display:flex; gap:12px; flex-shrink:0; padding-top:4px; }
 
@@ -125,14 +128,14 @@
         #longdiary-view.active { display:block; }
         .ld-textarea {
             width:100%; min-height:320px; border:none; background:transparent; outline:none;
-            font-family:'Noto Sans SC',sans-serif; font-size:0.93rem; font-weight:300;
+            font-family:var(--font-body); font-size:0.93rem; font-weight:300);
             color:var(--ink); line-height:1.9; letter-spacing:0.02em; resize:none;
             caret-color:var(--ink);
         }
         .ld-textarea::placeholder { color:var(--ink-ghost); }
         .ld-footer { margin-top:20px; display:flex; justify-content:space-between; align-items:center; }
         .ld-char-count { font-size:0.68rem; font-weight:200; color:var(--ink-ghost); letter-spacing:0.04em; }
-        .ld-save-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:'Noto Serif SC',serif; letter-spacing:0.08em; transition:color 0.2s; padding:0; }
+        .ld-save-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; border:none; background:none; font-family:var(--font-ui); letter-spacing:0.08em; transition:color 0.2s; padding:0; }
         .ld-save-btn:hover { color:var(--ink); }
         .ld-dot { width:5px; height:5px; border-radius:50%; background:var(--ink-ghost); display:inline-block; margin-left:6px; vertical-align:middle; transition:background 0.2s; }
         .ld-dot.unsaved { background:var(--ink-faint); }
@@ -141,7 +144,7 @@
         #bottom-nav { position:absolute; bottom:0; width:100%; height:calc(66px + env(safe-area-inset-bottom)); padding-bottom:env(safe-area-inset-bottom); display:flex; align-items:stretch; background:var(--bg); border-top:1px solid var(--rule); z-index:100; transition:background 0.5s ease, border-color 0.5s ease; user-select:none; -webkit-user-select:none; }
         .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; opacity:0.25; transition:opacity 0.2s; gap:4px; }
         .nav-item.active { opacity:1; }
-        .nav-ch { font-family:'Noto Serif SC',serif; font-size:1.05rem; font-weight:600; line-height:1; }
+        .nav-ch { font-family:var(--font-title); font-size:1.05rem; font-weight:600; line-height:1; }
         .nav-label { font-size:0.56rem; font-weight:200; letter-spacing:0.08em; color:var(--ink-mid); }
         @keyframes pressRing { 0% { box-shadow:0 0 0 0 rgba(0,0,0,0.12); } 100% { box-shadow:0 0 0 14px rgba(0,0,0,0); } }
         .nav-item.pressing { animation:pressRing 0.6s ease-out; }
@@ -154,208 +157,263 @@
         #update-banner { position:fixed; top:0; left:50%; transform:translateX(-50%) translateY(-100%); width:100%; max-width:480px; background:var(--ink); color:var(--bg); padding:12px 24px; display:flex; align-items:center; justify-content:space-between; z-index:8000; transition:transform 0.4s cubic-bezier(0.22,1,0.36,1); }
         #update-banner.show { transform:translateX(-50%) translateY(0); }
         .update-msg { font-size:0.8rem; font-weight:300; letter-spacing:0.04em; }
-        .update-btn { font-size:0.78rem; font-weight:400; letter-spacing:0.06em; cursor:pointer; border:1px solid rgba(255,255,255,0.4); background:transparent; color:var(--bg); font-family:'Noto Serif SC',serif; padding:4px 14px; border-radius:2px; }
+        .update-btn { font-size:0.78rem; font-weight:400; letter-spacing:0.06em; cursor:pointer; border:1px solid rgba(255,255,255,0.4); background:transparent; color:var(--bg); font-family:var(--font-ui); padding:4px 14px; border-radius:2px; }
 
-        /* ══════════════════════════
+        /* ══════════════════════════════════════
            SETTINGS
-        ══════════════════════════ */
-        #settings-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:500; pointer-events:none; transition:background 0.35s; }
+        ══════════════════════════════════════ */
+        #settings-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:500; pointer-events:none; transition:background 0.35s; display:flex; align-items:flex-end; justify-content:center; }
         #settings-overlay.open { background:rgba(0,0,0,0.22); pointer-events:all; }
-        #settings-panel { position:absolute; bottom:0; left:50%; transform:translateX(-50%) translateY(100%); width:100%; max-width:480px; background:var(--bg); border-top:1px solid var(--rule); border-radius:20px 20px 0 0; padding:0 0 48px; transition:transform 0.45s cubic-bezier(0.22,1,0.36,1), background 0.5s ease; z-index:501; max-height:88vh; overflow-y:auto; scrollbar-width:none; }
-        #settings-panel::-webkit-scrollbar { display:none; }
-        #settings-overlay.open #settings-panel { transform:translateX(-50%) translateY(0); }
-        .panel-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 26px; }
-        .panel-title { font-family:'Noto Serif SC',serif; font-size:1rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); padding:0 28px; margin-bottom:22px; }
-        .panel-section { font-size:0.63rem; font-weight:400; letter-spacing:0.16em; color:var(--ink-faint); text-transform:uppercase; padding:0 28px; margin-bottom:14px; }
-        .preset-row { display:flex; gap:12px; padding:0 28px; margin-bottom:28px; overflow-x:auto; scrollbar-width:none; }
-        .preset-row::-webkit-scrollbar { display:none; }
-        .preset-chip { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; flex-shrink:0; }
-        .preset-swatch { width:42px; height:42px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s, transform 0.15s; position:relative; overflow:hidden; }
-        .preset-chip.active .preset-swatch { border-color:var(--ink); transform:scale(1.1); }
-        .preset-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.08em; color:var(--ink-faint); }
-        .color-rows { padding:0 28px; margin-bottom:24px; }
-        .color-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--rule); }
-        .color-row:last-child { border-bottom:none; }
-        .color-row-label { font-size:0.82rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
-        .color-row-right { display:flex; align-items:center; gap:10px; }
-        .color-hex { font-size:0.68rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; font-family:monospace; }
-        .color-dot-btn { width:26px; height:26px; border-radius:50%; border:1.5px solid var(--rule); cursor:pointer; position:relative; overflow:hidden; transition:transform 0.15s; }
-        .color-dot-btn:hover { transform:scale(1.12); }
-        .color-dot-btn input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; border:none; padding:0; }
-        .divider { height:1px; background:var(--rule); margin:4px 28px 22px; }
-        .sink-rows { padding:0 28px; margin-bottom:8px; }
-        .sink-option-row { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
-        .sink-chip { font-size:0.76rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
-        .sink-chip:hover { border-color:var(--ink-faint); color:var(--ink); }
-        .sink-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
-        .sink-custom-row { display:flex; align-items:center; gap:10px; margin-top:4px; }
-        .sink-custom-row input[type="number"] { width:72px; border:none; border-bottom:1.5px solid var(--rule); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.88rem; font-weight:300; color:var(--ink); padding:4px 0; text-align:center; transition:border-color 0.2s; }
-        .sink-custom-row input[type="number"]:focus { border-bottom-color:var(--ink); }
-        .sink-custom-row input[type="number"]::-webkit-inner-spin-button, .sink-custom-row input[type="number"]::-webkit-outer-spin-button { -webkit-appearance:none; }
-        .sink-custom-label { font-size:0.78rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; }
-        .sink-apply-btn { font-size:0.75rem; font-weight:300; color:var(--ink-faint); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
-        .sink-apply-btn:hover { border-color:var(--ink); color:var(--ink); }
-        .export-scope-row { display:flex; gap:8px; flex-wrap:wrap; padding:2px 28px 14px; }
-        .scope-chip { font-size:0.72rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
-        .scope-chip:hover { border-color:var(--ink-faint); color:var(--ink); }
-        .scope-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
-        .export-rows { padding:0 28px; margin-bottom:8px; }
-        .export-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--rule); }
-        .export-row:last-child { border-bottom:none; }
-        .export-info { flex:1; }
-        .export-label { font-size:0.85rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
-        .export-desc { font-size:0.68rem; font-weight:200; color:var(--ink-faint); margin-top:3px; letter-spacing:0.03em; }
-        .export-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); padding:5px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; white-space:nowrap; }
-        .export-btn:hover { border-color:var(--ink); color:var(--ink); }
-        .reset-row { padding:16px 28px 0; text-align:right; }
-        .reset-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); letter-spacing:0.04em; border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; transition:color 0.2s; padding:0; }
-        .reset-btn:hover { color:var(--ink); }
-        .update-row { padding:0 28px 0; }
-        .update-check-btn { font-size:0.78rem; font-weight:300; color:var(--ink-faint); padding:6px 16px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
-        .update-check-btn:hover { border-color:var(--ink); color:var(--ink); }
-
-        /* ── 主题生成器 ── */
-        .gen-tone-row { display:flex; gap:8px; padding:0 28px 16px; flex-wrap:wrap; }
-        .gen-tone-btn { font-size:0.74rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; }
-        .gen-tone-btn:hover { border-color:var(--ink-faint); color:var(--ink); }
-        .gen-tone-btn.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
-        .gen-actions-row { display:flex; gap:10px; padding:0 28px 20px; align-items:center; flex-wrap:wrap; }
-        .gen-btn { font-size:0.74rem; font-weight:300; color:var(--ink-faint); padding:6px 16px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:'Noto Sans SC',sans-serif; transition:all 0.18s; white-space:nowrap; }
-        .gen-btn:hover { border-color:var(--ink); color:var(--ink); }
-        .gen-btn.primary { border-color:var(--ink-faint); color:var(--ink); }
-        .gen-preview { display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-top:2px; }
-        .gen-swatch { width:18px; height:18px; border-radius:50%; border:1px solid var(--rule); flex-shrink:0; }
-        /* 合并主题行 */
-        .all-themes-row { display:flex; gap:14px; padding:0 28px 24px; overflow-x:auto; scrollbar-width:none; flex-wrap:nowrap; }
+        #settings-panel { width:100%; max-width:480px; background:var(--bg); border-top:1px solid var(--rule); border-radius:20px 20px 0 0; transform:translateY(100%); transition:transform 0.45s cubic-bezier(0.22,1,0.36,1), background 0.5s ease; z-index:501; max-height:90vh; display:flex; flex-direction:column; }
+        #settings-overlay.open #settings-panel { transform:translateY(0); }
+        .panel-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 0; flex-shrink:0; }
+        .stab-bar { display:flex; padding:16px 24px 0; flex-shrink:0; border-bottom:1px solid var(--rule); }
+        .stab { flex:1; font-family:var(--font-ui); font-size:0.78rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); padding:0 0 11px; border:none; border-bottom:1.5px solid transparent; margin-bottom:-1px; cursor:pointer; background:none; transition:all 0.2s; }
+        .stab.active { color:var(--ink); border-bottom-color:var(--ink); font-weight:400; }
+        .stab-page { display:none; overflow-y:auto; padding:16px 0 calc(40px + env(safe-area-inset-bottom)); scrollbar-width:none; }
+        .stab-page::-webkit-scrollbar { display:none; }
+        .stab-page.active { display:block; animation:tabIn 0.3s cubic-bezier(0.22,1,0.36,1); }
+        @keyframes tabIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+        /* labels */
+        .sp-label { font-size:0.56rem; font-weight:500; letter-spacing:0.2em; color:var(--ink-ghost); text-transform:uppercase; padding:16px 24px 6px; }
+        .sp-hint { font-size:0.65rem; font-weight:200; color:var(--ink-ghost); padding:0 24px 8px; }
+        .sp-label-sm { font-size:0.62rem; font-weight:400; letter-spacing:0.12em; color:var(--ink-faint); padding:6px 0 5px; text-transform:uppercase; }
+        /* card */
+        .sp-card { border:1px solid var(--rule); border-radius:12px; padding:16px 18px; transition:border-color 0.5s; }
+        .sp-card-title { font-family:var(--font-title); font-size:0.82rem; font-weight:600; letter-spacing:0.04em; color:var(--ink); margin-bottom:14px; }
+        /* rows */
+        .sp-rows { border-top:1px solid var(--rule); }
+        .sp-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:13px 0; border-bottom:1px solid var(--rule); }
+        .sp-row:last-child { border-bottom:none; }
+        .sp-row-info { flex:1; min-width:0; }
+        .sp-row-label { font-size:0.85rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
+        .sp-row-sub { font-size:0.68rem; font-weight:200; color:var(--ink-faint); margin-top:2px; letter-spacing:0.03em; line-height:1.6; }
+        /* buttons */
+        .sp-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); padding:5px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; white-space:nowrap; flex-shrink:0; }
+        .sp-btn:hover { border-color:var(--ink); color:var(--ink); }
+        .sp-action-btn { font-size:0.78rem; font-weight:300; color:var(--ink); padding:8px 18px; border:1px solid var(--ink); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.2s; white-space:nowrap; }
+        .sp-action-btn:hover { background:var(--ink); color:var(--bg); }
+        .sp-action-btn.outline { color:var(--ink-faint); border-color:var(--rule); }
+        .sp-action-btn.outline:hover { border-color:var(--ink); color:var(--ink); background:transparent; }
+        .sp-danger-btn { display:block; width:100%; padding:10px; border:1px solid var(--rule); border-radius:8px; background:transparent; font-family:var(--font-ui); font-size:0.82rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-faint); cursor:pointer; transition:all 0.2s; text-align:center; }
+        .sp-danger-btn:hover { border-color:#c0392b; color:#c0392b; }
+        /* 主题行 */
+        .all-themes-row { display:flex; gap:14px; padding:8px 24px 20px; overflow-x:auto; scrollbar-width:none; }
         .all-themes-row::-webkit-scrollbar { display:none; }
-        .theme-divider { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:0 2px; }
-        .custom-theme-chip { display:flex; flex-direction:column; align-items:center; gap:7px; cursor:pointer; flex-shrink:0; position:relative; }
-        .custom-theme-del { position:absolute; top:-4px; right:-4px; width:16px; height:16px; border-radius:50%; background:var(--ink-faint); color:var(--bg); font-size:0.6rem; display:flex; align-items:center; justify-content:center; cursor:pointer; opacity:0; transition:opacity 0.15s; border:none; font-family:sans-serif; }
-        .custom-theme-chip:hover .custom-theme-del { opacity:1; }
-        /* 颜色折叠 */
-        .color-section-toggle:hover { opacity:0.7; }
-        /* 命名保存弹层 */
+        .preset-chip { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; flex-shrink:0; position:relative; user-select:none; }
+        .preset-swatch { width:44px; height:44px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s, transform 0.2s; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+        .preset-chip.active .preset-swatch { border-color:var(--ink); transform:scale(1.1); }
+        .preset-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); max-width:46px; text-align:center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+        .chip-del { position:absolute; top:-2px; right:-2px; width:17px; height:17px; border-radius:50%; background:var(--ink-faint); color:var(--bg); font-size:0.58rem; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.15s; border:none; cursor:pointer; font-family:sans-serif; line-height:1; }
+        .preset-chip:hover .chip-del { opacity:1; }
+        .theme-divider { width:1px; background:var(--rule); align-self:stretch; flex-shrink:0; margin:4px 2px; }
+        /* 自动切换入口 */
+        .auto-chip { display:flex; flex-direction:column; align-items:center; gap:6px; cursor:pointer; flex-shrink:0; opacity:0.35; transition:opacity 0.2s; }
+        .auto-chip.active { opacity:1; }
+        .auto-chip-icon { width:44px; height:44px; border-radius:50%; border:1.5px solid var(--rule); display:flex; align-items:center; justify-content:center; font-size:1.05rem; transition:all 0.2s; color:var(--ink-faint); }
+        .auto-chip.active .auto-chip-icon { border-color:var(--ink); background:var(--ink); color:var(--bg); }
+        .auto-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); }
+        /* 自动切换面板 */
+        .at-panel-inner { border:1px solid var(--rule); border-radius:12px; padding:16px; transition:border-color 0.5s; }
+        .at-mode-cards { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+        .at-mode-card { position:relative; border:1px solid var(--rule); border-radius:10px; padding:14px 12px 12px; cursor:pointer; transition:all 0.2s; }
+        .at-mode-card.active { border-color:var(--ink); background:var(--ink); }
+        .at-mode-icon { font-size:1.1rem; margin-bottom:6px; color:var(--ink-faint); transition:color 0.2s; line-height:1; }
+        .at-mode-card.active .at-mode-icon { color:var(--bg); }
+        .at-mode-name { font-size:0.8rem; font-weight:400; letter-spacing:0.03em; color:var(--ink); margin-bottom:3px; transition:color 0.2s; }
+        .at-mode-card.active .at-mode-name { color:var(--bg); }
+        .at-mode-desc { font-size:0.62rem; font-weight:200; color:var(--ink-faint); line-height:1.5; letter-spacing:0.02em; transition:color 0.2s; }
+        .at-mode-card.active .at-mode-desc { color:rgba(255,255,255,0.55); }
+        .at-mode-check { position:absolute; top:10px; right:10px; width:14px; height:14px; border-radius:50%; border:1px solid var(--rule); transition:all 0.2s; }
+        .at-mode-card.active .at-mode-check { background:var(--bg); border-color:var(--bg); }
+        .at-time-label { font-size:0.6rem; font-weight:400; letter-spacing:0.14em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:4px; }
+        /* time range */
+        .time-range-row { display:flex; align-items:center; gap:8px; padding:4px 0 8px; }
+        .time-range-input { border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; font-family:var(--font-ui); font-size:0.88rem; font-weight:300; color:var(--ink); width:76px; padding:3px 0 5px; text-align:center; transition:border-color 0.2s; }
+        .time-range-input:focus { border-bottom-color:var(--ink); }
+        .time-range-sep { color:var(--ink-ghost); font-size:0.78rem; }
+        .time-range-hint { font-size:0.65rem; color:var(--ink-faint); font-weight:200; }
+        /* at 主题选择 */
+        .at-pick-row { display:flex; align-items:center; gap:12px; }
+        .at-pick-label { font-size:0.62rem; font-weight:400; letter-spacing:0.1em; color:var(--ink-faint); white-space:nowrap; min-width:44px; }
+        .at-theme-chips { display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; padding:4px 0 6px; flex:1; }
+        .at-theme-chips::-webkit-scrollbar { display:none; }
+        .at-chip { display:flex; flex-direction:column; align-items:center; gap:4px; cursor:pointer; flex-shrink:0; opacity:0.38; transition:opacity 0.2s; }
+        .at-chip.selected { opacity:1; }
+        .at-chip .at-swatch { width:30px; height:30px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+        .at-chip.selected .at-swatch { border-color:var(--ink); }
+        .at-chip-label { font-size:0.52rem; font-weight:300; color:var(--ink-faint); max-width:34px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .at-close-btn { display:block; width:100%; margin-top:14px; padding:8px; border:none; border-top:1px solid var(--rule); background:transparent; font-family:var(--font-ui); font-size:0.72rem; font-weight:300; color:var(--ink-faint); cursor:pointer; transition:color 0.15s; letter-spacing:0.04em; text-align:center; }
+        .at-close-btn:hover { color:var(--ink); }
+        /* 生成器 */
+        .gen-card { border:1px solid var(--rule); border-radius:12px; overflow:hidden; transition:border-color 0.5s; }
+        .gen-section { padding:14px 16px; }
+        .gen-section-label { font-size:0.58rem; font-weight:500; letter-spacing:0.16em; color:var(--ink-ghost); text-transform:uppercase; margin-bottom:10px; }
+        .gen-divider { height:1px; background:var(--rule); margin:0; }
+        .gen-tone-row { display:flex; gap:8px; flex-wrap:wrap; }
+        .gen-tone-btn { font-size:0.72rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-faint); padding:5px 13px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; }
+        .gen-tone-btn.active { border-color:var(--ink); color:var(--ink); background:var(--ink); color:var(--bg); font-weight:400; }
+        .gen-preview-row { display:flex; align-items:center; gap:12px; padding:6px 0 8px; min-height:36px; }
+        .gen-preview { display:flex; gap:7px; align-items:center; flex:1; flex-wrap:wrap; }
+        .gen-swatch { width:22px; height:22px; border-radius:50%; border:1px solid var(--rule); flex-shrink:0; }
+        .gen-empty-hint { font-size:0.68rem; font-weight:200; color:var(--ink-ghost); }
+        .gen-roll-btn { font-size:0.75rem; font-weight:400; color:var(--ink); padding:7px 18px; border:1.5px solid var(--ink); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); letter-spacing:0.06em; transition:all 0.18s; white-space:nowrap; }
+        .gen-roll-btn:hover { background:var(--ink); color:var(--bg); }
+        .gen-action-btns { display:flex; gap:10px; padding:4px 0 2px; }
+        /* 颜色自定义 */
+        .color-rows { padding:0 24px 8px; }
+        .color-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:11px 0; border-bottom:1px solid var(--rule); }
+        .color-row:last-child { border-bottom:none; }
+        .color-row-label { font-size:0.82rem; font-weight:300; color:var(--ink); }
+        .color-row-right { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+        .color-hex-input { font-size:0.72rem; font-weight:200; color:var(--ink-faint); font-family:monospace; width:70px; border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; padding:2px 0 3px; text-align:center; transition:border-color 0.2s; }
+        .color-hex-input:focus { border-bottom-color:var(--ink); color:var(--ink); }
+        .color-dot-btn { width:24px; height:24px; border-radius:50%; cursor:pointer; position:relative; overflow:hidden; flex-shrink:0; border:1.5px solid var(--rule); transition:transform 0.15s; }
+        .color-dot-btn:hover { transform:scale(1.12); }
+        .color-dot-btn input[type="color"] { position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); opacity:0; cursor:pointer; }
+        /* sink time */
+        .sink-option-row { display:flex; gap:8px; flex-wrap:wrap; padding:4px 0; }
+        .sink-chip { font-size:0.74rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-faint); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; }
+        .sink-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
+        .sink-hm-row { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:4px 0; }
+        .sink-hm-group { display:flex; align-items:baseline; gap:5px; }
+        .sink-hm-input { width:52px; border:none; border-bottom:1.5px solid var(--rule); background:transparent; outline:none; font-family:var(--font-ui); font-size:1.1rem; font-weight:200; color:var(--ink); padding:2px 0 4px; text-align:center; transition:border-color 0.2s; }
+        .sink-hm-input:focus { border-bottom-color:var(--ink); }
+        .sink-hm-input::-webkit-inner-spin-button, .sink-hm-input::-webkit-outer-spin-button { -webkit-appearance:none; }
+        .sink-hm-label { font-size:0.75rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.06em; }
+        .sink-apply-btn { font-size:0.74rem; font-weight:300; color:var(--ink-faint); padding:6px 14px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; }
+        .sink-apply-btn:hover { border-color:var(--ink); color:var(--ink); }
+        /* 导出 */
+        .export-scope-row { display:flex; gap:8px; flex-wrap:wrap; padding:6px 0 4px; }
+        .scope-chip { font-size:0.72rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-faint); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; }
+        .scope-chip.active { border-color:var(--ink); color:var(--ink); font-weight:400; }
+        .scope-chip.scope-all.active { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+        /* 导出流程 */
+        .export-flow { display:flex; flex-direction:column; gap:0; }
+        .export-step { border:1px solid var(--rule); border-radius:12px; padding:14px 16px; margin-bottom:8px; transition:border-color 0.5s; }
+        .export-step-head { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+        .export-step-num { width:20px; height:20px; border-radius:50%; background:var(--ink); color:var(--bg); font-size:0.62rem; font-weight:500; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-family:var(--font-ui); }
+        .export-step-title { font-size:0.78rem; font-weight:400; color:var(--ink); letter-spacing:0.04em; }
+        .export-fmt-cards { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+        .export-fmt-card { border:1px solid var(--rule); border-radius:8px; padding:12px; cursor:pointer; transition:all 0.2s; }
+        .export-fmt-card.active { border-color:var(--ink); background:var(--ink); }
+        .export-fmt-card.disabled { opacity:0.3; pointer-events:none; cursor:not-allowed; }
+        .export-fmt-name { font-size:0.88rem; font-weight:500; color:var(--ink); letter-spacing:0.06em; margin-bottom:4px; font-family:var(--font-ui); transition:color 0.2s; }
+        .export-fmt-card.active .export-fmt-name { color:var(--bg); }
+        .export-fmt-desc { font-size:0.62rem; font-weight:200; color:var(--ink-faint); line-height:1.5; transition:color 0.2s; }
+        .export-fmt-card.active .export-fmt-desc { color:rgba(255,255,255,0.55); }
+        .sp-export-go { display:block; width:100%; padding:12px; border:1px solid var(--ink); border-radius:10px; background:transparent; font-family:var(--font-ui); font-size:0.88rem; font-weight:400; letter-spacing:0.08em; color:var(--ink); cursor:pointer; transition:all 0.2s; text-align:center; margin-top:4px; }
+        .sp-export-go:hover { background:var(--ink); color:var(--bg); }
+        /* 命名弹层 */
         #name-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:800; display:none; align-items:flex-end; justify-content:center; }
         #name-overlay.open { display:flex; }
-        #name-popup { width:100%; max-width:480px; background:var(--bg); border-radius:20px 20px 0 0; padding:24px 28px 48px; }
-        .name-title { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); margin-bottom:20px; }
-        .name-input { width:100%; border:none; border-bottom:1.5px solid var(--ink); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.95rem; font-weight:300; color:var(--ink); padding:6px 0 10px; letter-spacing:0.02em; margin-bottom:20px; }
+        #name-popup { width:100%; max-width:480px; background:var(--bg); border-radius:20px 20px 0 0; padding:24px 28px calc(44px + env(safe-area-inset-bottom)); transition:background 0.5s; }
+        .name-title { font-family:var(--font-title); font-size:0.95rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); margin-bottom:20px; }
+        .name-input { width:100%; border:none; border-bottom:1.5px solid var(--ink); background:transparent; outline:none; font-family:var(--font-ui); font-size:0.95rem; font-weight:300; color:var(--ink); padding:6px 0 10px; margin-bottom:20px; }
         .name-input::placeholder { color:var(--ink-ghost); }
         .name-btns { display:flex; gap:12px; justify-content:flex-end; }
-        .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:'Noto Sans SC',sans-serif; padding:6px 0; }
-        .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:'Noto Serif SC',serif; padding:6px 20px; border-radius:20px; letter-spacing:0.06em; transition:all 0.18s; }
+        .name-cancel { font-size:0.78rem; font-weight:300; color:var(--ink-faint); border:none; background:none; cursor:pointer; font-family:var(--font-ui); padding:6px 0; }
+        .name-save { font-size:0.78rem; font-weight:300; color:var(--ink); border:1px solid var(--ink); background:none; cursor:pointer; font-family:var(--font-ui); padding:6px 20px; border-radius:20px; transition:all 0.18s; }
         .name-save:hover { background:var(--ink); color:var(--bg); }
-           
 
-        /* ── 启动屏 ── */
-        /* 启动屏颜色全部写死，不依赖 CSS 变量或 JS */
-        #splash {
-            position:fixed; inset:0; z-index:9000;
-            background:#f7f5f0;
-            display:flex; align-items:center; justify-content:center;
-            pointer-events:none;
-            opacity:1; transition:opacity 0.6s ease;
+        /* ── 悬浮设置按钮 ── */
+        #fab-settings {
+            position: fixed;
+            right: calc(20px + env(safe-area-inset-right));
+            bottom: calc(76px + env(safe-area-inset-bottom));
+            width: 38px; height: 38px;
+            border-radius: 50%;
+            border: none;
+            background: transparent;
+            color: var(--ink-ghost);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            z-index: 200;
+            transition: color 0.25s, background 0.25s;
+            -webkit-tap-highlight-color: transparent;
         }
-        #splash.hiding { opacity:0; }
+        #fab-settings:hover { color: var(--ink-mid); background: var(--rule); }
+        #fab-settings:active { color: var(--ink); }
+        /* ── 字体系统 ── */
+        /* 已保存方案行 */
+        .font-scheme-row { display:flex; gap:10px; padding:4px 24px 12px; overflow-x:auto; scrollbar-width:none; min-height:36px; }
+        .font-scheme-row::-webkit-scrollbar { display:none; }
+        .font-scheme-chip { font-size:0.68rem; font-weight:300; color:var(--ink-faint); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; white-space:nowrap; flex-shrink:0; position:relative; }
+        .font-scheme-chip.active { border-color:var(--ink); color:var(--ink); }
+        .font-scheme-chip .fsc-del { position:absolute; top:-4px; right:-4px; width:14px; height:14px; border-radius:50%; background:var(--ink-faint); color:var(--bg); font-size:0.5rem; display:flex; align-items:center; justify-content:center; opacity:0; transition:opacity 0.15s; border:none; cursor:pointer; line-height:1; }
+        .font-scheme-chip:hover .fsc-del { opacity:1; }
+        /* 三槽卡片 */
+        .font-slots-card { margin:0 24px 12px; border:1px solid var(--rule); border-radius:12px; padding:16px; }
+        .font-slot-row { display:flex; align-items:center; gap:12px; }
+        .font-slot-label { font-size:0.62rem; font-weight:400; letter-spacing:0.1em; color:var(--ink-faint); white-space:nowrap; min-width:28px; }
+        .font-select { flex:1; border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; font-family:var(--font-ui); font-size:0.8rem; font-weight:300; color:var(--ink); padding:4px 0 5px; cursor:pointer; appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23b8b5ae' stroke-width='1.2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 4px center; padding-right:18px; }
+        .font-select:focus { border-bottom-color:var(--ink); }
+        /* 操作行 */
+        .font-action-row { display:flex; gap:8px; margin-top:14px; padding-top:12px; border-top:1px solid var(--rule); }
+        .font-action-btn { font-size:0.7rem; font-weight:300; color:var(--ink-faint); padding:5px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; }
+        .font-action-btn:hover { border-color:var(--ink); color:var(--ink); }
+        /* 字体库弹层 */
+        #font-lib-overlay { display:none; }
+        #font-lib-overlay.open { display:flex !important; }
+        .font-lib-popup { background:var(--bg); border-radius:20px 20px 0 0; padding:24px 24px 32px; width:100%; max-width:480px; max-height:80vh; overflow-y:auto; }
+        .font-lib-title { font-family:var(--font-title); font-size:1rem; font-weight:600; letter-spacing:0.06em; color:var(--ink); margin-bottom:16px; }
+        .font-lib-list { display:flex; flex-direction:column; gap:0; margin-bottom:16px; }
+        .font-lib-item { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--rule); }
+        .font-lib-item-info { display:flex; flex-direction:column; gap:3px; }
+        .font-lib-item-name { font-size:0.82rem; font-weight:300; color:var(--ink); }
+        .font-lib-item-url { font-size:0.62rem; font-weight:200; color:var(--ink-ghost); font-family:monospace; }
+        .font-lib-item-del { font-size:0.68rem; font-weight:300; color:var(--ink-faint); padding:4px 10px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; flex-shrink:0; }
+        .font-lib-item-del:hover { border-color:var(--ink); color:var(--ink); }
+        .font-lib-close { display:block; width:100%; margin-top:8px; padding:10px; border:none; border-top:1px solid var(--rule); background:transparent; font-family:var(--font-ui); font-size:0.75rem; font-weight:300; color:var(--ink-faint); cursor:pointer; transition:color 0.15s; }
+        /* 添加外链 */
+        .font-custom-section { margin-top:16px; padding-top:14px; border-top:1px solid var(--rule); }
+        .font-custom-label { font-size:0.6rem; font-weight:400; letter-spacing:0.14em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:8px; }
+        .font-url-input { width:100%; box-sizing:border-box; border:1px solid var(--rule); border-radius:8px; background:transparent; outline:none; font-family:var(--font-ui); font-size:0.72rem; font-weight:300; color:var(--ink); padding:8px 10px; resize:none; line-height:1.6; transition:border-color 0.2s; }
+        .font-url-input:focus { border-color:var(--ink); }
+        .font-url-row { display:flex; gap:6px; align-items:center; }
+        .font-name-input { width:80px; border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; font-family:var(--font-ui); font-size:0.72rem; font-weight:300; color:var(--ink); padding:4px 0 5px; transition:border-color 0.2s; flex-shrink:0; }
+        .font-name-input:focus { border-bottom-color:var(--ink); }
+        .font-url-add-btn { font-size:0.72rem; font-weight:300; color:var(--ink-faint); padding:4px 12px; border:1px solid var(--rule); border-radius:20px; cursor:pointer; background:transparent; font-family:var(--font-ui); transition:all 0.18s; white-space:nowrap; flex-shrink:0; }
+        .font-url-add-btn:hover { border-color:var(--ink); color:var(--ink); }
+        .font-custom-hint { font-size:0.6rem; font-weight:200; color:var(--ink-ghost); margin-top:6px; line-height:1.6; }
+
+        #font-scheme-name-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:800; display:none; align-items:flex-end; justify-content:center; }
+        #font-scheme-name-overlay.open { display:flex; }
+
+        /* ── Splash ── */
+        #splash { position:fixed; inset:0; z-index:9000; display:flex; align-items:center; justify-content:center; background:#f7f5f0; transition:opacity 0.55s ease; }
+        #splash.hiding { opacity:0; pointer-events:none; }
         #splash-inner { text-align:center; padding:0 32px; }
-        #splash-title {
-            font-family:'Noto Serif SC', 'Songti SC', 'SimSun', serif;
-            font-size:2.2rem; font-weight:600;
-            letter-spacing:0.08em; color:#1a1a18;
-            opacity:0; animation:splashWordIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s forwards;
-        }
-        #splash-sub {
-            font-size:0.75rem; font-weight:300; letter-spacing:0.14em;
-            color:#b8b5ae; margin-top:14px;
-            opacity:0; animation:splashWordIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.5s forwards;
-        }
-        @keyframes splashWordIn {
-            from { opacity:0; transform:translateY(6px); }
-            to   { opacity:1; transform:translateY(0); }
-        }
-
-        /* ── 公告弹窗 ── */
-        #notice-overlay {
-            position:fixed; inset:0; background:rgba(0,0,0,0);
-            z-index:8000; pointer-events:none;
-            display:flex; align-items:flex-end; justify-content:center;
-            transition:background 0.35s ease;
-        }
-        #notice-overlay.open { background:rgba(0,0,0,0.25); pointer-events:all; }
-        #notice-popup {
-            width:100%; max-width:480px;
-            background:var(--bg); border-top:1px solid var(--rule);
-            border-radius:20px 20px 0 0;
-            padding:0 28px calc(40px + env(safe-area-inset-bottom));
-            transform:translateY(100%);
-            transition:transform 0.45s cubic-bezier(0.22,1,0.36,1), background 0.5s ease;
-            max-height:80vh; overflow-y:auto; scrollbar-width:none;
-        }
-        #notice-popup::-webkit-scrollbar { display:none; }
-        #notice-overlay.open #notice-popup { transform:translateY(0); }
-        .notice-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:14px auto 22px; }
-        .notice-badge { display:inline-block; font-size:0.6rem; font-weight:400; letter-spacing:0.12em; color:var(--bg); background:var(--ink-faint); border-radius:3px; padding:2px 8px; margin-bottom:14px; text-transform:uppercase; }
-        .notice-badge.new-user { background:var(--ink); }
-        .notice-title { font-family:'Noto Serif SC',serif; font-size:1.1rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:16px; line-height:1.5; }
-        .notice-body { font-size:0.85rem; font-weight:300; color:var(--ink-mid); line-height:2; letter-spacing:0.02em; }
-        .notice-section { font-size:0.62rem; font-weight:400; letter-spacing:0.14em; color:var(--ink-faint); text-transform:uppercase; margin:18px 0 6px; }
-        .notice-item { padding:4px 0; }
-        .notice-item::before { content:'· '; color:var(--ink-ghost); }
-        .notice-close { display:block; width:100%; margin-top:24px; padding:13px; border:1px solid var(--rule); border-radius:10px; background:transparent; font-family:'Noto Serif SC',serif; font-size:0.85rem; font-weight:400; letter-spacing:0.08em; color:var(--ink-mid); cursor:pointer; transition:all 0.25s ease; text-align:center; }
-        .notice-close:hover { border-color:var(--ink); color:var(--ink); }
-
-        /* ── 删除确认 ── */
-        #del-overlay {
-            position:fixed; inset:0; background:rgba(0,0,0,0);
-            z-index:7500; pointer-events:none;
-            display:flex; align-items:flex-end; justify-content:center;
-            transition:background 0.25s ease;
-        }
-        #del-overlay.open { background:rgba(0,0,0,0.22); pointer-events:all; }
-        #del-popup {
-            width:100%; max-width:480px; background:var(--bg);
-            border-radius:20px 20px 0 0; border-top:1px solid var(--rule);
-            padding:22px 28px calc(36px + env(safe-area-inset-bottom));
-            transform:translateY(100%);
-            transition:transform 0.38s cubic-bezier(0.22,1,0.36,1), background 0.5s ease;
-        }
+        #splash-title { font-family:var(--font-title); font-size:1.9rem; font-weight:600; letter-spacing:0.12em; color:#1a1a18; opacity:0; animation:splashWordIn 0.8s cubic-bezier(0.22,1,0.36,1) 0.15s forwards; }
+        #splash-sub { font-size:0.72rem; font-weight:200; letter-spacing:0.2em; color:#b8b5ae; margin-top:12px; opacity:0; animation:splashWordIn 0.7s cubic-bezier(0.22,1,0.36,1) 0.5s forwards; }
+        @keyframes splashWordIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        /* ── 删除确认弹层 ── */
+        #del-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:750; pointer-events:none; transition:background 0.25s; display:flex; align-items:flex-end; justify-content:center; }
+        #del-overlay.open { background:rgba(0,0,0,0.28); pointer-events:all; }
+        #del-popup { width:100%; max-width:480px; background:var(--bg); border-radius:20px 20px 0 0; padding:24px 24px calc(20px + env(safe-area-inset-bottom)); transform:translateY(100%); transition:transform 0.35s cubic-bezier(0.22,1,0.36,1), background 0.5s; }
         #del-overlay.open #del-popup { transform:translateY(0); }
-        .del-title { font-family:'Noto Serif SC',serif; font-size:0.95rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:6px; }
-        .del-sub { font-size:0.78rem; font-weight:200; color:var(--ink-faint); margin-bottom:22px; line-height:1.8; }
-        .del-btn { display:block; width:100%; padding:13px; border:1px solid var(--rule); border-radius:10px; background:transparent; font-family:'Noto Sans SC',sans-serif; font-size:0.85rem; font-weight:300; letter-spacing:0.04em; color:var(--ink-mid); cursor:pointer; transition:all 0.2s ease; text-align:center; margin-bottom:10px; }
-        .del-btn:hover { border-color:var(--ink-faint); color:var(--ink); }
-        .del-btn.danger:hover { border-color:#c0392b; color:#c0392b; }
-        .del-cancel { display:block; width:100%; padding:10px; border:none; background:transparent; font-family:'Noto Sans SC',sans-serif; font-size:0.8rem; font-weight:200; color:var(--ink-ghost); cursor:pointer; text-align:center; margin-top:2px; }
-
-        /* ── 自动明暗主题 ── */
-        .auto-theme-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--rule); }
-        .auto-theme-row:last-child { border-bottom:none; }
-        .auto-theme-label { font-size:0.85rem; font-weight:300; color:var(--ink); letter-spacing:0.02em; }
-        .auto-theme-sub { font-size:0.68rem; font-weight:200; color:var(--ink-faint); margin-top:2px; letter-spacing:0.03em; }
-        /* toggle switch */
-        .toggle-wrap { position:relative; width:40px; height:22px; flex-shrink:0; }
-        .toggle-wrap input { opacity:0; width:0; height:0; position:absolute; }
-        .toggle-track { position:absolute; inset:0; border-radius:11px; background:var(--ink-ghost); cursor:pointer; transition:background 0.25s ease; }
-        .toggle-wrap input:checked + .toggle-track { background:var(--ink-faint); }
-        .toggle-track::after { content:''; position:absolute; width:16px; height:16px; border-radius:50%; background:var(--bg); border:1px solid var(--rule); top:3px; left:3px; transition:transform 0.25s ease, background 0.25s ease; }
-        .toggle-wrap input:checked + .toggle-track::after { transform:translateX(18px); background:var(--ink); border-color:var(--ink); }
-        /* 时间段选择器 */
-        .time-range-row { display:flex; align-items:center; gap:8px; padding:8px 0 12px; }
-        .time-range-label { font-size:0.75rem; font-weight:200; color:var(--ink-faint); letter-spacing:0.04em; min-width:28px; }
-        .time-range-input { border:none; border-bottom:1px solid var(--rule); background:transparent; outline:none; font-family:'Noto Sans SC',sans-serif; font-size:0.85rem; font-weight:300; color:var(--ink); width:68px; padding:2px 0 4px; text-align:center; transition:border-color 0.2s; }
-        .time-range-input:focus { border-bottom-color:var(--ink); }
-        .time-range-sep { color:var(--ink-ghost); font-size:0.75rem; }
-
-        /* ── 自动主题选择器 ── */
-        .at-theme-pick-row { padding:6px 0 14px; }
-        .at-theme-pick-label { font-size:0.68rem; font-weight:400; letter-spacing:0.12em; color:var(--ink-faint); text-transform:uppercase; margin-bottom:10px; }
-        .at-theme-chips { display:flex; gap:10px; overflow-x:auto; scrollbar-width:none; padding-bottom:2px; }
-        .at-theme-chips::-webkit-scrollbar { display:none; }
-        .at-chip { display:flex; flex-direction:column; align-items:center; gap:5px; cursor:pointer; flex-shrink:0; opacity:0.45; transition:opacity 0.2s; }
-        .at-chip.selected { opacity:1; }
-        .at-chip .preset-swatch { position:relative; width:34px; height:34px; border-radius:50%; border:2px solid transparent; transition:border-color 0.2s; overflow:hidden; }
-        .at-chip.selected .preset-swatch { border-color:var(--ink); }
-        .at-chip-label { font-size:0.58rem; font-weight:300; letter-spacing:0.06em; color:var(--ink-faint); max-width:40px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+        .del-title { font-family:var(--font-title); font-size:1rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:6px; }
+        .del-sub { font-size:0.75rem; font-weight:200; color:var(--ink-faint); line-height:1.7; margin-bottom:20px; letter-spacing:0.02em; }
+        .del-btn { display:block; width:100%; padding:13px; margin-bottom:10px; border:1px solid var(--rule); border-radius:10px; background:transparent; font-family:var(--font-ui); font-size:0.88rem; font-weight:300; letter-spacing:0.04em; color:var(--ink); cursor:pointer; transition:all 0.18s; text-align:center; }
+        .del-btn:hover { border-color:var(--ink); }
+        .del-btn.danger { color:#a0291f; border-color:rgba(160,41,31,0.25); }
+        .del-btn.danger:hover { border-color:#a0291f; background:rgba(160,41,31,0.04); }
+        .del-cancel { display:block; width:100%; padding:10px; border:none; background:transparent; font-family:var(--font-ui); font-size:0.82rem; font-weight:300; color:var(--ink-faint); cursor:pointer; text-align:center; letter-spacing:0.04em; transition:color 0.15s; }
+        .del-cancel:hover { color:var(--ink); }
+        /* ── 欢迎/更新通知弹层 ── */
+        #notice-overlay { position:fixed; inset:0; background:rgba(0,0,0,0); z-index:600; pointer-events:none; transition:background 0.3s; display:flex; align-items:flex-end; justify-content:center; }
+        #notice-overlay.open { background:rgba(0,0,0,0.22); pointer-events:all; }
+        #notice-popup { width:100%; max-width:480px; background:var(--bg); border-radius:20px 20px 0 0; padding:20px 24px calc(32px + env(safe-area-inset-bottom)); transform:translateY(100%); transition:transform 0.4s cubic-bezier(0.22,1,0.36,1), background 0.5s; max-height:70vh; overflow-y:auto; }
+        #notice-overlay.open #notice-popup { transform:translateY(0); }
+        .notice-handle { width:36px; height:4px; background:var(--ink-ghost); border-radius:2px; margin:0 auto 20px; }
+        .notice-badge { display:inline-block; font-size:0.55rem; font-weight:500; letter-spacing:0.14em; padding:3px 8px; border-radius:20px; border:1px solid var(--rule); color:var(--ink-faint); text-transform:uppercase; margin-bottom:12px; }
+        .notice-badge.new-user { border-color:var(--ink); color:var(--ink); }
+        .notice-title { font-family:var(--font-title); font-size:1.1rem; font-weight:600; letter-spacing:0.05em; color:var(--ink); margin-bottom:14px; }
+        .notice-body { font-size:0.78rem; font-weight:200; color:var(--ink-faint); line-height:1.9; letter-spacing:0.03em; }
+        .notice-section { margin-bottom:14px; }
+        .notice-item { padding:3px 0; }
+        .notice-close { display:block; width:100%; margin-top:20px; padding:12px; border:1px solid var(--rule); border-radius:10px; background:transparent; font-family:var(--font-ui); font-size:0.82rem; font-weight:300; color:var(--ink-faint); cursor:pointer; text-align:center; letter-spacing:0.04em; transition:all 0.18s; }
+        .notice-close:hover { border-color:var(--ink); color:var(--ink); }
     </style>
 </head>
 <body>
@@ -372,10 +430,10 @@
 <!-- 删除确认 -->
 <div id="del-overlay" onclick="maybeCloseDel(event)">
   <div id="del-popup">
-    <div class="del-title">要让它离开吗？</div>
-    <div class="del-sub">移入礁石还可以找回来；直接删除则永远消失。</div>
+    <div class="del-title" id="del-title">要让它离开吗？</div>
+    <div class="del-sub" id="del-sub">移入礁石还可以找回来；直接删除则永远消失。</div>
     <button class="del-btn" id="del-strand-btn" onclick="delConfirmStrand()">移入礁石</button>
-    <button class="del-btn danger" onclick="delConfirmDelete()">直接删除</button>
+    <button class="del-btn danger" id="del-confirm-btn" onclick="delConfirmDelete()">直接删除</button>
     <button class="del-cancel" onclick="closeDel()">取消</button>
   </div>
 </div>
@@ -478,112 +536,277 @@
 <div id="settings-overlay" onclick="maybeCloseSettings(event)">
     <div id="settings-panel">
         <div class="panel-handle"></div>
-        <div class="panel-title">外观与设置</div>
-        <div class="panel-section" style="display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
-            主题
+
+        <!-- ── Tab bar ── -->
+        <div class="stab-bar">
+            <button class="stab active" onclick="switchSettingsTab('appearance',this)">外观</button>
+            <button class="stab" onclick="switchSettingsTab('prefs',this)">偏好</button>
+            <button class="stab" onclick="switchSettingsTab('data',this)">数据</button>
         </div>
-        <div class="all-themes-row" id="all-themes-row"></div>
-        <div class="panel-section">主题生成器</div>
-        <div class="gen-tone-row" id="gen-tone-row">
-            <button class="gen-tone-btn active" onclick="setGenTone('neutral',this)">中性</button>
-            <button class="gen-tone-btn" onclick="setGenTone('warm',this)">暖调</button>
-            <button class="gen-tone-btn" onclick="setGenTone('cool',this)">冷调</button>
-            <button class="gen-tone-btn" onclick="setGenTone('dark',this)">深色</button>
-        </div>
-        <div class="gen-actions-row">
-            <button class="gen-btn primary" onclick="generateTheme()">随机生成</button>
-            <button class="gen-btn" id="gen-apply-btn" onclick="applyGenTheme()" style="display:none;">应用</button>
-            <button class="gen-btn" id="gen-save-btn" onclick="openNamePopup()" style="display:none;">命名保存</button>
-            <div class="gen-preview" id="gen-preview"></div>
-        </div>
-        <div class="panel-section color-section-toggle" onclick="toggleColorSection()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
-            自定义颜色
-            <span id="color-toggle-arrow" style="font-size:0.7rem;color:var(--ink-ghost);transition:transform 0.25s;display:inline-block;">▾</span>
-        </div>
-        <div class="color-rows" id="color-rows" style="display:none;"></div>
-        <div class="divider"></div>
-        <div class="panel-section" id="auto-theme-section-title" onclick="toggleAutoThemeSection()" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding-right:28px;">
-            自动切换明暗主题
-            <span id="auto-theme-arrow" style="font-size:0.7rem;color:var(--ink-ghost);transition:transform 0.25s;display:inline-block;">▾</span>
-        </div>
-        <div id="auto-theme-section" style="padding:0 28px 4px; display:none;">
-            <div class="auto-theme-row">
-                <div><div class="auto-theme-label">跟随系统</div><div class="auto-theme-sub">使用设备的深色/浅色模式</div></div>
-                <label class="toggle-wrap"><input type="checkbox" id="at-system-toggle" onchange="onAutoThemeChange()"><span class="toggle-track"></span></label>
-            </div>
-            <div class="auto-theme-row" id="at-custom-row">
-                <div><div class="auto-theme-label">自定义时间段</div><div class="auto-theme-sub">指定深色模式的起止时间</div></div>
-                <label class="toggle-wrap"><input type="checkbox" id="at-custom-toggle" onchange="onAutoThemeChange()"><span class="toggle-track"></span></label>
-            </div>
-            <div id="at-time-pickers" style="padding:4px 0 8px; display:none;">
-                <div class="time-range-row">
-                    <span class="time-range-label">深色</span>
-                    <input class="time-range-input" type="time" id="at-dark-start" value="21:00" onchange="saveAutoThemeSettings()">
-                    <span class="time-range-sep">—</span>
-                    <input class="time-range-input" type="time" id="at-dark-end" value="07:00" onchange="saveAutoThemeSettings()">
+
+        <!-- ══ TAB: 外观 ══ -->
+        <div class="stab-page active" id="stab-appearance">
+
+            <!-- 主题选择 + 自动切换 -->
+            <div class="sp-label">配色</div>
+            <div class="sp-hint">长按或右键单击可删除或隐藏</div>
+            <div class="all-themes-row" id="all-themes-row"></div>
+
+            <!-- 自动切换展开面板（紧跟主题行） -->
+            <div id="auto-theme-panel" style="display:none; margin:0 24px 4px;">
+                <div class="at-panel-inner">
+                    <!-- 模式选择：用两张卡片体现互斥 -->
+                    <div class="at-mode-cards">
+                        <div class="at-mode-card" id="at-card-system" onclick="setAtMode('system')">
+                            <div class="at-mode-icon">☽</div>
+                            <div class="at-mode-name">跟随系统</div>
+                            <div class="at-mode-desc">与设备深色模式同步</div>
+                            <div class="at-mode-check" id="at-check-system"></div>
+                        </div>
+                        <div class="at-mode-card" id="at-card-time" onclick="setAtMode('time')">
+                            <div class="at-mode-icon">◷</div>
+                            <div class="at-mode-name">自定义时间</div>
+                            <div class="at-mode-desc">按时段自动切换</div>
+                            <div class="at-mode-check" id="at-check-time"></div>
+                        </div>
+                    </div>
+                    <!-- 时间段（仅 time 模式显示） -->
+                    <div id="at-time-pickers" style="display:none;">
+                        <div class="at-time-label">深色时段</div>
+                        <div class="time-range-row">
+                            <input class="time-range-input" type="time" id="at-dark-start" value="21:00" onchange="saveAutoThemeSettings()">
+                            <span class="time-range-sep">—</span>
+                            <input class="time-range-input" type="time" id="at-dark-end" value="07:00" onchange="saveAutoThemeSettings()">
+                            <span class="time-range-hint">次日</span>
+                        </div>
+                    </div>
+                    <!-- 主题选择（启用后显示） -->
+                    <div id="at-theme-selectors" style="display:none;">
+                        <div class="at-pick-row">
+                            <span class="at-pick-label">亮色</span>
+                            <div class="at-theme-chips" id="at-light-chips"></div>
+                        </div>
+                        <div class="at-pick-row" style="margin-top:10px;">
+                            <span class="at-pick-label">暗色</span>
+                            <div class="at-theme-chips" id="at-dark-chips"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- 主题选择器：亮色 -->
-            <div class="at-theme-pick-row" id="at-light-pick-row">
-                <div class="at-theme-pick-label">亮色主题</div>
-                <div class="at-theme-chips" id="at-light-chips"></div>
+
+            <!-- 字体 -->
+            <div class="sp-label" style="margin-top:8px;">字体</div>
+
+            <!-- 已保存方案横排 -->
+            <div class="font-scheme-row" id="font-scheme-row"></div>
+
+            <!-- 三槽 select -->
+            <div class="font-slots-card">
+                <div class="font-slot-row">
+                    <span class="font-slot-label">标题</span>
+                    <select class="font-select" id="font-sel-title" onchange="onFontSelect('slotTitle',this.value)"></select>
+                </div>
+                <div class="font-slot-row" style="margin-top:10px;">
+                    <span class="font-slot-label">正文</span>
+                    <select class="font-select" id="font-sel-body" onchange="onFontSelect('slotBody',this.value)"></select>
+                </div>
+                <div class="font-slot-row" style="margin-top:10px;">
+                    <span class="font-slot-label">界面</span>
+                    <select class="font-select" id="font-sel-ui" onchange="onFontSelect('slotUi',this.value)"></select>
+                </div>
+                <!-- 操作行：保存方案 + 字体库 -->
+                <div class="font-action-row">
+                    <button class="font-action-btn" onclick="openSaveFontScheme()">保存当前方案</button>
+                    <button class="font-action-btn" onclick="openFontLibrary()">字体库</button>
+                </div>
             </div>
-            <!-- 主题选择器：暗色 -->
-            <div class="at-theme-pick-row" id="at-dark-pick-row">
-                <div class="at-theme-pick-label">深色主题</div>
-                <div class="at-theme-chips" id="at-dark-chips"></div>
+
+            <!-- 字体库弹层 -->
+            <div id="font-lib-overlay" onclick="maybeCloseFontLib(event)" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.3); z-index:300; align-items:flex-end; justify-content:center;">
+                <div class="font-lib-popup" id="font-lib-popup">
+                    <div class="font-lib-title">字体库</div>
+                    <div class="font-lib-list" id="font-lib-list"></div>
+                    <!-- 添加外链 -->
+                    <div class="font-custom-section">
+                        <div class="font-custom-label">添加外链字体</div>
+                        <textarea class="font-url-input" id="font-url-input" rows="3"
+                            placeholder="粘贴字体 CSS 代码或直接填 URL…"></textarea>
+                        <div class="font-url-row" style="margin-top:6px;">
+                            <input class="font-name-input" id="font-name-input" type="text"
+                                placeholder="字体名称（选填，可自动识别）">
+                            <button class="font-url-add-btn" onclick="addCustomFont()">添加</button>
+                        </div>
+                        <div class="font-custom-hint">支持粘贴 @import url(…) 格式的 CSS 代码，或直接填 CSS 文件链接</div>
+                    </div>
+                    <button class="font-lib-close" onclick="closeFontLibrary()">关闭</button>
+                </div>
             </div>
-        </div>
-        <div class="divider"></div>
-        <div class="panel-section">念头沉入海底的时间（分钟）</div>
-        <div class="sink-rows">
-            <div class="sink-option-row" id="sink-chips"></div>
-            <div class="sink-custom-row" id="sink-custom-row" style="display:none;">
-                <input type="number" id="sink-custom-val" min="1" step="1" placeholder="—">
-                <span class="sink-custom-label">分钟后沉入海底</span>
-                <button class="sink-apply-btn" onclick="applyCustomSink()">确定</button>
+
+            <!-- 配色生成器 -->
+            <div class="sp-label" style="margin-top:8px;">配色生成器</div>
+            <div class="gen-card" style="margin:0 24px 4px;">
+                <!-- 第一行：色调选择（语义化标签组） -->
+                <div class="gen-section">
+                    <div class="gen-section-label">选择色调方向</div>
+                    <div class="gen-tone-row" id="gen-tone-row">
+                        <button class="gen-tone-btn active" onclick="setGenTone('neutral',this)">中性</button>
+                        <button class="gen-tone-btn" onclick="setGenTone('warm',this)">暖调</button>
+                        <button class="gen-tone-btn" onclick="setGenTone('cool',this)">冷调</button>
+                        <button class="gen-tone-btn" onclick="setGenTone('dark',this)">深色</button>
+                    </div>
+                </div>
+                <!-- 分割线 -->
+                <div class="gen-divider"></div>
+                <!-- 第二行：生成操作区 -->
+                <div class="gen-section">
+                    <div class="gen-section-label">生成配色</div>
+                    <div class="gen-preview-row">
+                        <div class="gen-preview" id="gen-preview">
+                            <span class="gen-empty-hint">尚未生成</span>
+                        </div>
+                        <button class="gen-roll-btn" onclick="generateTheme()">随机生成</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="divider"></div>
-        <div class="panel-section">导出数据</div>
-        <div class="export-scope-row" id="export-scope-row"></div>
-        <div class="export-rows">
-            <div class="export-row">
-                <div class="export-info"><div class="export-label">完整备份 JSON</div><div class="export-desc">条目、手记、自定义主题，全部打包</div></div>
-                <button class="export-btn" onclick="exportJSON()">下载</button>
+
+            <!-- 精细调色 -->
+            <div class="sp-label" style="margin-top:8px;">精细调色</div>
+            <div class="color-rows" id="color-rows"></div>
+
+            <!-- 保存当前配色（常驻，保存 currentTheme） -->
+            <div style="padding:4px 24px 8px;">
+                <button class="sp-action-btn" style="width:100%;" onclick="openNamePopup()">将当前配色命名保存</button>
             </div>
-            <div class="export-row">
-                <div class="export-info"><div class="export-label">Markdown 日记</div><div class="export-desc">适合阅读、粘贴到 Notion 等工具</div></div>
-                <button class="export-btn" onclick="exportMarkdown()">下载</button>
+
+            <!-- 主题备份 -->
+            <div class="sp-label" style="margin-top:8px;">外观文件</div>
+            <div class="sp-rows" style="margin:0 24px 24px;">
+                <div class="sp-row">
+                    <div class="sp-row-info"><div class="sp-row-label">导出外观存档</div><div class="sp-row-sub">全部配色方案 + 字体方案 + 当前状态，用于备份恢复</div></div>
+                    <button class="sp-btn" onclick="exportAppearanceArchive()">导出</button>
+                </div>
+                <div class="sp-row">
+                    <div class="sp-row-info"><div class="sp-row-label">导出当前外观</div><div class="sp-row-sub">仅当前生效的配色 + 字体组合，用于保存和分享</div></div>
+                    <button class="sp-btn" onclick="exportCurrentAppearance()">导出</button>
+                </div>
+                <div class="sp-row">
+                    <div class="sp-row-info"><div class="sp-row-label">导入外观文件</div><div class="sp-row-sub">从外观 JSON 文件恢复，自动识别存档或单组合</div></div>
+                    <label class="sp-btn" style="cursor:pointer;">导入<input type="file" accept=".json" style="display:none;" onchange="importJSON(this)"></label>
+                </div>
             </div>
-            <div class="export-row">
-                <div class="export-info"><div class="export-label">主题配置 JSON</div><div class="export-desc">仅导出我的主题，便于跨设备同步</div></div>
-                <button class="export-btn" onclick="exportThemes()">下载</button>
+
+        </div><!-- /stab-appearance -->
+
+        <!-- ══ TAB: 偏好 ══ -->
+        <div class="stab-page" id="stab-prefs">
+
+            <div class="sp-label">念头沉底时间</div>
+            <div class="sp-card" style="margin:0 24px 8px;">
+                <div class="sp-label-sm">预设时长</div>
+                <div class="sink-option-row" id="sink-chips"></div>
+                <div id="sink-custom-row" style="display:none; padding-top:16px;">
+                    <div class="sp-label-sm">自定义时长</div>
+                    <div class="sink-hm-row">
+                        <div class="sink-hm-group">
+                            <input class="sink-hm-input" type="number" id="sink-h" min="0" max="999" placeholder="0">
+                            <span class="sink-hm-label">小时</span>
+                        </div>
+                        <div class="sink-hm-group">
+                            <input class="sink-hm-input" type="number" id="sink-m" min="0" max="59" placeholder="0">
+                            <span class="sink-hm-label">分钟</span>
+                        </div>
+                        <button class="sink-apply-btn" onclick="applyCustomSinkHM()">确定</button>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="divider"></div>
-        <div class="panel-section">导入数据</div>
-        <div class="export-rows">
-            <div class="export-row">
-                <div class="export-info"><div class="export-label">从 JSON 恢复</div><div class="export-desc">完整备份或主题文件，自动识别内容</div></div>
-                <label class="export-btn" style="cursor:pointer;">选择文件<input type="file" accept=".json" style="display:none;" onchange="importJSON(this)"></label>
+
+            <div class="sp-label" style="margin-top:8px;">应用更新</div>
+            <div class="sp-rows" style="margin:0 24px 8px;">
+                <div class="sp-row">
+                    <div class="sp-row-info">
+                        <div class="sp-row-label">检查更新</div>
+                        <div class="sp-row-sub">当前版本 <span id="settings-version"></span></div>
+                    </div>
+                    <button class="sp-btn" onclick="checkUpdate()">检查</button>
+                </div>
             </div>
-        </div>
-        <div class="divider"></div>
-        <div class="panel-section">应用更新</div>
-        <div class="update-row" style="margin-bottom:16px;">
-            <button class="update-check-btn" onclick="checkUpdate()">检查更新</button>
-        </div>
-        <div class="reset-row">
-            <button class="reset-btn" onclick="resetAll()">恢复全部默认</button>
-        </div>
+
+            <div class="sp-label" style="margin-top:8px;">恢复默认</div>
+            <div class="sp-card" style="margin:0 24px 24px;">
+                <div class="sp-row-sub" style="padding-bottom:14px; line-height:1.9;">将清除一切自定义设置。<br>灵感记录与手记内容不受影响。</div>
+                <button class="sp-danger-btn" onclick="resetAll()">恢复全部默认</button>
+            </div>
+
+        </div><!-- /stab-prefs -->
+
+        <!-- ══ TAB: 数据 ══ -->
+        <div class="stab-page" id="stab-data">
+
+            <div class="sp-label">导出数据</div>
+            <!-- 导出流程卡片 -->
+            <div class="export-flow" style="margin:0 24px 8px;">
+
+                <!-- Step 1: 范围 -->
+                <div class="export-step">
+                    <div class="export-step-head">
+                        <span class="export-step-num">1</span>
+                        <span class="export-step-title">选择导出范围</span>
+                    </div>
+                    <div class="export-scope-row" id="export-scope-row"></div>
+                </div>
+
+                <!-- Step 2: 格式 -->
+                <div class="export-step">
+                    <div class="export-step-head">
+                        <span class="export-step-num">2</span>
+                        <span class="export-step-title">选择文件格式</span>
+                    </div>
+                    <div class="export-fmt-cards" id="export-fmt-row">
+                        <div class="export-fmt-card active" onclick="selectExportFmt('json',this)" data-fmt="json">
+                            <div class="export-fmt-name">JSON</div>
+                            <div class="export-fmt-desc">完整备份，可重新导入恢复</div>
+                        </div>
+                        <div class="export-fmt-card" onclick="selectExportFmt('txt',this)" data-fmt="txt">
+                            <div class="export-fmt-name">TXT</div>
+                            <div class="export-fmt-desc">纯文本，方便阅读与分享</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3: 执行 -->
+                <div class="export-step">
+                    <div class="export-step-head">
+                        <span class="export-step-num">3</span>
+                        <span class="export-step-title">导出文件</span>
+                    </div>
+                    <button class="sp-export-go" onclick="doExport()">↓ 下载文件</button>
+                </div>
+
+            </div>
+
+            <div class="sp-label" style="margin-top:8px;">导入数据</div>
+            <div class="sp-rows" style="margin:0 24px 24px;">
+                <div class="sp-row">
+                    <div class="sp-row-info">
+                        <div class="sp-row-label">从备份文件恢复</div>
+                        <div class="sp-row-sub">支持 JSON 全量备份与外观文件，自动识别内容</div>
+                    </div>
+                    <label class="sp-btn" style="cursor:pointer;">选择文件<input type="file" accept=".json" style="display:none;" onchange="importJSON(this)"></label>
+                </div>
+            </div>
+
+        </div><!-- /stab-data -->
+
+    </div>
+</div>
+
     </div>
 </div>
 
 <!-- Name save popup -->
 <div id="name-overlay" onclick="maybeCloseNamePopup(event)">
     <div id="name-popup">
-        <div class="name-title">为这套主题起个名字</div>
+        <div class="name-title">为这套配色起个名字</div>
         <input class="name-input" id="name-input" placeholder="我的主题…" maxlength="12"
                onkeydown="if(event.key==='Enter')confirmSaveTheme()">
         <div class="name-btns">
@@ -593,7 +816,29 @@
     </div>
 </div>
 
+<!-- 字体方案命名弹窗 -->
+<div id="font-scheme-name-overlay" onclick="maybeCloseFontSchemeOverlay(event)">
+    <div id="name-popup">
+        <div class="name-title">保存字体方案</div>
+        <input class="name-input" id="font-scheme-name-input" placeholder="方案名称…" maxlength="12"
+               onkeydown="if(event.key==='Enter')confirmSaveFontScheme()">
+        <div class="name-btns">
+            <button class="name-cancel" onclick="closeSaveFontScheme()">取消</button>
+            <button class="name-save"   onclick="confirmSaveFontScheme()">保存</button>
+        </div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
+
+<!-- 悬浮设置按钮 -->
+<button id="fab-settings" onclick="openSettings()" aria-label="设置">
+    <svg width="18" height="14" viewBox="0 0 18 14" fill="none">
+        <rect x="0" y="0" width="18" height="2.2" rx="1.1" fill="currentColor"/>
+        <rect x="0" y="5.9" width="18" height="2.2" rx="1.1" fill="currentColor"/>
+        <rect x="0" y="11.8" width="12" height="2.2" rx="1.1" fill="currentColor"/>
+    </svg>
+</button>
 
 <div id="splash">
   <div id="splash-inner">
@@ -700,18 +945,137 @@ const PRESETS = [
 const COLOR_LABELS = {'--bg':'背景','--ink':'正文','--ink-mid':'次要文字','--ink-faint':'淡化文字','--ink-ghost':'极淡文字','--rule':'分割线'};
 let currentTheme = JSON.parse(localStorage.getItem('vibe_theme')) || {...PRESETS[0].vars};
 let customThemes = JSON.parse(localStorage.getItem('vibe_custom_themes')) || [];
+let hiddenPresets = JSON.parse(localStorage.getItem('vibe_hidden_presets')) || [];
+function saveHiddenPresets() { localStorage.setItem('vibe_hidden_presets', JSON.stringify(hiddenPresets)); }
 
+// ═══════════════════════════════════════
+// THEME — 主题系统
+// ═══════════════════════════════════════
 function applyTheme(vars) {
     Object.entries(vars).forEach(([k,v]) => document.documentElement.style.setProperty(k,v));
     document.getElementById('theme-color-meta').content = vars['--bg'] || currentTheme['--bg'];
 }
 function saveTheme() { localStorage.setItem('vibe_theme', JSON.stringify(currentTheme)); }
 function saveCustomThemes() { localStorage.setItem('vibe_custom_themes', JSON.stringify(customThemes)); }
+
+// ═══════════════════════════════════════
+// FONT SYSTEM — 字体系统
+// ═══════════════════════════════════════
+const FONT_PRESETS = [
+    { id:'default',   label:'默认',
+      title:"'Noto Serif SC',serif",      body:"'Noto Sans SC',sans-serif",    ui:"'Noto Sans SC',sans-serif",
+      url:null },
+    { id:'src-serif', label:'思源宋',
+      title:"'Noto Serif CJK',serif",     body:"'Noto Serif CJK',serif",       ui:"'Noto Serif CJK',serif",
+      url:'https://fontsapi.zeoseven.com/285/main/result.css' },
+    { id:'src-sans',  label:'思源黑',
+      title:"'Noto Sans CJK',sans-serif", body:"'Noto Sans CJK',sans-serif",   ui:"'Noto Sans CJK',sans-serif",
+      url:'https://fontsapi.zeoseven.com/69/main/result.css' },
+    { id:'wenkai',    label:'霞鹜文楷',
+      title:"'LXGW WenKai',serif",        body:"'LXGW WenKai',serif",          ui:"'LXGW WenKai',serif",
+      url:'https://fontsapi.zeoseven.com/292/main/result.css' },
+    { id:'jinghua',   label:'京华老宋',
+      title:"'KingHwaOldSong',serif",     body:"'KingHwaOldSong',serif",        ui:"'KingHwaOldSong',serif",
+      url:'https://fontsapi.zeoseven.com/309/main/result.css' },
+    { id:'zhuque',    label:'朱雀仿宋',
+      title:"'Zhuque Fangsong (technical preview)',serif", body:"'Zhuque Fangsong (technical preview)',serif", ui:"'Zhuque Fangsong (technical preview)',serif",
+      url:'https://fontsapi.zeoseven.com/7/main/result.css' },
+    { id:'huiwen',    label:'汇文仿宋',
+      title:"'Huiwen-Fangsong',serif",    body:"'Huiwen-Fangsong',serif",       ui:"'Huiwen-Fangsong',serif",
+      url:'https://fontsapi.zeoseven.com/440/main/result.css' },
+    { id:'hanche',    label:'寒蝉点阵',
+      title:"'寒蝉点阵体 16px',monospace", body:"'寒蝉点阵体 16px',monospace",  ui:"'寒蝉点阵体 16px',monospace",
+      url:'https://fontsapi.zeoseven.com/359/main/result.css' },
+    { id:'pxsong',    label:'屏显臻宋',
+      title:"'Clear Han Serif',serif",    body:"'Clear Han Serif',serif",       ui:"'Clear Han Serif',serif",
+      url:'https://fontsapi.zeoseven.com/79/main/result.css' },
+];
+
+// 当前字体设置
+// slotTitle/slotBody/slotUi 存 presetId（null = 跟随全局预设）
+const FONT_DEFAULT_SCHEME = {
+    id: 'scheme_default', label: '默认', isBuiltin: true,
+    slotTitle: null, slotBody: null, slotUi: null,
+};
+
+let fontSettings = JSON.parse(localStorage.getItem('vibe_fonts')) || {
+    customFonts:    [],
+    slotTitle:      null,
+    slotBody:       null,
+    slotUi:         null,
+    savedSchemes:   [],
+    activeSchemeId: 'scheme_default',
+};
+// 迁移旧数据
+if (!fontSettings.savedSchemes)           fontSettings.savedSchemes   = [];
+if (!('activeSchemeId' in fontSettings))  fontSettings.activeSchemeId = 'scheme_default';
+// 清理旧的 presetId 字段（已废弃）
+delete fontSettings.presetId;
+// 迁移旧格式（ui/body/title 字段 → 丢弃，因为存的是字体值无法反查 id）
+if ('ui' in fontSettings) {
+    fontSettings.slotTitle = null;
+    fontSettings.slotBody  = null;
+    fontSettings.slotUi    = null;
+    delete fontSettings.ui;
+    delete fontSettings.body;
+    delete fontSettings.title;
+    saveFontSettings();
+}
+
+function saveFontSettings() {
+    localStorage.setItem('vibe_fonts', JSON.stringify(fontSettings));
+}
+
+// 加载外链字体（只加载一次）
+const _loadedFontUrls = new Set();
+function loadFontUrl(url) {
+    if (!url || _loadedFontUrls.has(url)) return;
+    _loadedFontUrls.add(url);
+    const link = document.createElement('link');
+    link.rel = 'stylesheet'; link.href = url;
+    document.head.appendChild(link);
+}
+
+function applyFontSettings() {
+    const allFonts = [...FONT_PRESETS, ...fontSettings.customFonts];
+    const dflt = FONT_PRESETS[0];
+    const resolve = (slotId, prop) => {
+        if (!slotId) return dflt[prop];
+        const f = allFonts.find(x => x.id === slotId);
+        if (f) { if (f.url) loadFontUrl(f.url); return f[prop]; }
+        return dflt[prop];
+    };
+    const root = document.documentElement.style;
+    root.setProperty('--font-title', resolve(fontSettings.slotTitle, 'title'));
+    root.setProperty('--font-body',  resolve(fontSettings.slotBody,  'body'));
+    root.setProperty('--font-ui',    resolve(fontSettings.slotUi,    'ui'));
+}
 function detectActivePreset() { return PRESETS.find(p => Object.entries(p.vars).every(([k,v])=>currentTheme[k]===v))?.id||null; }
 function detectActiveCustom() { return customThemes.find(p => Object.entries(p.vars).every(([k,v])=>currentTheme[k]===v))?.id||null; }
-function applyPreset(p) { currentTheme={...p.vars}; applyTheme(currentTheme); saveTheme(); renderSettings(); }
-function applyCustomTheme(id) { const t=customThemes.find(x=>x.id===id); if(t){currentTheme={...t.vars};applyTheme(currentTheme);saveTheme();renderSettings();} }
-function deleteCustomTheme(id) { customThemes=customThemes.filter(x=>x.id!==id); saveCustomThemes(); renderSettings(); }
+function applyPreset(p) {
+    // 点选主题时关闭自动切换
+    if (autoThemeSettings.systemFollow || autoThemeSettings.customTime) {
+        autoThemeSettings.systemFollow = false;
+        autoThemeSettings.customTime = false;
+        localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+        const panel = document.getElementById('auto-theme-panel');
+        if (panel) panel.style.display = 'none';
+    }
+    currentTheme={...p.vars}; applyTheme(currentTheme); saveTheme(); renderSettings();
+}
+function applyCustomTheme(id) {
+    const t=customThemes.find(x=>x.id===id);
+    if(t){
+        if (autoThemeSettings.systemFollow || autoThemeSettings.customTime) {
+            autoThemeSettings.systemFollow = false;
+            autoThemeSettings.customTime = false;
+            localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+            const panel = document.getElementById('auto-theme-panel');
+            if (panel) panel.style.display = 'none';
+        }
+        currentTheme={...t.vars};applyTheme(currentTheme);saveTheme();renderSettings();
+    }
+}
 function setCustomColor(varName, value) { currentTheme[varName]=value; applyTheme(currentTheme); saveTheme(); renderSettings(); }
 
 // ── Theme Generator ──────────────────────────────────────
@@ -741,6 +1105,9 @@ function setGenTone(tone, el) {
     el.classList.add('active');
 }
 
+// ═══════════════════════════════════════
+// THEME GENERATOR — 配色生成器
+// ═══════════════════════════════════════
 function generateTheme() {
     const rand=(a,b)=>Math.random()*(b-a)+a;
 
@@ -797,25 +1164,26 @@ function generateTheme() {
     const inkGhost= hslToHex(hue, midS*0.30, lerpL(0.15));
     const rule    = hslToHex(hue, midS*0.22, lerpL(0.12));
 
-    pendingGen = {'--bg':bg,'--ink':ink,'--ink-mid':inkMid,'--ink-faint':inkFaint,'--ink-ghost':inkGhost,'--rule':rule};
+    const generated = {'--bg':bg,'--ink':ink,'--ink-mid':inkMid,'--ink-faint':inkFaint,'--ink-ghost':inkGhost,'--rule':rule};
+    pendingGen = generated;
+    currentTheme = {...generated};
+    applyTheme(currentTheme); saveTheme();
 
-    // Show preview swatches
+    // 预览色块
     document.getElementById('gen-preview').innerHTML =
         ['--bg','--ink','--ink-mid','--ink-faint','--ink-ghost','--rule'].map(k=>
-            `<div class="gen-swatch" style="background:${pendingGen[k]};"></div>`).join('');
-    document.getElementById('gen-apply-btn').style.display='inline-block';
-    document.getElementById('gen-save-btn').style.display='inline-block';
+            `<div class="gen-swatch" style="background:${generated[k]};"></div>`).join('');
+
+    // 同步精细调色区
+    renderSettings();
 }
 
-function applyGenTheme() {
-    if (!pendingGen) return;
-    currentTheme={...pendingGen}; applyTheme(currentTheme); saveTheme(); renderSettings();
-    toast('主题已应用');
-}
-
+// ═══════════════════════════════════════
+// THEME SAVE — 命名保存
+// ═══════════════════════════════════════
 // ── Name popup ───────────────────────────────────────────
+// 始终保存 currentTheme（无论是生成的还是手动调的）
 function openNamePopup() {
-    if (!pendingGen) return;
     document.getElementById('name-input').value='';
     document.getElementById('name-overlay').classList.add('open');
     setTimeout(()=>document.getElementById('name-input').focus(), 100);
@@ -825,13 +1193,11 @@ function maybeCloseNamePopup(e) { if(e.target===document.getElementById('name-ov
 function confirmSaveTheme() {
     const name=document.getElementById('name-input').value.trim();
     if (!name) { document.getElementById('name-input').focus(); return; }
-    if (!pendingGen) return;
     const id='custom_'+Date.now();
-    customThemes.push({id, label:name, vars:{...pendingGen}});
+    customThemes.push({id, label:name, vars:{...currentTheme}});
     saveCustomThemes();
     closeNamePopup();
-    // Also apply it
-    currentTheme={...pendingGen}; applyTheme(currentTheme); saveTheme(); renderSettings();
+    renderSettings();
     toast(`「${name}」已保存`);
 }
 
@@ -839,6 +1205,9 @@ function confirmSaveTheme() {
 // ─────────────────────────────────────────
 // AUTO THEME (明暗自动切换)
 // ─────────────────────────────────────────
+// ═══════════════════════════════════════
+// AUTO THEME — 自动明暗切换
+// ═══════════════════════════════════════
 let autoThemeSettings = JSON.parse(localStorage.getItem('vibe_auto_theme')) || {
     systemFollow: false,
     customTime: false,
@@ -860,24 +1229,7 @@ function saveAutoThemeSettings() {
     scheduleAutoTheme();
 }
 
-function onAutoThemeChange() {
-    const sys = document.getElementById('at-system-toggle');
-    const cus = document.getElementById('at-custom-toggle');
-    autoThemeSettings.systemFollow = sys ? sys.checked : false;
-    autoThemeSettings.customTime   = cus ? cus.checked : false;
-    // 互斥：系统 on 时关闭自定义
-    if (autoThemeSettings.systemFollow) {
-        autoThemeSettings.customTime = false;
-        if (cus) cus.checked = false;
-    }
-    if (autoThemeSettings.customTime) {
-        autoThemeSettings.systemFollow = false;
-        if (sys) sys.checked = false;
-    }
-    saveAutoThemeSettings();
-    syncAutoThemeUI();
-    applyAutoThemeNow();
-}
+// onAutoThemeChange replaced by setAtMode()
 
 function findThemeById(id) {
     return PRESETS.find(p => p.id === id) || customThemes.find(p => p.id === id) || null;
@@ -927,55 +1279,66 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
     if (autoThemeSettings.systemFollow) applyAutoThemeNow();
 });
 
-function renderAtThemeChips(containerId, selectedId, onSelect) {
+// renderAtThemeChips replaced by renderAtChips in syncAutoThemeUI
+
+function syncAutoThemeUI() {
+    const s = autoThemeSettings;
+    const mode = s.systemFollow ? 'system' : s.customTime ? 'time' : 'off';
+    // 模式卡片高亮
+    ['system','time'].forEach(m => {
+        const card = document.getElementById('at-card-' + m);
+        if (card) card.classList.toggle('active', m === mode);
+    });
+    // 时间段行（仅 time 模式显示）
+    const tp = document.getElementById('at-time-pickers');
+    if (tp) tp.style.display = mode === 'time' ? 'block' : 'none';
+    // 时间值同步
+    const ds = document.getElementById('at-dark-start');
+    const de = document.getElementById('at-dark-end');
+    if (ds) ds.value = s.darkStart;
+    if (de) de.value = s.darkEnd;
+    // 主题选择器（任何模式非 off 就显示）
+    const sel = document.getElementById('at-theme-selectors');
+    if (sel) sel.style.display = mode !== 'off' ? 'block' : 'none';
+    if (mode !== 'off') {
+        renderAtChips('at-light-chips', s.lightThemeId, id => {
+            autoThemeSettings.lightThemeId = id;
+            localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+            syncAutoThemeUI(); applyAutoThemeNow();
+        });
+        renderAtChips('at-dark-chips', s.darkThemeId, id => {
+            autoThemeSettings.darkThemeId = id;
+            localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+            syncAutoThemeUI(); applyAutoThemeNow();
+        });
+    }
+    // auto-chip 状态
+    const autoChip = document.querySelector('.auto-chip');
+    if (autoChip) autoChip.classList.toggle('active', mode !== 'off');
+}
+
+function setAtMode(mode) {
+    autoThemeSettings.systemFollow = mode === 'system';
+    autoThemeSettings.customTime   = mode === 'time';
+    localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+    scheduleAutoTheme();
+    syncAutoThemeUI();
+    applyAutoThemeNow();
+}
+
+
+function renderAtChips(containerId, selectedId, onSelect) {
     const el = document.getElementById(containerId);
     if (!el) return;
-    const all = [...PRESETS, ...customThemes];
-    el.innerHTML = all.map(p => {
-        const b=p.vars['--bg'], k=p.vars['--ink'], r=p.vars['--rule'];
-        const svg=`<svg viewBox="0 0 34 34" width="34" height="34" style="position:absolute;inset:0"><circle cx="17" cy="17" r="17" fill="${b}"/><line x1="17" y1="6" x2="17" y2="28" stroke="${k}" stroke-width="2" stroke-linecap="round"/><line x1="10" y1="15" x2="24" y2="15" stroke="${r}" stroke-width="1.2" stroke-linecap="round"/><line x1="10" y1="22" x2="21" y2="22" stroke="${r}" stroke-width="1.2" stroke-linecap="round"/></svg>`;
-        return `<div class="at-chip ${p.id===selectedId?'selected':''}" onclick="(${onSelect})('${p.id}')">
-            <div class="preset-swatch">${svg}</div>
+    el.innerHTML = [...PRESETS, ...customThemes].map(p => {
+        const svg = themeChipSvg(p.vars, 32);
+        return `<div class="at-chip ${p.id===selectedId?'selected':''}" onclick="(${onSelect.toString()})('${p.id}')">
+            <div class="at-swatch">${svg}</div>
             <span class="at-chip-label">${p.label}</span>
         </div>`;
     }).join('');
 }
 
-function syncAutoThemeUI() {
-    const sys = document.getElementById('at-system-toggle');
-    const cus = document.getElementById('at-custom-toggle');
-    const ds  = document.getElementById('at-dark-start');
-    const de  = document.getElementById('at-dark-end');
-    const pic = document.getElementById('at-time-pickers');
-    const lRow = document.getElementById('at-light-pick-row');
-    const dRow = document.getElementById('at-dark-pick-row');
-    if (sys) sys.checked = autoThemeSettings.systemFollow;
-    if (cus) cus.checked = autoThemeSettings.customTime;
-    if (ds)  ds.value   = autoThemeSettings.darkStart;
-    if (de)  de.value   = autoThemeSettings.darkEnd;
-    const active = autoThemeSettings.systemFollow || autoThemeSettings.customTime;
-    if (pic) pic.style.display = autoThemeSettings.customTime ? 'block' : 'none';
-    // 只要开启了任意自动模式，就显示主题选择器
-    const showPickers = active ? 'block' : 'none';
-    if (lRow) lRow.style.display = showPickers;
-    if (dRow) dRow.style.display = showPickers;
-    if (active) {
-        renderAtThemeChips('at-light-chips', autoThemeSettings.lightThemeId,
-            `function(id){autoThemeSettings.lightThemeId=id;localStorage.setItem('vibe_auto_theme',JSON.stringify(autoThemeSettings));syncAutoThemeUI();applyAutoThemeNow();}`);
-        renderAtThemeChips('at-dark-chips',  autoThemeSettings.darkThemeId,
-            `function(id){autoThemeSettings.darkThemeId=id;localStorage.setItem('vibe_auto_theme',JSON.stringify(autoThemeSettings));syncAutoThemeUI();applyAutoThemeNow();}`);
-    }
-}
-
-let autoThemeSectionOpen = false;
-function toggleAutoThemeSection() {
-    autoThemeSectionOpen = !autoThemeSectionOpen;
-    const sec = document.getElementById('auto-theme-section');
-    const arr = document.getElementById('auto-theme-arrow');
-    if (sec) sec.style.display = autoThemeSectionOpen ? 'block' : 'none';
-    if (arr) arr.style.transform = autoThemeSectionOpen ? 'rotate(180deg)' : '';
-    if (autoThemeSectionOpen) syncAutoThemeUI();
-}
 // ─────────────────────────────────────────
 // SETTINGS UI
 // ─────────────────────────────────────────
@@ -986,114 +1349,595 @@ const SINK_PRESETS = [
     {label:'自定义',  ms:null},
 ];
 
-let colorSectionOpen = false;
-function toggleColorSection() {
-    colorSectionOpen = !colorSectionOpen;
-    document.getElementById('color-rows').style.display = colorSectionOpen ? 'block' : 'none';
-    const arrow = document.getElementById('color-toggle-arrow');
-    if (arrow) arrow.style.transform = colorSectionOpen ? 'rotate(180deg)' : '';
+// ── Tab 切换 ──
+function switchSettingsTab(id, el) {
+    document.querySelectorAll('.stab').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.stab-page').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('stab-' + id).classList.add('active');
 }
 
+// ── 主题行渲染 ──
+function themeChipSvg(vars, size=44) {
+    const bg    = vars['--bg']        || '#f7f5f0';
+    const ink   = vars['--ink']       || '#1a1a18';
+    const faint = vars['--ink-faint'] || '#b8b5ae';
+    const r = size / 2;
+    // 纯 path 扇形，不依赖 clipPath/id：
+    // 整圆底色(bg)，右半圆(ink)，左下四分之一圆(faint)
+    // 右半圆 path: 从(r,0)顺时针到(r,size)，收回圆心
+    // 左下四分之一: 从(r,r)到(0,r)逆时针到(r,size)，收回
+    return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="display:block">
+        <circle cx="${r}" cy="${r}" r="${r}" fill="${bg}"/>
+        <path d="M${r},${r} L${r},0 A${r},${r} 0 0,1 ${size},${r} A${r},${r} 0 0,1 ${r},${size} Z" fill="${ink}"/>
+        <path d="M${r},${r} L0,${r} A${r},${r} 0 0,0 ${r},${size} Z" fill="${faint}"/>
+    </svg>`;
+}
+
+// 确认删除弹窗
+let _delThemeId = null;
+let _delThemeIsPreset = false;
+let _delTargetId = null;
+// isPreset: true = 内置预设（不可真删，重置为初始），false = 自定义
+function confirmDeleteTheme(id, label, isPreset) {
+    _delThemeId = id;
+    _delThemeIsPreset = !!isPreset;
+    document.getElementById('del-title').textContent = isPreset ? `重置「${label}」？` : `删除「${label}」？`;
+    document.getElementById('del-sub').textContent = isPreset
+        ? '预设主题无法永久删除，此操作将从列表中隐藏它。'
+        : '自定义主题将永久删除，此操作无法撤销。';
+    document.getElementById('del-strand-btn').style.display = 'none';
+    document.getElementById('del-overlay').classList.add('open');
+}
+// 恢复删除对话框（删除条目时重置）
+function deleteCabinetItemConfirm(id) {
+    _delThemeId = null;
+    _delTargetId = id;
+    const item = items.find(i=>i.id===id);
+    document.getElementById('del-title').textContent = '删除这条记录？';
+    document.getElementById('del-sub').textContent = item ? `"${item.text.slice(0,20)}${item.text.length>20?'…':''}"` : '';
+    document.getElementById('del-strand-btn').style.display = 'block';
+    document.getElementById('del-overlay').classList.add('open');
+}
+// override deleteCabinetItem to use new dialog
+function deleteCabinetItem(id) { deleteCabinetItemConfirm(id); }
+function delConfirmDelete() {
+    if (_delFontSchemeId !== null) {
+        _execDeleteFontScheme();
+    } else if (_delThemeId !== null) {
+        if (_delThemeIsPreset) {
+            if (!hiddenPresets.includes(_delThemeId)) { hiddenPresets.push(_delThemeId); saveHiddenPresets(); }
+            toast('预设配色已隐藏');
+        } else {
+            customThemes = customThemes.filter(x => x.id !== _delThemeId);
+            saveCustomThemes(); toast('配色已删除');
+        }
+        renderSettings();
+        _delThemeId = null;
+        _delThemeIsPreset = false;
+    } else if (_delTargetId !== null) {
+        items = items.filter(i => i.id !== _delTargetId); save(); toast('已永久删除');
+        _delTargetId = null;
+    }
+    closeDel();
+}
+function closeDel() {
+    document.getElementById('del-overlay').classList.remove('open');
+    _delTargetId = null;
+    _delFontSchemeId = null;
+    // 还原确认按钮（resetAll 会临时覆盖 onclick）
+    const btn = document.getElementById('del-confirm-btn');
+    if (btn) { btn.textContent = '直接删除'; btn.onclick = delConfirmDelete; }
+    // 还原「移入礁石」按钮显示
+    const strand = document.getElementById('del-strand-btn');
+    if (strand) strand.style.display = '';
+}
+function maybeCloseDel(e) { if (e.target===document.getElementById('del-overlay')) closeDel(); }
+function delConfirmStrand() {
+    if (_delTargetId===null) return;
+    const item=items.find(i=>i.id===_delTargetId);
+    if (item) { item.state='trash'; save(); render(); toast('已移入礁石'); }
+    closeDel();
+}
+
+
+// ═══════════════════════════════════════
+// FONT RENDER — 字体设置页渲染
+// ═══════════════════════════════════════
+
+function renderFontSettings() {
+    renderFontSchemeRow();
+    renderFontSelects();
+}
+
+// ── 已保存方案横排（含内置默认） ──
+// 用索引避免方案名含引号时 onclick 截断
+let _schemeList = [];
+function renderFontSchemeRow() {
+    const row = document.getElementById('font-scheme-row');
+    if (!row) return;
+    _schemeList = [FONT_DEFAULT_SCHEME, ...(fontSettings.savedSchemes || [])];
+    row.innerHTML = _schemeList.map((s, i) => {
+        const isActive = (fontSettings.activeSchemeId || 'scheme_default') === s.id;
+        const delBtn = s.isBuiltin ? '' :
+            `<button class="fsc-del" onclick="event.stopPropagation();confirmDeleteFontSchemeByIndex(${i})">×</button>`;
+        return `<div class="font-scheme-chip ${isActive?'active':''}" onclick="applyFontSchemeByIndex(${i})">${s.label}${delBtn}</div>`;
+    }).join('');
+}
+function applyFontSchemeByIndex(i) {
+    const s = _schemeList[i]; if (!s) return;
+    applyFontScheme(s.id);
+}
+function confirmDeleteFontSchemeByIndex(i) {
+    const s = _schemeList[i]; if (!s) return;
+    confirmDeleteFontScheme(s.id, s.label);
+}
+
+// ── 三槽 select ──
+function renderFontSelects() {
+    const allFonts = [...FONT_PRESETS, ...fontSettings.customFonts];
+    const opts = allFonts.map(f =>
+        `<option value="${f.id}">${f.label}</option>`
+    ).join('');
+    [
+        ['font-sel-title', 'slotTitle'],
+        ['font-sel-body',  'slotBody'],
+        ['font-sel-ui',    'slotUi'],
+    ].forEach(([elId, key]) => {
+        const sel = document.getElementById(elId);
+        if (!sel) return;
+        sel.innerHTML = opts;
+        sel.value = fontSettings[key] || 'default';
+    });
+}
+
+function onFontSelect(slotKey, fontId) {
+    fontSettings[slotKey] = fontId === 'default' ? null : fontId;
+    fontSettings.activeSchemeId = null;
+    saveFontSettings();
+    applyFontSettings();
+    renderFontSchemeRow();
+}
+
+// ── 方案：命名保存弹窗 ──
+function openSaveFontScheme() {
+    document.getElementById('font-scheme-name-input').value = '';
+    document.getElementById('font-scheme-name-overlay').classList.add('open');
+    setTimeout(() => document.getElementById('font-scheme-name-input').focus(), 100);
+}
+function closeSaveFontScheme() {
+    document.getElementById('font-scheme-name-overlay').classList.remove('open');
+}
+function maybeCloseFontSchemeOverlay(e) {
+    if (e.target === document.getElementById('font-scheme-name-overlay')) closeSaveFontScheme();
+}
+function confirmSaveFontScheme() {
+    const name = document.getElementById('font-scheme-name-input').value.trim();
+    if (!name) { document.getElementById('font-scheme-name-input').focus(); return; }
+    const scheme = {
+        id: 'fs_' + Date.now(),
+        label: name,
+        isBuiltin: false,
+        slotTitle: fontSettings.slotTitle,
+        slotBody:  fontSettings.slotBody,
+        slotUi:    fontSettings.slotUi,
+    };
+    if (!fontSettings.savedSchemes) fontSettings.savedSchemes = [];
+    fontSettings.savedSchemes.push(scheme);
+    fontSettings.activeSchemeId = scheme.id;
+    saveFontSettings();
+    closeSaveFontScheme();
+    renderFontSettings();
+    toast(`方案「${name}」已保存`);
+}
+
+// ── 方案应用 / 删除（带确认弹窗） ──
+function applyFontScheme(id) {
+    const s = id === 'scheme_default'
+        ? FONT_DEFAULT_SCHEME
+        : (fontSettings.savedSchemes || []).find(x => x.id === id);
+    if (!s) return;
+    fontSettings.slotTitle = s.slotTitle;
+    fontSettings.slotBody  = s.slotBody;
+    fontSettings.slotUi    = s.slotUi;
+    fontSettings.activeSchemeId = id;
+    saveFontSettings();
+    applyFontSettings();
+    renderFontSettings();
+}
+
+let _delFontSchemeId = null;
+function confirmDeleteFontScheme(id, label) {
+    _delFontSchemeId = id;
+    document.getElementById('del-title').textContent = `删除方案「${label}」？`;
+    document.getElementById('del-sub').textContent = '字体方案将永久删除，此操作无法撤销。';
+    document.getElementById('del-strand-btn').style.display = 'none';
+    document.getElementById('del-overlay').classList.add('open');
+}
+function _execDeleteFontScheme() {
+    if (!_delFontSchemeId) return;
+    fontSettings.savedSchemes = (fontSettings.savedSchemes || []).filter(x => x.id !== _delFontSchemeId);
+    if (fontSettings.activeSchemeId === _delFontSchemeId) fontSettings.activeSchemeId = 'scheme_default';
+    saveFontSettings();
+    renderFontSettings();
+    toast('方案已删除');
+    _delFontSchemeId = null;
+}
+
+// ── 字体库弹层 ──
+function openFontLibrary() {
+    renderFontLibList();
+    document.getElementById('font-lib-overlay').classList.add('open');
+}
+function closeFontLibrary() {
+    document.getElementById('font-lib-overlay').classList.remove('open');
+}
+function maybeCloseFontLib(e) {
+    if (e.target === document.getElementById('font-lib-overlay')) closeFontLibrary();
+}
+function renderFontLibList() {
+    const el = document.getElementById('font-lib-list');
+    if (!el) return;
+    const custom = fontSettings.customFonts || [];
+    if (!custom.length) {
+        el.innerHTML = '<div style="font-size:0.75rem;color:var(--ink-ghost);padding:8px 0 4px;">暂无自定义字体，在下方添加</div>';
+        return;
+    }
+    el.innerHTML = custom.map(f => `
+        <div class="font-lib-item">
+            <div class="font-lib-item-info">
+                <span class="font-lib-item-name" style="font-family:${f.title||f.ui}">${f.label}</span>
+                <span class="font-lib-item-url">${f.url}</span>
+            </div>
+            <button class="font-lib-item-del" onclick="deleteCustomFont('${f.id}')">删除</button>
+        </div>`).join('');
+}
+
+// ── 添加 / 删除自定义字体 ──
+function addCustomFont() {
+    const inputEl = document.getElementById('font-url-input');
+    const nameEl  = document.getElementById('font-name-input');
+    const raw     = inputEl.value.trim();
+    if (!raw) { toast('请填写字体 CSS 代码或链接'); return; }
+
+    let cssUrl = null;
+    let family = nameEl.value.trim() || null;
+
+    // 格式1：@import url("...")
+    const importMatch = raw.match(/@import\s+url\(\s*["']?([^"')]+)["']?\s*\)/);
+    if (importMatch) cssUrl = importMatch[1].trim();
+
+    // 格式2：font-family: "FontName"
+    if (!family) {
+        const ffMatch = raw.match(/font-family\s*:\s*["']?([^"';\r\n]+)["']?/);
+        if (ffMatch) family = ffMatch[1].trim().replace(/;$/, '');
+    }
+
+    // 格式3：纯 URL
+    if (!cssUrl && (raw.startsWith('http') || raw.startsWith('//'))) {
+        cssUrl = raw.split(/\s/)[0];
+    }
+
+    // 从 Google Fonts URL 推断 family
+    if (!family && cssUrl) {
+        const gfMatch = cssUrl.match(/family=([^&:]+)/);
+        if (gfMatch) family = decodeURIComponent(gfMatch[1].replace(/\+/g, ' '));
+    }
+
+    if (!cssUrl)  { toast('未能识别有效的 CSS 链接，请检查格式'); return; }
+    if (!family)  { toast('请填写字体名称'); nameEl.focus(); return; }
+
+    const fontValue = `'${family}',sans-serif`;
+    const id = 'cf_' + Date.now();
+    const label = nameEl.value.trim() || family;
+    const newFont = { id, label, url: cssUrl, ui: fontValue, body: fontValue, title: fontValue };
+    if (!fontSettings.customFonts) fontSettings.customFonts = [];
+    fontSettings.customFonts.push(newFont);
+    saveFontSettings();
+    loadFontUrl(cssUrl);
+    inputEl.value = ''; nameEl.value = '';
+    renderFontLibList();
+    renderFontSelects();
+    toast(`字体「${label}」已添加`);
+}
+
+function deleteCustomFont(id) {
+    fontSettings.customFonts = (fontSettings.customFonts || []).filter(f => f.id !== id);
+    // 若某槽正在用此字体，重置为默认
+    ['slotTitle','slotBody','slotUi'].forEach(k => {
+        if (fontSettings[k] === id) fontSettings[k] = null;
+    });
+    saveFontSettings();
+    applyFontSettings();
+    renderFontLibList();
+    renderFontSelects();
+    toast('字体已删除');
+}
+
+// ═══════════════════════════════════════
+// SETTINGS RENDER — 设置页渲染
+// ═══════════════════════════════════════
 function renderSettings() {
+    renderFontSettings();
     const activePresetId = detectActivePreset();
     const activeCustomId = detectActiveCustom();
-    // ── 合并主题行 ──
-    function themeChipSvg(vars) {
-        const b=vars['--bg'],k=vars['--ink'],r=vars['--rule'];
-        return `<svg viewBox="0 0 42 42" width="42" height="42" style="position:absolute;inset:0"><circle cx="21" cy="21" r="21" fill="${b}"/><line x1="21" y1="8" x2="21" y2="34" stroke="${k}" stroke-width="2.5" stroke-linecap="round"/><line x1="12" y1="18" x2="30" y2="18" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/><line x1="12" y1="26" x2="26" y2="26" stroke="${r}" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-    }
-    let allThemesHtml = PRESETS.map(p =>
-        `<div class="preset-chip ${p.id===activePresetId?'active':''}" onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"><div class="preset-swatch" style="position:relative;">${themeChipSvg(p.vars)}</div><span class="preset-chip-label">${p.label}</span></div>`
+    const autoActive = autoThemeSettings.systemFollow || autoThemeSettings.customTime;
+
+    // ── 主题行：自动切换 + 预设 + 自定义 ──
+    let html = `<div class="auto-chip ${autoActive?'active':''}" onclick="toggleAutoThemePanel()">
+        <div class="auto-chip-icon">⇌</div>
+        <span class="auto-chip-label">自动</span>
+    </div>`;
+    // 预设主题：长按可删除
+    const visiblePresets = PRESETS.filter(p => !hiddenPresets.includes(p.id));
+    html += visiblePresets.map(p =>
+        `<div class="preset-chip ${p.id===activePresetId?'active':''}"
+            onclick="applyPreset(PRESETS.find(x=>x.id==='${p.id}'))"
+            oncontextmenu="event.preventDefault();event.stopPropagation();confirmDeleteTheme('${p.id}','${p.label}',true);return false;"
+            data-longpress-id="${p.id}" data-longpress-label="${p.label}" data-longpress-preset="true">
+            <div class="preset-swatch">${themeChipSvg(p.vars)}</div>
+            <span class="preset-chip-label">${p.label}</span>
+        </div>`
     ).join('');
     if (customThemes.length > 0) {
-        allThemesHtml += `<div class="theme-divider"></div>`;
-        allThemesHtml += customThemes.map(p =>
-            `<div class="custom-theme-chip ${p.id===activeCustomId?'active':''}">
-                <div class="preset-swatch" style="position:relative;" onclick="applyCustomTheme('${p.id}')">${themeChipSvg(p.vars)}</div>
+        html += `<div class="theme-divider"></div>`;
+        html += customThemes.map(p =>
+            `<div class="preset-chip ${p.id===activeCustomId?'active':''}"
+                onclick="applyCustomTheme('${p.id}')"
+                oncontextmenu="event.preventDefault();event.stopPropagation();confirmDeleteTheme('${p.id}','${p.label}',false);return false;"
+                data-longpress-id="${p.id}" data-longpress-label="${p.label}" data-longpress-preset="false">
+                <div class="preset-swatch">${themeChipSvg(p.vars)}</div>
                 <span class="preset-chip-label">${p.label}</span>
-                <button class="custom-theme-del" onclick="event.stopPropagation();deleteCustomTheme('${p.id}')">×</button>
+                <button class="chip-del" onclick="event.stopPropagation();confirmDeleteTheme('${p.id}','${p.label}',false)">×</button>
             </div>`
         ).join('');
     }
-    document.getElementById('all-themes-row').innerHTML = allThemesHtml;
-    // ── 颜色行（保持折叠状态）──
-    document.getElementById('color-rows').innerHTML = Object.entries(COLOR_LABELS).map(([k,label]) => {
-        const val=currentTheme[k]||'#ffffff', id='hex_'+k.replace(/-/g,'_');
-        return `<div class="color-row"><span class="color-row-label">${label}</span><div class="color-row-right"><span class="color-hex" id="${id}">${val}</span><div class="color-dot-btn" style="background:${val};"><input type="color" value="${val}" oninput="setCustomColor('${k}',this.value);document.getElementById('${id}').textContent=this.value;this.parentElement.style.background=this.value;"></div></div></div>`;
+    const row = document.getElementById('all-themes-row');
+    if (row) {
+        row.innerHTML = html;
+        // 绑定长按（移动端触摸）
+        row.querySelectorAll('.preset-chip').forEach(el => {
+            let timer;
+            el.addEventListener('touchstart', e => {
+                timer = setTimeout(() => {
+                    const id = el.dataset.longpressId;
+                    const label = el.dataset.longpressLabel;
+                    const isPreset = el.dataset.longpressPreset === 'true';
+                    confirmDeleteTheme(id, label, isPreset);
+                }, 600);
+            }, {passive: true});
+            el.addEventListener('touchend', () => clearTimeout(timer), {passive: true});
+            el.addEventListener('touchmove', () => clearTimeout(timer), {passive: true});
+        });
+    }
+
+    // ── 颜色行：hex 输入框 + 取色器 ──
+    const cr = document.getElementById('color-rows');
+    if (cr) cr.innerHTML = Object.entries(COLOR_LABELS).map(([k, label]) => {
+        const val = currentTheme[k] || '#ffffff';
+        const inputId = 'hex_' + k.replace(/-/g, '_');
+        return `<div class="color-row">
+            <span class="color-row-label">${label}</span>
+            <div class="color-row-right">
+                <input class="color-hex-input" id="${inputId}" value="${val}" maxlength="7"
+                    onchange="applyHexInput('${k}', this)"
+                    oninput="syncDotColor('${k}', this)">
+                <div class="color-dot-btn" id="dot_${inputId}" style="background:${val};">
+                    <input type="color" value="${val}"
+                        oninput="setCustomColor('${k}',this.value);syncHexInput('${k}',this.value);this.parentElement.style.background=this.value;">
+                </div>
+            </div>
+        </div>`;
     }).join('');
+
+    // ── sink chips ──
     const isPreset = SINK_PRESETS.slice(0,3).some(p=>p.ms===sinkTime);
-    document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((p,i) => {
+    const sc = document.getElementById('sink-chips');
+    if (sc) sc.innerHTML = SINK_PRESETS.map((p,i) => {
         const active = p.ms===null ? (!isPreset||customRowVisible) : p.ms===sinkTime;
         return `<button class="sink-chip ${active?'active':''}" onclick="selectSinkChip(${i})">${p.label}</button>`;
     }).join('');
-    if (!customRowVisible) {
-        document.getElementById('sink-custom-row').style.display = 'none';
-        if (!isPreset) { document.getElementById('sink-custom-row').style.display='flex'; document.getElementById('sink-custom-val').value=Math.round(sinkTime/60000); }
+    const scr = document.getElementById('sink-custom-row');
+    if (scr) {
+        if (!customRowVisible && isPreset) {
+            scr.style.display = 'none';
+        } else if (!customRowVisible && !isPreset) {
+            scr.style.display = 'block';
+            // populate H/M
+            const h = Math.floor(sinkTime/3600000);
+            const m = Math.round((sinkTime % 3600000)/60000);
+            const hEl=document.getElementById('sink-h'), mEl=document.getElementById('sink-m');
+            if (hEl) hEl.value = h || '';
+            if (mEl) mEl.value = m || '';
+        }
     }
+
+    // ── 导出范围 ──
+    renderExportScope();
+
+    // ── auto theme UI ──
+    syncAutoThemeUI();
 }
 
+// hex 输入 helpers
+function applyHexInput(varName, inputEl) {
+    let v = inputEl.value.trim();
+    if (!v.startsWith('#')) v = '#' + v;
+    if (!/^#[0-9a-fA-F]{6}$/.test(v)) { inputEl.value = currentTheme[varName]; return; }
+    inputEl.value = v;
+    setCustomColor(varName, v);
+    const dotId = 'dot_hex_' + varName.replace(/-/g,'_');
+    const dot = document.getElementById(dotId);
+    if (dot) { dot.style.background = v; const ci = dot.querySelector('input[type=color]'); if (ci) ci.value = v; }
+}
+function syncDotColor(varName, inputEl) {
+    let v = inputEl.value.trim();
+    if (!v.startsWith('#')) v = '#' + v;
+    if (!/^#[0-9a-fA-F]{6}$/.test(v)) return;
+    const dotId = 'dot_hex_' + varName.replace(/-/g,'_');
+    const dot = document.getElementById(dotId);
+    if (dot) { dot.style.background = v; }
+}
+function syncHexInput(varName, value) {
+    const inputId = 'hex_' + varName.replace(/-/g,'_');
+    const el = document.getElementById(inputId);
+    if (el) el.value = value;
+}
+
+// sink chip select
 function selectSinkChip(idx) {
     const p = SINK_PRESETS[idx];
     if (p.ms !== null) {
-        customRowVisible=false; document.getElementById('sink-custom-row').style.display='none';
-        sinkTime=p.ms; saveSinkTime();
-        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) =>
+        customRowVisible = false;
+        const scr = document.getElementById('sink-custom-row');
+        if (scr) scr.style.display = 'none';
+        sinkTime = p.ms; saveSinkTime();
+        const sc = document.getElementById('sink-chips');
+        if (sc) sc.innerHTML = SINK_PRESETS.map((pp,i) =>
             `<button class="sink-chip ${pp.ms===sinkTime?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`).join('');
-        toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`); scheduleSinkCheck();
+        toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
+        scheduleSinkCheck();
     } else {
-        customRowVisible=true;
-        document.getElementById('sink-custom-row').style.display='flex';
-        document.getElementById('sink-custom-val').value='';
-        document.getElementById('sink-custom-val').focus();
-        document.getElementById('sink-chips').innerHTML = SINK_PRESETS.map((pp,i) =>
+        customRowVisible = true;
+        const scr = document.getElementById('sink-custom-row');
+        if (scr) scr.style.display = 'block';
+        const hEl=document.getElementById('sink-h'), mEl=document.getElementById('sink-m');
+        if (hEl) { hEl.value=''; hEl.focus(); }
+        if (mEl) mEl.value = '';
+        const sc = document.getElementById('sink-chips');
+        if (sc) sc.innerHTML = SINK_PRESETS.map((pp,i) =>
             `<button class="sink-chip ${pp.ms===null?'active':''}" onclick="selectSinkChip(${i})">${pp.label}</button>`).join('');
     }
 }
-
-function applyCustomSink() {
-    const m=parseFloat(document.getElementById('sink-custom-val').value);
-    if (!m||m<=0) { toast('请输入有效的分钟数'); return; }
-    customRowVisible=false; sinkTime=Math.round(m*60000); saveSinkTime(); renderSettings();
-    toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`); scheduleSinkCheck();
+function applyCustomSinkHM() {
+    const h = parseInt(document.getElementById('sink-h').value) || 0;
+    const m = parseInt(document.getElementById('sink-m').value) || 0;
+    const total = (h * 60 + m) * 60000;
+    if (total <= 0) { toast('请输入有效的时长'); return; }
+    customRowVisible = false;
+    sinkTime = total; saveSinkTime(); renderSettings();
+    toast(`念头将在 ${formatSinkTime(sinkTime)} 后沉入海底`);
+    scheduleSinkCheck();
 }
 
 function resetAll() {
-    if (!confirm('恢复默认将清除自定义主题，确定吗？')) return;
-    currentTheme={...PRESETS[0].vars}; applyTheme(currentTheme); saveTheme();
-    customThemes=[]; saveCustomThemes();
-    sinkTime=DEFAULT_SINK; saveSinkTime(); renderSettings(); toast('已恢复默认');
+    // 用 del-overlay 替代 confirm（iframe 里 confirm 会被静默阻止）
+    _delTargetId = null; _delThemeId = null; _delFontSchemeId = null;
+    document.getElementById('del-title').textContent = '恢复全部默认设置？';
+    document.getElementById('del-sub').textContent = '将清除配色、字体方案等一切自定义设置。外链字体列表与灵感记录不受影响。建议提前导出外观存档备份。';
+    document.getElementById('del-strand-btn').style.display = 'none';
+    const confirmBtn = document.getElementById('del-confirm-btn');
+    confirmBtn.textContent = '确认恢复';
+    confirmBtn.onclick = function() {
+        // 配色
+        currentTheme = {...PRESETS[0].vars}; applyTheme(currentTheme); saveTheme();
+        customThemes = []; saveCustomThemes();
+        hiddenPresets = []; saveHiddenPresets();
+        // 偏好
+        sinkTime = DEFAULT_SINK; saveSinkTime();
+        autoThemeSettings = {systemFollow:false,customTime:false,darkStart:'21:00',darkEnd:'07:00',lightThemeId:'paper',darkThemeId:'night'};
+        localStorage.setItem('vibe_auto_theme', JSON.stringify(autoThemeSettings));
+        // 字体：清字体槽和方案，保留外链字体列表
+        fontSettings.slotTitle = null;
+        fontSettings.slotBody  = null;
+        fontSettings.slotUi    = null;
+        fontSettings.savedSchemes  = [];
+        fontSettings.activeSchemeId = 'scheme_default';
+        saveFontSettings();
+        applyFontSettings();
+        closeDel();
+        renderSettings();
+        toast('已恢复默认设置');
+    };
+    document.getElementById('del-overlay').classList.add('open');
+}
+
+
+// ── 自动主题面板 toggle ──
+let autoThemePanelOpen = false;
+function toggleAutoThemePanel() {
+    autoThemePanelOpen = !autoThemePanelOpen;
+    const panel = document.getElementById('auto-theme-panel');
+    if (panel) panel.style.display = autoThemePanelOpen ? 'block' : 'none';
+    // 更新 auto-chip 状态
+    renderSettings();
 }
 
 // ─────────────────────────────────────────
 // EXPORT / IMPORT
 // ─────────────────────────────────────────
 const SCOPES = [
-    {id:'pool',label:'灵感之海'},{id:'shelf',label:'我的小船'},
-    {id:'cabinet',label:'航海日记'},{id:'trash',label:'沉默礁石'},
+    {id:'__all__', label:'全部', all:true},
+    {id:'pool',    label:'灵感之海'},
+    {id:'shelf',   label:'我的小船'},
+    {id:'cabinet', label:'航海日记'},
+    {id:'trash',   label:'沉默礁石'},
+    {id:'themes',  label:'外观存档'},
 ];
-let exportScopes = new Set();
+let exportScopes = new Set(['__all__']); // default: 全部
 
 function renderExportScope() {
-    const allActive = exportScopes.size===0;
-    let html = `<button class="scope-chip ${allActive?'active':''}" onclick="toggleExportScope('__all__')">全部</button>`;
-    html += SCOPES.map(s=>`<button class="scope-chip ${exportScopes.has(s.id)?'active':''}" onclick="toggleExportScope('${s.id}')">${s.label}</button>`).join('');
-    document.getElementById('export-scope-row').innerHTML = html;
+    const el = document.getElementById('export-scope-row');
+    if (!el) return;
+    el.innerHTML = SCOPES.map(s => {
+        const active = exportScopes.has(s.id);
+        const cls = `scope-chip${s.all?' scope-all':''}${active?' active':''}`;
+        return `<button class="${cls}" onclick="toggleExportScope('${s.id}')">${s.label}</button>`;
+    }).join('');
 }
 function toggleExportScope(id) {
-    if (id==='__all__') exportScopes.clear(); else { exportScopes.has(id)?exportScopes.delete(id):exportScopes.add(id); }
+    if (id === '__all__') {
+        exportScopes = new Set(['__all__']);
+    } else {
+        exportScopes.delete('__all__');
+        exportScopes.has(id) ? exportScopes.delete(id) : exportScopes.add(id);
+        if (exportScopes.size === 0) exportScopes = new Set(['__all__']);
+    }
     renderExportScope();
+    // 外观存档选中时禁用 TXT
+    const themesOnly = exportScopes.size === 1 && exportScopes.has('themes');
+    const txtCard = document.querySelector('.export-fmt-card[data-fmt="txt"]');
+    if (txtCard) {
+        txtCard.classList.toggle('disabled', themesOnly);
+        if (themesOnly && exportFmt === 'txt') {
+            exportFmt = 'json';
+            document.querySelectorAll('.export-fmt-card').forEach(b => b.classList.remove('active'));
+            document.querySelector('.export-fmt-card[data-fmt="json"]').classList.add('active');
+        }
+    }
 }
-function getScopedItems() { return exportScopes.size===0 ? items : items.filter(i=>exportScopes.has(i.state)); }
+function getScopedItems() {
+    if (exportScopes.has('__all__')) return items;
+    // map scope ids to item states (themes scope doesn't filter items)
+    const stateScopes = [...exportScopes].filter(s => s !== 'themes');
+    return stateScopes.length ? items.filter(i => stateScopes.includes(i.state)) : [];
+}
+
+let exportFmt = 'json';
+function selectExportFmt(fmt, el) {
+    exportFmt = fmt;
+    document.querySelectorAll('.export-fmt-card').forEach(b => b.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function doExport() {
+    if (exportFmt === 'json') { exportJSON(); }
+    else { exportTxt(); }
+}
 
 function download(filename, content, mime) {
     const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([content],{type:mime})); a.download=filename;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
 function exportJSON() {
+    // 外观存档单独处理
+    if (exportScopes.size === 1 && exportScopes.has('themes')) {
+        exportAppearanceArchive(); return;
+    }
     const data=getScopedItems();
     const scopeLabel=exportScopes.size===0?'all':[...exportScopes].join('+');
     // Always include longDiaries and customThemes in full backup
-    const includeAll=exportScopes.size===0;
+    const includeAll=exportScopes.has('__all__');
     const out={
         exportedAt:new Date().toISOString(),
         version:2,
@@ -1108,57 +1952,90 @@ function exportJSON() {
     toast('完整备份已下载');
 }
 
-function exportThemes() {
-    if (!customThemes.length) { toast('还没有保存过自定义主题'); return; }
-    const out={exportedAt:new Date().toISOString(),type:'themes',customThemes};
-    download(`linggan-themes-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(out,null,2),'application/json');
-    toast('主题配置已下载');
-}
-function exportMarkdown() {
-    const data=getScopedItems();
-    const hasLongDiary=Object.keys(longDiaries).length>0;
-    if (!data.length && !hasLongDiary) { toast('没有可导出的数据'); return; }
-    const sections={pool:'灵感之海',shelf:'我的小船',cabinet:'航海日记',trash:'沉默礁石'};
-    let md=`# 灵感之海 · 导出记录\n\n> 导出时间：${new Date().toLocaleString('zh-CN')}\n\n---\n\n`;
 
-    // Cabinet: merge timeline entries + long diary by date
-    if (!data.length || exportScopes.size===0 || exportScopes.has('cabinet')) {
-        const cabinetItems=data.filter(i=>i.state==='cabinet');
-        // collect all dates that have either entries or long diary
-        const allDates=new Set([
+// ── 导出外观存档（全量：配色+字体+当前状态）──
+function exportAppearanceArchive() {
+    const out = {
+        exportedAt: new Date().toISOString(),
+        type: 'linggan-appearance-archive',
+        version: 1,
+        // 当前生效状态快照
+        snapshot: {
+            colorVars: {...currentTheme},
+            slotTitle: fontSettings.slotTitle,
+            slotBody:  fontSettings.slotBody,
+            slotUi:    fontSettings.slotUi,
+        },
+        // 全部自定义配色方案
+        customColors: customThemes,
+        // 全部自定义字体方案（不含内置默认）
+        fontSchemes: fontSettings.savedSchemes || [],
+        // 外链字体列表
+        customFonts: fontSettings.customFonts || [],
+        // 隐藏的预设配色
+        hiddenPresets,
+    };
+    download(`linggan-外观存档-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(out,null,2), 'application/json');
+    toast('外观存档已下载');
+}
+
+// ── 导出当前外观（单组合快照，用于分享）──
+function exportCurrentAppearance() {
+    const out = {
+        exportedAt: new Date().toISOString(),
+        type: 'linggan-appearance-snapshot',
+        version: 1,
+        colorVars: {...currentTheme},
+        slotTitle: fontSettings.slotTitle,
+        slotBody:  fontSettings.slotBody,
+        slotUi:    fontSettings.slotUi,
+    };
+    download(`linggan-当前外观-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(out,null,2), 'application/json');
+    toast('当前外观已下载');
+}
+
+function exportTxt() {
+    const data = getScopedItems();
+    const incThemes = exportScopes.has('__all__') || exportScopes.has('themes');
+    const hasLongDiary = exportScopes.has('__all__') || exportScopes.has('cabinet');
+    const sections = {pool:'灵感之海', shelf:'我的小船', cabinet:'航海日记', trash:'沉默礁石'};
+    let txt = `灵感之海 · 导出记录\n导出时间：${new Date().toLocaleString('zh-CN')}\n${'─'.repeat(30)}\n\n`;
+
+    // 航海日记：时间轴 + 手记合并
+    const showCabinet = exportScopes.has('__all__') || exportScopes.has('cabinet');
+    if (showCabinet) {
+        const cabinetItems = data.filter(i=>i.state==='cabinet');
+        const allDates = new Set([
             ...cabinetItems.map(i=>{ const d=new Date(i.completeTime); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }),
-            ...Object.keys(longDiaries)
+            ...(hasLongDiary ? Object.keys(longDiaries) : [])
         ]);
-        if (allDates.size>0) {
-            md+=`## 航海日记\n\n`;
-            const sortedDates=[...allDates].sort((a,b)=>b.localeCompare(a));
-            sortedDates.forEach(dateKey=>{
-                md+=`### ${keyToLabel(dateKey)}\n\n`;
-                // timeline entries for this date
-                const dayItems=cabinetItems.filter(i=>{ const d=new Date(i.completeTime); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return k===dateKey; });
-                if (dayItems.length) {
-                    dayItems.sort((a,b)=>a.completeTime-b.completeTime).forEach(i=>{ md+=`- ${fmtTime(i.completeTime)}  ${i.text}${i.source==='manual'?' _(写入)_':''}\n`; });
-                    md+='\n';
-                }
-                // long diary for this date
-                if (longDiaries[dateKey]) {
-                    md+=longDiaries[dateKey].split('\n').map(l=>l).join('\n')+'\n\n';
-                }
+        if (allDates.size > 0) {
+            txt += `【航海日记】\n\n`;
+            [...allDates].sort((a,b)=>b.localeCompare(a)).forEach(dateKey=>{
+                txt += `${keyToLabel(dateKey)}\n`;
+                const dayItems = cabinetItems.filter(i=>{ const d=new Date(i.completeTime); const k=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; return k===dateKey; });
+                dayItems.sort((a,b)=>a.completeTime-b.completeTime).forEach(i=>{ txt+=`  ${fmtTime(i.completeTime)}  ${i.text}${i.source==='manual'?' [补写]':''}\n`; });
+                if (longDiaries[dateKey]) txt += longDiaries[dateKey] + '\n';
+                txt += '\n';
             });
         }
     }
-
     ['shelf','pool','trash'].forEach(state=>{
-        if (exportScopes.size>0 && !exportScopes.has(state)) return;
-        const stateItems=data.filter(i=>i.state===state);
+        if (!exportScopes.has('__all__') && !exportScopes.has(state)) return;
+        const stateItems = data.filter(i=>i.state===state);
         if (!stateItems.length) return;
-        md+=`## ${sections[state]}\n\n`;
-        stateItems.forEach(i=>{ md+=`- ${i.text}\n`; });
-        md+='\n';
+        txt += `【${sections[state]}】\n`;
+        stateItems.forEach(i=>{ txt += `  · ${i.text}\n`; });
+        txt += '\n';
     });
-
-    download(`linggan-${new Date().toISOString().slice(0,10)}.md`, md, 'text/markdown');
-    toast('Markdown 已下载');
+    if (incThemes && customThemes.length) {
+        txt += `【自定义配色】\n`;
+        customThemes.forEach(t=>{ txt += `  ${t.label}\n`; });
+        txt += '\n';
+    }
+    if (!data.length && !txt.includes('【')) { toast('没有可导出的数据'); return; }
+    download(`linggan-${new Date().toISOString().slice(0,10)}.txt`, txt, 'text/plain;charset=utf-8');
+    toast('文本文件已下载');
 }
 function importJSON(input) {
     const file=input.files[0]; if (!file) return;
@@ -1168,7 +2045,65 @@ function importJSON(input) {
             const parsed=JSON.parse(e.target.result);
             const msgs=[];
 
-            // ── 主题文件 ──
+            // ── 外观存档（新格式）──
+            if (parsed.type === 'linggan-appearance-archive') {
+                const msgs = [];
+                // 应用快照
+                if (parsed.snapshot) {
+                    if (parsed.snapshot.colorVars) {
+                        currentTheme = {...parsed.snapshot.colorVars};
+                        applyTheme(currentTheme); saveTheme();
+                    }
+                    fontSettings.slotTitle = parsed.snapshot.slotTitle ?? null;
+                    fontSettings.slotBody  = parsed.snapshot.slotBody  ?? null;
+                    fontSettings.slotUi    = parsed.snapshot.slotUi    ?? null;
+                    applyFontSettings();
+                }
+                // 合并自定义配色
+                if (parsed.customColors?.length) {
+                    const existIds = new Set(customThemes.map(t=>t.id));
+                    const newT = parsed.customColors.filter(t=>!existIds.has(t.id));
+                    if (newT.length) { customThemes=[...customThemes,...newT]; saveCustomThemes(); msgs.push(`${newT.length} 套配色方案`); }
+                }
+                // 合并字体方案
+                if (parsed.fontSchemes?.length) {
+                    if (!fontSettings.savedSchemes) fontSettings.savedSchemes = [];
+                    const existIds = new Set(fontSettings.savedSchemes.map(s=>s.id));
+                    const newS = parsed.fontSchemes.filter(s=>!existIds.has(s.id));
+                    if (newS.length) { fontSettings.savedSchemes=[...fontSettings.savedSchemes,...newS]; msgs.push(`${newS.length} 套字体方案`); }
+                }
+                // 合并外链字体
+                if (parsed.customFonts?.length) {
+                    if (!fontSettings.customFonts) fontSettings.customFonts = [];
+                    const existIds = new Set(fontSettings.customFonts.map(f=>f.id));
+                    const newF = parsed.customFonts.filter(f=>!existIds.has(f.id));
+                    newF.forEach(f=>{ if(f.url) loadFontUrl(f.url); });
+                    if (newF.length) { fontSettings.customFonts=[...fontSettings.customFonts,...newF]; msgs.push(`${newF.length} 个字体`); }
+                }
+                // 隐藏预设
+                if (parsed.hiddenPresets?.length) {
+                    parsed.hiddenPresets.forEach(id=>{ if(!hiddenPresets.includes(id)) hiddenPresets.push(id); });
+                    saveHiddenPresets();
+                }
+                saveFontSettings();
+                renderSettings();
+                toast('外观存档已导入' + (msgs.length ? '：' + msgs.join('、') : ''));
+                input.value=''; return;
+            }
+
+            // ── 当前外观快照（分享格式）──
+            if (parsed.type === 'linggan-appearance-snapshot') {
+                if (parsed.colorVars) { currentTheme={...parsed.colorVars}; applyTheme(currentTheme); saveTheme(); }
+                fontSettings.slotTitle = parsed.slotTitle ?? null;
+                fontSettings.slotBody  = parsed.slotBody  ?? null;
+                fontSettings.slotUi    = parsed.slotUi    ?? null;
+                applyFontSettings(); saveFontSettings();
+                renderSettings();
+                toast('外观组合已应用');
+                input.value=''; return;
+            }
+
+            // ── 旧版外观文件兼容 ──
             if (parsed.type==='themes' && parsed.customThemes) {
                 const incoming=parsed.customThemes;
                 const existIds=new Set(customThemes.map(t=>t.id));
@@ -1214,18 +2149,23 @@ function importJSON(input) {
 // SETTINGS OPEN / CLOSE
 // ─────────────────────────────────────────
 let settingsOpen = false;
-function openSettings() { renderSettings(); renderExportScope(); if(autoThemeSectionOpen) syncAutoThemeUI(); document.getElementById('settings-overlay').classList.add('open'); settingsOpen=true; }
-function closeSettings() { document.getElementById('settings-overlay').classList.remove('open'); settingsOpen=false; }
-function maybeCloseSettings(e) { if (e.target===document.getElementById('settings-overlay')) closeSettings(); }
-
-let pressTimer = null;
-document.getElementById('bottom-nav').addEventListener('pointerdown', e=>{
-    const item=e.target.closest('.nav-item'); if (!item) return;
-    pressTimer=setTimeout(()=>{ pressTimer=null; item.classList.add('pressing'); setTimeout(()=>item.classList.remove('pressing'),600); openSettings(); },500);
-});
-['pointerup','pointerleave','pointermove'].forEach(ev=>
-    document.getElementById('bottom-nav').addEventListener(ev,()=>{ if(pressTimer){clearTimeout(pressTimer);pressTimer=null;} })
-);
+// ═══════════════════════════════════════
+// SETTINGS PANEL — 设置面板开关
+// ═══════════════════════════════════════
+function openSettings() {
+    renderSettings();
+    const vEl = document.getElementById('settings-version');
+    if (vEl) vEl.textContent = 'v' + APP_VERSION;
+    document.getElementById('settings-overlay').classList.add('open');
+    settingsOpen = true;
+}
+function closeSettings() {
+    document.getElementById('settings-overlay').classList.remove('open');
+    settingsOpen = false;
+}
+function maybeCloseSettings(e) {
+    if (e.target === document.getElementById('settings-overlay')) closeSettings();
+}
 
 // ─────────────────────────────────────────
 // SHARED DATE STATE — drives both tabs
@@ -1366,16 +2306,11 @@ function calSelectDay(key) {
 // ─────────────────────────────────────────
 // APP DATA
 // ─────────────────────────────────────────
+// ═══════════════════════════════════════
+// DATA — 数据存储与持久化
+// ═══════════════════════════════════════
 let items = JSON.parse(localStorage.getItem('vibe_app_data')) || [];
 
-function fmtDate(ts) {
-    const today=new Date(); today.setHours(0,0,0,0);
-    const yest=new Date(today); yest.setDate(today.getDate()-1);
-    const d=new Date(ts); d.setHours(0,0,0,0);
-    if (d.getTime()===today.getTime()) return '今天';
-    if (d.getTime()===yest.getTime())  return '昨天';
-    const o=new Date(ts); return `${o.getMonth()+1} 月 ${o.getDate()} 日`;
-}
 function fmtTime(ts) {
     const d=new Date(ts);
     return `${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`;
@@ -1399,6 +2334,9 @@ function toast(msg) {
 }
 function save() { localStorage.setItem('vibe_app_data', JSON.stringify(items)); render(); }
 
+// ═══════════════════════════════════════
+// NAVIGATION — 导航与标签切换
+// ═══════════════════════════════════════
 function switchTab(id, el) {
     if (settingsOpen) return;
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
@@ -1433,27 +2371,6 @@ function changeState(id, state) {
     save();
 }
 function deleteForever(id) { items=items.filter(i=>i.id!==id); toast('已从礁石上清除'); save(); }
-let _delTargetId = null;
-function deleteCabinetItem(id) {
-    _delTargetId = id;
-    document.getElementById('del-overlay').classList.add('open');
-}
-function closeDel() {
-    document.getElementById('del-overlay').classList.remove('open');
-    _delTargetId = null;
-}
-function maybeCloseDel(e) { if (e.target===document.getElementById('del-overlay')) closeDel(); }
-function delConfirmStrand() {
-    if (_delTargetId===null) return;
-    const item=items.find(i=>i.id===_delTargetId);
-    if (item) { item.state='trash'; save(); toast('已移入礁石'); }
-    closeDel();
-}
-function delConfirmDelete() {
-    if (_delTargetId===null) return;
-    items=items.filter(i=>i.id!==_delTargetId); save(); toast('已永久删除');
-    closeDel();
-}
 
 function salvage() {
     const sunken=items.filter(i=>i.state==='pool'&&Date.now()-i.time>sinkTime);
@@ -1544,6 +2461,9 @@ function renderCabinetForDate(dateKey) {
 // ─────────────────────────────────────────
 // RENDER
 // ─────────────────────────────────────────
+// ═══════════════════════════════════════
+// MAIN RENDER — 主视图渲染
+// ═══════════════════════════════════════
 function render() {
     const now=Date.now();
     const floating=items.filter(i=>i.state==='pool'&&now-i.time<=sinkTime);
@@ -1577,9 +2497,16 @@ setActiveDate(todayKey());
 scheduleSinkCheck();
 applyAutoThemeNow();
 scheduleAutoTheme();
+// 预加载所有预设字体
+FONT_PRESETS.forEach(f => { if (f.url) loadFontUrl(f.url); });
+// 加载用户自定义外链字体
+(fontSettings.customFonts || []).forEach(f => { if (f.url) loadFontUrl(f.url); });
 
 
 // ─────────────────────────────────────────
+// ═══════════════════════════════════════
+// INIT — 初始化
+// ═══════════════════════════════════════
 // SPLASH
 // ─────────────────────────────────────────
 (function(){
@@ -1587,21 +2514,18 @@ scheduleAutoTheme();
     let done = false;
     function hide() {
         if (done) return; done = true;
-        // 启动屏消失前，先把背景色过渡到当前主题色，避免闪白
         splash.style.background = getComputedStyle(document.documentElement).getPropertyValue('--bg').trim() || '#f7f5f0';
         splash.classList.add('hiding');
-        splash.addEventListener('transitionend', () => { splash.style.display='none'; }, {once:true});
-        setTimeout(() => { splash.style.display='none'; }, 1200); // 保底
+        setTimeout(() => { splash.style.display = 'none'; }, 650);
     }
-    // 两帧后确保 DOM 渲染完成，再等 1.1s
     requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(hide, 1100)));
-    setTimeout(hide, 3500); // 绝对保底
+    setTimeout(hide, 2500); // 绝对保底
 })();
 
 // ─────────────────────────────────────────
 // NOTICE — 欢迎 / 更新日志
 // ─────────────────────────────────────────
-const APP_VERSION = '0.5';
+const APP_VERSION = '1.2.1';
 
 const WELCOME_CONTENT = `
     <span class="notice-badge new-user">初次见面</span>
@@ -1612,27 +2536,23 @@ const WELCOME_CONTENT = `
         <span style="color:var(--ink);font-weight:400;">船</span> — 从海里捞起来，专注完成一件事<br>
         <span style="color:var(--ink);font-weight:400;">记</span> — 靠岸后写入航海日记，留存每一天<br>
         <span style="color:var(--ink);font-weight:400;">礁</span> — 搁浅的念头，也许某天潮水带回来<br><br>
-        长按底部导航可打开设置与主题。
+        点击右下角悬浮按钮可打开设置。
     </div>`;
 
 const CHANGELOG_CONTENT = `
     <span class="notice-badge">版本更新</span>
-    <div class="notice-title">灵感之海 · 0307更新</div>
+    <div class="notice-title">灵感之海 · v1.2.1</div>
     <div class="notice-body">
         <div class="notice-section">新功能</div>
-         <div class="notice-item">应用了新版app图标，如果已经安装到桌面请卸载重新安装（注意备份数据）</div>
-          <div class="notice-item">新增明暗主题自动切换功能，主题可自定义</div>
-        <div class="notice-item">日历跳转：点击日期按钮可切换任意一天</div>
-        <div class="notice-item">灵感与手记支持补写往日内容</div>
-        <div class="notice-item">主题生成器：按色调随机生成配色方案</div>
-        <div class="notice-item">自定义主题可命名保存并单独导出</div>
-        <div class="notice-item">完整备份现已包含手记与主题数据</div>
+        <div class="notice-item">全局字体自定义：标题、正文、界面可分别设置，内置八套精选字体</div>
+        <div class="notice-item">新增字体库，支持粘贴字体 CSS 代码添加外链字体</div>
+        <div class="notice-item">字体方案可命名保存，一键切换，随时删除</div>
+        <div class="notice-item">外观导出升级：新增「导出外观存档」（全量备份）和「导出当前外观」</div>
         <div class="notice-section">体验优化</div>
-        <div class="notice-item">航海日记改为单日视图，切换更直观</div>
-        <div class="notice-item">优化补写往日灵感条目标记，显示「补写」而非时间戳</div>
-        <div class="notice-item">删除条目时可选移入礁石或永久删除</div>
-        <div class="notice-item">苹果设备全面屏与状态栏颜色适配</div>
-        <div class="notice-item">设置面板主题合并横滚，颜色栏可折叠</div>
+        <div class="notice-item">设置页全面重构，改为右下角悬浮按钮打开</div>
+        <div class="notice-item">预设配色方案可长按或右键隐藏</div>
+        <div class="notice-item">随机配色生成后直接同步至精细调色区，可即时微调</div>
+        <div class="notice-item">数据导出功能优化，流程更清晰</div>
     </div>`;
 
 function closeNotice() {
