@@ -319,7 +319,7 @@
         /* ── 悬浮设置按钮 ── */
         #fab-settings {
             position: fixed;
-            right: calc(20px + env(safe-area-inset-right));
+            right: max(calc(20px + env(safe-area-inset-right)), calc(50vw - 240px + 20px + env(safe-area-inset-right)));
             bottom: calc(76px + env(safe-area-inset-bottom));
             width: 38px; height: 38px;
             border-radius: 50%;
@@ -1330,7 +1330,8 @@ function setAtMode(mode) {
 function renderAtChips(containerId, selectedId, onSelect) {
     const el = document.getElementById(containerId);
     if (!el) return;
-    el.innerHTML = [...PRESETS, ...customThemes].map(p => {
+    const visibleAtPresets = [...PRESETS, ...customThemes].filter(p => !hiddenPresets.includes(p.id));
+    el.innerHTML = visibleAtPresets.map(p => {
         const svg = themeChipSvg(p.vars, 32);
         return `<div class="at-chip ${p.id===selectedId?'selected':''}" onclick="(${onSelect.toString()})('${p.id}')">
             <div class="at-swatch">${svg}</div>
@@ -1424,6 +1425,8 @@ function delConfirmDelete() {
 function closeDel() {
     document.getElementById('del-overlay').classList.remove('open');
     _delTargetId = null;
+    _delThemeId = null;
+    _delThemeIsPreset = false;
     _delFontSchemeId = null;
     // 还原确认按钮（resetAll 会临时覆盖 onclick）
     const btn = document.getElementById('del-confirm-btn');
@@ -1894,12 +1897,12 @@ function toggleExportScope(id) {
         if (exportScopes.size === 0) exportScopes = new Set(['__all__']);
     }
     renderExportScope();
-    // 外观存档选中时禁用 TXT
-    const themesOnly = exportScopes.size === 1 && exportScopes.has('themes');
+    // 外观存档选中时禁用 TXT（含多选情况）
+    const hasThemes = exportScopes.has('themes') || exportScopes.has('__all__');
     const txtCard = document.querySelector('.export-fmt-card[data-fmt="txt"]');
     if (txtCard) {
-        txtCard.classList.toggle('disabled', themesOnly);
-        if (themesOnly && exportFmt === 'txt') {
+        txtCard.classList.toggle('disabled', hasThemes);
+        if (hasThemes && exportFmt === 'txt') {
             exportFmt = 'json';
             document.querySelectorAll('.export-fmt-card').forEach(b => b.classList.remove('active'));
             document.querySelector('.export-fmt-card[data-fmt="json"]').classList.add('active');
